@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuSupreme", "SudokuSupreme\SudokuSupreme.csproj", "{4A758BBC-A97A-48F8-8024-39FF950FAB12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SudokuSupreme", "SudokuSupreme\SudokuSupreme.csproj", "{4A758BBC-A97A-48F8-8024-39FF950FAB12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{3D958640-F4A4-4BA4-A664-067682C40B68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.csproj", "{3D958640-F4A4-4BA4-A664-067682C40B68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{0E666039-B477-4206-8C9E-D2D511579EEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "UI\Presentation.csproj", "{0E666039-B477-4206-8C9E-D2D511579EEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{2B58308B-B90B-4BBB-A79C-88AAAB55809D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{2B58308B-B90B-4BBB-A79C-88AAAB55809D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
