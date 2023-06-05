@@ -6,7 +6,6 @@ public static class EntryPoint
 {
     public static void Main(string[] args)
     {
-
-        new UI().Render();
+        new Renderer().Render();
     }
 }

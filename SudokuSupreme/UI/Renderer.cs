@@ -2,18 +2,14 @@
 
 namespace Presentation;
 
-public class UI
+public class Renderer
 {
-
-    public UI()
+    public Renderer()
     {
         DrawFactory drawFactory = new DrawFactory();
     }
 
     public void Render()
     {
-        
-        
     }
-
 }
