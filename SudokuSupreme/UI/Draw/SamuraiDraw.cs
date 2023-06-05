@@ -2,10 +2,8 @@
 
 public class SamuraiDraw : IDraw
 {
-
     public SamuraiDraw()
     {
-
     }
 
     public void Draw()

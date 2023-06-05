@@ -2,10 +2,8 @@
 
 public class JigsawDraw : IDraw
 {
-
     public JigsawDraw()
     {
-
     }
 
     public void Draw()

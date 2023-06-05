@@ -27,9 +27,7 @@ public class DrawFactory
         {
             return drawCreator.Invoke();
         }
-        else
-        {
-            throw new ArgumentException($"Drawer {drawing} is not supported");
-        }
+        
+        throw new ArgumentException($"Drawer {drawing} is not supported");
     }
 }

@@ -2,10 +2,8 @@
 
 public class VariantFourDraw : IDraw
 {
-
     public VariantFourDraw()
     {
-
     }
 
     public void Draw()
