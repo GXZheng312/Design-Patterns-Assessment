@@ -22,7 +22,6 @@ public class DrawFactory
     public IDraw Create(string drawing)
     {
         string lookupValue = drawing.ToLowerInvariant();
-        
 
         if (_drawMapping.TryGetValue(lookupValue, out Func<IDraw> drawCreator))
         {
@@ -33,6 +32,4 @@ public class DrawFactory
             throw new ArgumentException($"Drawer {drawing} is not supported");
         }
     }
-
-
 }
