@@ -1,6 +1,9 @@
 namespace Utility;
 
-public class InputReader
+public class InputReader : IInputReader
 {
-    
+    public void RegisterKeyPress<T>(T pressedKey)
+    {
+        
+    }
 }
