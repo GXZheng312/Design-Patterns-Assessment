@@ -3,7 +3,7 @@ using Presentation.Draw;
 
 namespace Presentation;
 
-class ConsoleRenderer : IRenderer
+public class ConsoleRenderer : IRenderer
 {
     private DrawFactory _drawFactory;
 
@@ -20,4 +20,3 @@ class ConsoleRenderer : IRenderer
         board.Draw();
     }
 }
-

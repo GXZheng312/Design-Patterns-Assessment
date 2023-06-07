@@ -1,6 +1,6 @@
 namespace Logic;
 
-public class Row
+public class Group
 {
     public List<Cell> Cells { get; set; }
 }

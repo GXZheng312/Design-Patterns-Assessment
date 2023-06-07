@@ -23,17 +23,12 @@ public class DrawFactory
     public IDraw Create(string drawing)
     {
         string lookupValue = drawing.ToLowerInvariant();
-        
 
         if (_drawMapping.TryGetValue(lookupValue, out Func<IDraw> drawCreator))
         {
             return drawCreator.Invoke();
         }
-        else
-        {
-            throw new ArgumentException($"Drawer {drawing} is not supported");
-        }
+        
+        throw new ArgumentException($"Drawer {drawing} is not supported");
     }
-
-
 }
