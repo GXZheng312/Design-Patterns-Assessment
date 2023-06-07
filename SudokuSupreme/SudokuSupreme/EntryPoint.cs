@@ -1,4 +1,5 @@
-﻿using Presentation;
+﻿using Logic;
+using Presentation;
 
 namespace SudokuSupreme;
 
@@ -6,7 +7,17 @@ public static class EntryPoint
 {
     public static void Main(string[] args)
     {
+        //logic
+        Sudoku sudoku = new Sudoku();
 
-        new UI().Render();
+        //UI
+        UI presentation = new UI();
+
+        //Bind observing
+        sudoku.Attach(presentation);
+
+        //Start game
+        sudoku.Start();
+
     }
 }
