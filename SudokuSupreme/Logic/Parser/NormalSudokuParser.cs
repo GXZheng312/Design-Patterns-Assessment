@@ -15,7 +15,7 @@ public class NormalSudokuParser : ISudokuParser
     
     public Board? LoadSudoku(string s)
     {
-        List<int>? numbers = ParseContents(s);
+        List<int>? numbers = SudokuFileParser.ParseContents(s, _size);
 
         if (numbers == null)
         {
@@ -23,27 +23,6 @@ public class NormalSudokuParser : ISudokuParser
         }
 
         return CreateBoard(numbers);
-    }
-
-    private List<int>? ParseContents(string s)
-    {
-        if (s.Length != _size)
-        {
-            return null;
-        }
-
-        List<int> numbers = new List<int>();
-        foreach (char c in s)
-        {
-            if (!char.IsDigit(c))
-            {
-                return null;
-            }
-
-            numbers.Add(int.Parse(c.ToString()));
-        }
-
-        return numbers;
     }
 
     private Board CreateBoard(List<int> numbers)
