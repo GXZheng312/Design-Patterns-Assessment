@@ -1,7 +1,8 @@
 ﻿using Logic.Observer;
 using Logic;
 using Utility;
-using StringReader = Utility.StringReader;
+using Utility.Input;
+using StringReader = Utility.Input.StringReader;
 
 namespace Presentation;
 

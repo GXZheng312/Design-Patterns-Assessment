@@ -1,4 +1,4 @@
-namespace Utility;
+namespace Utility.Input;
 
 public class InputReader
 {
