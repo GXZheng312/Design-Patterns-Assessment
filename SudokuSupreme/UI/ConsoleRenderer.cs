@@ -1,9 +1,22 @@
-﻿namespace Presentation;
+﻿using Logic;
+using Presentation.Draw;
+
+namespace Presentation;
 
 public class ConsoleRenderer : IRenderer
 {
-    public void Render()
+    private DrawFactory _drawFactory;
+
+    public ConsoleRenderer()
     {
-        throw new NotImplementedException();
+        this._drawFactory = new DrawFactory();
+    }
+
+
+    public void Render(Sudoku sudoku)
+    {
+        IDraw board = this._drawFactory.Create(sudoku.Type);
+
+        board.Draw();
     }
 }

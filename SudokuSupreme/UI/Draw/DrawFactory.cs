@@ -1,5 +1,6 @@
 ﻿namespace Presentation.Draw;
 
+//registering factory
 public class DrawFactory
 {
     private Dictionary<string, Func<IDraw>> _drawMapping = new Dictionary<string, Func<IDraw>>();
