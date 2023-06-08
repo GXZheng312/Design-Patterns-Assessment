@@ -5,9 +5,9 @@ public class Board
     public List<Cell> Cells { get; set; }
     public List<Group> Groups { get; set; }
 
-    public Board()
+    public Board(List<Cell> cells, List<Group> groups)
     {
-        Cells = new List<Cell>();
-        Groups = new List<Group>();
+        Cells = cells;
+        Groups = groups;
     }
 }
