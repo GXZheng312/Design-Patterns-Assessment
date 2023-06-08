@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Logic.Serializer;
 
-public interface ISudokuSerializer<T>
+public interface ISudokuSerializable
 {
-    string Serialize(T sudoku);
+    public string[] Serialize();
 }
 

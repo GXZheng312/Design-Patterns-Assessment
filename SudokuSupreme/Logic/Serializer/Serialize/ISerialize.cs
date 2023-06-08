@@ -8,6 +8,6 @@ namespace Logic.Serializer.Serialize;
 
 public interface ISerialize
 {
-    public string Serialize(Sudoku sudoku);
+    public string[] Serialize(Board board);
 }
 

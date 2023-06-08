@@ -2,9 +2,10 @@
 
 public class VariantSixSerialize : ISerialize
 {
-    public string Serialize(Sudoku sudoku)
+    public string[] Serialize(Board sudoku)
     {
-        return "6x6";
+        string testData = "003010560320054203206450012045040100";
+        return testData.Select(x => x.ToString()).ToArray();
     }
 }
 
