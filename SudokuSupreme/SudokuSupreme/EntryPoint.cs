@@ -7,17 +7,16 @@ public static class EntryPoint
 {
     public static void Main(string[] args)
     {
-        //logic
+        // Logic
         Sudoku sudoku = new Sudoku();
 
-        //UI
+        // UI
         UI presentation = new UI();
 
-        //Bind observing
+        // Bind observing
         sudoku.Attach(presentation);
 
-        //Start game
+        // Start game
         sudoku.Start();
-
     }
 }
