@@ -1,9 +1,8 @@
 namespace Logic.Parser;
 
-public class NineSudokuParser : ISudokuParser
+public class NineSudokuParser : NormalSudokuParser
 {
-    public Board? LoadSudoku(string s)
+    public NineSudokuParser() : base(9, 9)
     {
-        throw new NotImplementedException();
     }
 }
