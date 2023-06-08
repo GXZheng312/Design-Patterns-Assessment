@@ -16,7 +16,7 @@ public class SerializeSudokuFactory
 
         foreach (ISerialize serialize in serializers)
         {
-            string name = serialize.GetType().Name.Substring(0, serialize.GetType().Name.Length - 4);
+            string name = serialize.GetType().Name.Substring(0, serialize.GetType().Name.Length - 9);
 
             _SerializeMapping.Add(name.ToLowerInvariant(), () => serialize);
         }

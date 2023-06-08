@@ -4,5 +4,5 @@ namespace Presentation;
 
 public interface IRenderer
 {
-    void Render(Sudoku sudoku); //misschien aanpassen
+    void Render(); //misschien aanpassen
 }
