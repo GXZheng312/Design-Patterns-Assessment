@@ -31,6 +31,11 @@ public class Sudoku : ISubject
         _inputReader = new StringReader();
         string fileName = _inputReader.ReadInput();
 
+        SetupSudoku(fileName);
+    }
+
+    private void SetupSudoku(string fileName)
+    {
         if (FileUtilities.IsValidFilename(fileName))
         {
             string fileExtension = Path.GetExtension(fileName).TrimStart('.');
