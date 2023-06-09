@@ -20,5 +20,7 @@ public static class EntryPoint
 
         // Start game
         sudoku.Start();
+
+        Console.ReadKey();
     }
 }

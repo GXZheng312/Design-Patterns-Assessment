@@ -12,14 +12,14 @@ public class BoardRenderer : IRenderer, IObserver
 
     public BoardRenderer()
     {
-        this._drawFactory = new DrawFactory();
+        _drawFactory = new DrawFactory();
     }
 
     public void Render()
     {
-        IDraw drawBoard = this._drawFactory.Create(this.Type);
+        IDraw drawBoard = _drawFactory.Create(Type);
 
-        drawBoard.Draw(this.Board);
+        drawBoard.Draw(Board);
     }
 
     public void Update(ISubject subject)
@@ -28,10 +28,15 @@ public class BoardRenderer : IRenderer, IObserver
         {
             Sudoku? sudoku = subject as Sudoku;
 
-            this.Board = sudoku.Board.Serialize();
-            this.Type = sudoku.Board.Type;
+            if (sudoku?.Board == null)
+            {
+                return;
+            }
 
-            this.Render();
+            Board = sudoku.Board.Serialize();
+            Type = sudoku.Board.Type;
+
+            Render();
         }
     }
 }

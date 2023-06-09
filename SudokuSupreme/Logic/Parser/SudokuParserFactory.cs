@@ -11,7 +11,7 @@ public class SudokuParserFactory
             "9x9" => new NineSudokuParser(),
             "jigsaw" => new JigsawSudokuParser(),
             "samurai" => new SamuraiSudokuParser(),
-            _ => throw new ArgumentException("Invalid sudoku type.")
+            _ => throw new ArgumentException($"Invalid sudoku type '{sudokuType}'.")
         };
     }
 }
