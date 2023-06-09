@@ -2,7 +2,7 @@
 
 namespace Presentation.Draw;
 
-public class VariantSixDraw : IDraw
+public class VariantSixDraw : IDrawable
 {
     public VariantSixDraw()
     {

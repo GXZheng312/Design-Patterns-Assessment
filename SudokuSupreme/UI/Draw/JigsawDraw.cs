@@ -2,7 +2,7 @@
 
 namespace Presentation.Draw;
 
-public class JigsawDraw : IDraw
+public class JigsawDraw : IDrawable
 {
     public JigsawDraw()
     {

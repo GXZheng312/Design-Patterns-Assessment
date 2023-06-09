@@ -17,7 +17,7 @@ public class BoardRenderer : IRenderer, IObserver
 
     public void Render()
     {
-        IDraw drawBoard = this._drawFactory.Create(this.Type);
+        IDrawable drawBoard = this._drawFactory.Create(this.Type);
 
         drawBoard.Draw(this.Board);
     }

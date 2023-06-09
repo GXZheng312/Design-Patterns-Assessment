@@ -2,7 +2,7 @@
 
 namespace Presentation.Draw;
 
-public class SudokuDraw : IDraw
+public class SudokuDraw : IDrawable
 {
     public void Draw(string[] cells)
     {

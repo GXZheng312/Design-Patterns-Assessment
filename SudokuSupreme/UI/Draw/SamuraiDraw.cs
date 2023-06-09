@@ -2,15 +2,23 @@
 
 namespace Presentation.Draw;
 
-public class SamuraiDraw : IDraw
+public class SamuraiDraw : IDrawable
 {
+    private const int _boardSize = 21;
+    private const int _sudokuSize = 80;
+
+    private const string _emptyCellSymbol = " ";
+    private const string _horizontalWallSymbol = "-";
+    private const string _vericalWallSymbol = "|";
+
     public void Draw(string[] cells)
     {
         if (cells == null) return;
+        if (cells.Length % _sudokuSize != 0) return;
 
         Console.WriteLine("Samurai Sudoku Board:");
 
-        for (int row = 1; row <= 21; row++)
+        for (int row = 1; row <= _boardSize; row++)
         {
             if (row == 1)
             {
@@ -41,7 +49,7 @@ public class SamuraiDraw : IDraw
     {
         string wall = "";
 
-        for(int i = 1; i <= 21; i++)
+        for(int i = 1; i <= _boardSize; i++)
         {
             if (i == 1)
             {
@@ -68,7 +76,7 @@ public class SamuraiDraw : IDraw
 
     private void CornerPart(int row, string[] cells)
     {
-        for (int col = 1; col <= 21; col++)
+        for (int col = 1; col <= _boardSize; col++)
         {
             
 
@@ -137,7 +145,7 @@ public class SamuraiDraw : IDraw
 
     private void MiddlePart(int row, string[] cells)
     {
-        for (int col = 1; col <= 21; col++)
+        for (int col = 1; col <= _boardSize; col++)
         {
             if (col == 1)
             {
