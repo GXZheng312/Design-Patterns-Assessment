@@ -1,4 +1,6 @@
-﻿namespace Presentation.Draw;
+﻿using Logic;
+
+namespace Presentation.Draw;
 
 public class JigsawDraw : IDraw
 {
@@ -6,7 +8,7 @@ public class JigsawDraw : IDraw
     {
     }
 
-    public void Draw()
+    public void Draw(string[] cells)
     {
         Console.WriteLine("Jigsaw");
     }

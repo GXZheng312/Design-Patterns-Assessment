@@ -1,7 +1,10 @@
-﻿namespace Presentation.Draw;
+﻿using Logic;
+using System.Reflection;
+
+namespace Presentation.Draw;
 
 public interface IDraw
 {
-    void Draw();
+    void Draw(string[] cells);
 }
 

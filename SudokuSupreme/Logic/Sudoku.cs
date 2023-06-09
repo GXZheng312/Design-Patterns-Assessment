@@ -1,17 +1,23 @@
 ﻿using Logic.Observer;
+using Logic.Serializer;
+using Logic.Serializer.Serial;
 
 namespace Logic;
 
 public class Sudoku : ISubject
 {
     public Board Board { get; set; }
-    public string Type { get; set; }
 
-    private List<IObserver> _observers = new List<IObserver>();
+    private readonly List<IObserver> _observers;
+
+    public string? Message { get; set; }
 
     public Sudoku()
     {
-        this.Type = "sudoku";
+        this.Board = new Board();
+        this._observers = new List<IObserver>();
+
+        Message = "Welcome to the Game SUDOKU SUPREME"; //dit logic misschien ergens anders
     }
 
     public void Start()
@@ -31,9 +37,14 @@ public class Sudoku : ISubject
 
     public void Notify()
     {
+        if (_observers.Count < 0) return; 
+
         foreach (IObserver observer in _observers)
         {
             observer.Update(this);
         }
+
+        Message = null; //dit logic misschien ergens anders
     }
+
 }

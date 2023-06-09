@@ -1,4 +1,6 @@
-﻿namespace Presentation.Draw;
+﻿using Logic;
+
+namespace Presentation.Draw;
 
 public class VariantSixDraw : IDraw
 {
@@ -6,7 +8,7 @@ public class VariantSixDraw : IDraw
     {
     }
 
-    public void Draw()
+    public void Draw(string[] cells)
     {
         Console.WriteLine("Variant 6x6");
     }
