@@ -15,10 +15,10 @@ public class Board : ISudokuSerializable
         Cells = new List<Cell>();
         Groups = new List<Group>();
 
-        this.Type = "samurai";
+        this.Type = "sudoku";
     }
 
-    public string[] Serialize()
+    public char[] Serialize()
     {
         return new SerializeSudokuFactory().getSerializerType(this.Type).Serialize(this);
     }

@@ -1,13 +1,14 @@
 ﻿using Logic;
+using Presentation.Draw;
 
-namespace Presentation.Draw;
+namespace Presentation.Drawable.Board;
 
-public class SamuraiDraw : IDrawable
+public class Samurai : IDrawable
 {
     private const int _boardSize = 21;
     private const int _sudokuSize = 80;
 
-    private const string _emptyCellSymbol = " ";
+
     private const string _horizontalWallSymbol = "-";
     private const string _vericalWallSymbol = "|";
 
@@ -22,8 +23,8 @@ public class SamuraiDraw : IDrawable
         {
             if (row == 1)
             {
-                
-                Console.WriteLine(this.HorizontalWall(row));
+
+                Console.WriteLine(HorizontalWall(row));
             }
 
             if (row <= 9 || row > 12)
@@ -39,7 +40,7 @@ public class SamuraiDraw : IDrawable
 
             if (row % 3 == 0)
             {
-                Console.WriteLine(this.HorizontalWall(row));
+                Console.WriteLine(HorizontalWall(row));
             }
         }
 
@@ -49,7 +50,7 @@ public class SamuraiDraw : IDrawable
     {
         string wall = "";
 
-        for(int i = 1; i <= _boardSize; i++)
+        for (int i = 1; i <= _boardSize; i++)
         {
             if (i == 1)
             {
@@ -78,7 +79,7 @@ public class SamuraiDraw : IDrawable
     {
         for (int col = 1; col <= _boardSize; col++)
         {
-            
+
 
             if (col == 1)
             {
@@ -88,22 +89,22 @@ public class SamuraiDraw : IDrawable
             if (col <= 9 || col > 12)
             {
                 int selection = 0;
-                int cal = ((row - 1) % 9) * 9;
+                int cal = (row - 1) % 9 * 9;
 
                 if (row > 12)
                 {
-                    cal = ((row - (1+3)) % 9) * 9;
-                    selection += (81 * 3);
+                    cal = (row - (1 + 3)) % 9 * 9;
+                    selection += 81 * 3;
                 }
 
                 if (col <= 9)
                 {
-                    selection += col - 1; 
-                    
+                    selection += col - 1;
+
                 }
                 else
                 {
-                    selection += (col-13) + 81;
+                    selection += col - 13 + 81;
                 }
 
                 selection += cal;
@@ -114,17 +115,17 @@ public class SamuraiDraw : IDrawable
             }
             else if (row > 6 && row <= 15)
             {
-                int selection = (81*2) - 1 + 3;
+                int selection = 81 * 2 - 1 + 3;
                 int cal = 0;
                 if (row > 6 && row <= 9)
                 {
-                    cal += col - 1 - 9 + ((row - 7) * 9);
+                    cal += col - 1 - 9 + (row - 7) * 9;
                 }
                 else
                 {
-                    cal += col - 1 - 9 + ((row - (7 + 6)) * 9) + (9*6);
+                    cal += col - 1 - 9 + (row - (7 + 6)) * 9 + 9 * 6;
                 }
-                
+
                 selection += cal;
 
                 string content = cells[selection] == "0" ? " " : cells[selection];
@@ -154,7 +155,7 @@ public class SamuraiDraw : IDrawable
 
             if (col > 6 && col <= 15)
             {
-                int selection = (81 * 2) + (9*3) - 1 + 3;
+                int selection = 81 * 2 + 9 * 3 - 1 + 3;
 
                 int cal = 9 * (row - 11);
 
@@ -172,7 +173,7 @@ public class SamuraiDraw : IDrawable
 
             if (col % 3 == 0)
             {
-                if(col >= 6 && col <= 15)
+                if (col >= 6 && col <= 15)
                 {
                     Console.Write("|");
                 }
@@ -181,8 +182,18 @@ public class SamuraiDraw : IDrawable
                     Console.Write(" ");
                 }
 
-            } 
-           
+            }
+
         }
+    }
+
+    public void Draw()
+    {
+        throw new NotImplementedException();
+    }
+
+    string IDrawable.Draw()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,25 +1,30 @@
 ﻿using Logic;
 using Logic.Observer;
+using Presentation.Blueprint;
 using Presentation.Draw;
 
 namespace Presentation;
 
 public class BoardRenderer : IRenderer, IObserver
 {
-    private DrawFactory _drawFactory;
-    private string[] Board { get; set; } 
+    private BlueprintFactory _drawFactory;
+    private char[] Cells { get; set; } 
     private string Type { get; set; }
 
     public BoardRenderer()
     {
-        this._drawFactory = new DrawFactory();
+        this._drawFactory = new BlueprintFactory();
     }
 
     public void Render()
     {
-        IDrawable drawBoard = this._drawFactory.Create(this.Type);
+        IBlueprint blueprint = this._drawFactory.Create(this.Type);
 
-        drawBoard.Draw(this.Board);
+        IDrawable board = blueprint.Generate(this.Cells);
+
+        string drawing = board.Draw();
+
+        Console.WriteLine(drawing);
     }
 
     public void Update(ISubject subject)
@@ -28,7 +33,7 @@ public class BoardRenderer : IRenderer, IObserver
         {
             Sudoku? sudoku = subject as Sudoku;
 
-            this.Board = sudoku.Board.Serialize();
+            this.Cells = sudoku.Board.Serialize();
             this.Type = sudoku.Board.Type;
 
             this.Render();
