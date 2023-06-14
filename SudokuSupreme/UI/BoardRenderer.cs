@@ -36,7 +36,10 @@ public class BoardRenderer : IRenderer, IObserver
             this.Cells = sudoku.Board.Serialize();
             this.Type = sudoku.Board.Type;
 
-            this.Render();
+            Board = sudoku.Board.Serialize();
+            Type = sudoku.Board.Type;
+
+            Render();
         }
     }
 }

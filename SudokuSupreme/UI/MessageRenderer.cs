@@ -25,9 +25,9 @@ public class MessageRenderer : IRenderer, IObserver
         {
             Sudoku? sudoku = subject as Sudoku;
 
-            this.Message = sudoku.Message;
+            Message = sudoku.Message;
 
-            this.Render();
+            Render();
         }
     }
 }

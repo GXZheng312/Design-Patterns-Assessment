@@ -10,10 +10,10 @@ public class Board : ISudokuSerializable
     public List<Group> Groups { get; set; }
     public string Type { get; set; }
 
-    public Board()
+    public Board(List<Cell> cells, List<Group> groups)
     {
-        Cells = new List<Cell>();
-        Groups = new List<Group>();
+        Cells = cells;
+        Groups = groups;
 
         this.Type = "sudoku";
     }

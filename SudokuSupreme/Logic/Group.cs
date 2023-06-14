@@ -4,9 +4,8 @@ public class Group
 {
     public List<Cell> Cells { get; set; }
 
-    public Group(List<Cell> Cells) 
+    public Group(List<Cell> cells)
     {
-        this.Cells = Cells;
+        Cells = cells;
     }
-
 }

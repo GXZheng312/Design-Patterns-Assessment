@@ -1,6 +1,9 @@
 ﻿using Logic.Observer;
-using Logic.Serializer;
-using Logic.Serializer.Serial;
+using Logic.Parser;
+using Utility;
+using Utility.FileReader;
+using Utility.Input;
+using StringReader = Utility.Input.StringReader;
 
 namespace Logic;
 
@@ -12,32 +15,86 @@ public class Sudoku : ISubject
 
     public string? Message { get; set; }
 
+    private IInputReader _inputReader;
+
     public Sudoku()
     {
-        this.Board = new Board();
-        this._observers = new List<IObserver>();
+        _observers = new List<IObserver>();
 
-        Message = "Welcome to the Game SUDOKU SUPREME"; //dit logic misschien ergens anders
+        SetMessage("Welcome to the Game SUDOKU SUPREME!");
     }
 
     public void Start()
     {
-        this.Notify();
+        SetMessage("Enter file name.");
+
+        _inputReader = new StringReader();
+        string fileName = _inputReader.ReadInput();
+
+        SetupSudoku(fileName);
+    }
+
+    private void SetupSudoku(string fileName)
+    {
+        if (FileUtilities.IsValidFilename(fileName))
+        {
+            string fileExtension = Path.GetExtension(fileName).TrimStart('.');
+            
+            // TODO: Maybe un-hardcode this
+            string sudokuType = fileExtension switch
+            {
+                "4x4" => "four",
+                "6x6" => "six",
+                "9x9" => "nine",
+                _ => fileExtension
+            };
+
+            try
+            {
+                ISudokuParser sudokuParser = new SudokuParserFactory().Create(sudokuType);
+                string fileContents = FileReader.LoadFile(fileName);
+
+                Board? board = sudokuParser.LoadSudoku(fileContents);
+                if (board != null)
+                {
+                    Board = board;
+                    Notify();
+                }
+                else
+                {
+                    SetMessage("Could not create board: Invalid file contents.");
+                }
+            }
+            catch (ArgumentException e)
+            {
+                SetMessage($"Could not create sudoku: {e.Message}");
+            }
+        }
+        else
+        {
+            SetMessage("Could not parse file: Invalid filename.");
+        }
+    }
+
+    private void SetMessage(string message)
+    {
+        Message = message;
+        Notify();
     }
 
     public void Attach(IObserver observer)
     {
-        this._observers.Add(observer);
+        _observers.Add(observer);
     }
 
     public void Detach(IObserver observer)
     {
-        this._observers.Remove(observer);
+        _observers.Remove(observer);
     }
 
     public void Notify()
     {
-        if (_observers.Count < 0) return; 
+        if (_observers.Count < 0) return;
 
         foreach (IObserver observer in _observers)
         {
@@ -46,5 +103,4 @@ public class Sudoku : ISubject
 
         Message = null; //dit logic misschien ergens anders
     }
-
 }

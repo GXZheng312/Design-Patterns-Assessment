@@ -7,19 +7,18 @@ public static class EntryPoint
 {
     public static void Main(string[] args)
     {
-        //business logic -> game systeem
+        // Logic
         Sudoku sudoku = new Sudoku();
 
-        //UI
+        // UI
         BoardRenderer boardUI = new BoardRenderer();
         MessageRenderer messageUI = new MessageRenderer();
 
-
-        //Bind observing
+        // Bind observing
         sudoku.Attach(messageUI);
         sudoku.Attach(boardUI);
 
-        //Start game
+        // Start game
         sudoku.Start();
 
         // -------------
@@ -30,5 +29,6 @@ public static class EntryPoint
        //     .Start()
 
 
+        Console.ReadKey();
     }
 }

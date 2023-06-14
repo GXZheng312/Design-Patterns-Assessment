@@ -6,4 +6,11 @@ public class Cell
     public int Number { get; set; }
     public int X { get; set; }
     public int Y { get; set; }
+
+    public Cell(int number, int x, int y)
+    {
+        Number = number;
+        X = x;
+        Y = y;
+    }
 }
