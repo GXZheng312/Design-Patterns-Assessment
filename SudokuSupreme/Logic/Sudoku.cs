@@ -64,18 +64,9 @@ public class Sudoku : ISubject, IGame
         {
             string fileExtension = Path.GetExtension(fileName).TrimStart('.');
 
-            // TODO: Maybe un-hardcode this
-            string sudokuType = fileExtension switch
-            {
-                "4x4" => "four",
-                "6x6" => "six",
-                "9x9" => "nine",
-                _ => fileExtension
-            };
-
             try
             {
-                ISudokuParser sudokuParser = new SudokuParserFactory().Create(sudokuType);
+                ISudokuParser sudokuParser = new SudokuParserFactory().Create(fileExtension);
                 string fileContents = FileReader.LoadFile(fileName);
 
                 Board? board = sudokuParser.LoadSudoku(fileContents);

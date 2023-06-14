@@ -1,3 +1,5 @@
+using Utility;
+
 namespace Logic.Parser;
 
 public class SudokuParserFactory
@@ -29,7 +31,33 @@ public class SudokuParserFactory
         {
             return parserCreator.Invoke();
         }
+        else
+        {
+            return GetByRefence(lookupValue);
+        }
+    }
+
+    private ISudokuParser GetByRefence(string type)
+    {
+        string lookupValue = type.ToLowerInvariant();
+
+        ReferenceFinderUtility finder = new ReferenceFinderUtility();
+        var references = finder.GetReferences(lookupValue);
+
+        if (references != null)
+        {
+            foreach (string reference in references)
+            {
+                string finding = reference.ToLowerInvariant();
+
+                if (_parserMapping.TryGetValue(finding, out Func<ISudokuParser> drawCreator))
+                {
+                    return drawCreator.Invoke();
+                }
+            }
+        }
 
         throw new ArgumentException($"Parser type {type} is not supported.");
     }
+
 }
