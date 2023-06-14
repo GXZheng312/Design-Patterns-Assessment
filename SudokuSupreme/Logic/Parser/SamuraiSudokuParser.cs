@@ -2,7 +2,10 @@ namespace Logic.Parser;
 
 public class SamuraiSudokuParser : ISudokuParser
 {
-    private const int Size = 9 * 9 * 5;
+    private const int GroupAmount = 9;
+    private const int CellsPerGroup = 9;
+    private const int SubSudokuAmount = 5;
+    private const int Size = GroupAmount * CellsPerGroup * SubSudokuAmount;
 
     public SamuraiSudokuParser()
     {
@@ -26,6 +29,27 @@ public class SamuraiSudokuParser : ISudokuParser
         List<Group> groups = new List<Group>();
 
         int index = 0;
+        for (int subSudoku = 0; subSudoku < SubSudokuAmount; subSudoku++)
+        {
+            for (int row = 0; row < GroupAmount; row++)
+            {
+                List<Cell> groupCells = new List<Cell>();
+                for (int col = 0; col < CellsPerGroup; col++)
+                {
+                    int absoluteRow = subSudoku + row;
+                    int absoluteCol = subSudoku + col;
+                    
+                    Cell cell = new Cell(numbers[index], absoluteCol + 1, absoluteRow + 1);
+                    groupCells.Add(cell);
+                    cells.Add(cell);
+
+                    index++;
+                }
+
+                Group group = new Group(groupCells);
+                groups.Add(group);
+            }
+        }
 
         return new Board(cells, groups);
     }

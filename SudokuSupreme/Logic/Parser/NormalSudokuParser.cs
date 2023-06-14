@@ -42,6 +42,7 @@ public class NormalSudokuParser : ISudokuParser
             {
                 Cell cell = new Cell(numbers[index], col + 1, row + 1);
                 groupCells.Add(cell);
+                cells.Add(cell);
 
                 index++;
             }

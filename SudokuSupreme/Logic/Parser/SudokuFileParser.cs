@@ -4,6 +4,8 @@ public class SudokuFileParser
 {
     public static List<int>? ParseContents(string s, int size)
     {
+        s = s.Replace(Environment.NewLine, "");
+        
         if (s.Length != size)
         {
             return null;
