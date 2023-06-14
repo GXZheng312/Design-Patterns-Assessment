@@ -14,10 +14,11 @@ public class BlueprintFactory
 
         foreach (IBlueprint drawable in drawables)
         {
-            string name = drawable.GetType().Name.Substring(0, drawable.GetType().Name.Length - 2);
+            string name = drawable.GetType().Name.Substring(0, drawable.GetType().Name.Length - 9);
 
             _drawMapping.Add(name.ToLowerInvariant(), () => drawable);
         }
+
     }
 
     public IBlueprint Create(string type)

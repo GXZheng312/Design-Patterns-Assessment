@@ -22,5 +22,13 @@ public static class EntryPoint
         //Start game
         sudoku.Start();
 
+        // -------------
+        //new SudokuBuilder()
+       //     .ApplyPresentation()
+       //     .ApplyConsoleReader()
+       //     .build()
+       //     .Start()
+
+
     }
 }

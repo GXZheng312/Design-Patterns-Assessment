@@ -10,6 +10,8 @@ namespace Presentation.Drawable.Region;
 public class Row : IDrawable
 {
     private List<IDrawable> Children = new List<IDrawable>();
+    
+    public Row() { }
 
     public Row(params IDrawable[] children)
     {
@@ -18,6 +20,14 @@ public class Row : IDrawable
             Children.Add(child);
         }
     }
+
+    public void Add(IDrawable child)
+    {
+        if (child == null) return;
+
+        Children.Add(child);
+    }
+
 
     public string Draw()
     {
