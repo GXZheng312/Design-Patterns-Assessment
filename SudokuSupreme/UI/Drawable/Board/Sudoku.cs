@@ -3,41 +3,18 @@ using Presentation.Draw;
 
 namespace Presentation.Drawable.Board;
 
-public class Sudoku : IDrawable
+public class Sudoku : BaseBoard
 {
-    private const string Introduction = "Sudoku Board: \n";
-    private readonly IList<IDrawable> Children = new List<IDrawable>();
+    private const string NewIntroduction = "Sudoku Board: \n";
 
     public Sudoku()
     {
-
+        this.Introduction = NewIntroduction;
     }
 
-    public Sudoku(params IDrawable[] children)
+    public Sudoku(params IDrawable[] children) : base(children)
     {
-        foreach (IDrawable child in children)
-        {
-            Children.Add(child);
-        }
-    }
-
-    public void Add(IDrawable child)
-    {
-        if (child == null) return;
-
-        Children.Add(child);
-    }
-
-    public string Draw()
-    {
-        string drawing = Introduction;
-
-        foreach (IDrawable child in Children)
-        {
-            drawing += child.Draw();
-        }
-
-        return drawing;
+        this.Introduction = NewIntroduction;
     }
 
 }

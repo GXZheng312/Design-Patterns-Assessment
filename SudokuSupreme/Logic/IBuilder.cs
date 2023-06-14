@@ -9,11 +9,11 @@ namespace Logic;
 
 public interface IBuilder<T>
 {
-    IBuilder<T> AddBoardRenderer(IObserver observer);
+    IBuilder<T> AddBoardRenderer(ISubscriber observer);
 
-    IBuilder<T> AddTextRenderer(IObserver observer);
+    IBuilder<T> AddTextRenderer(ISubscriber observer);
 
-    IBuilder<T> AddInputReader(IObserver observer);
+    IBuilder<T> AddInputReader(ISubscriber observer);
 
     T Build();
  

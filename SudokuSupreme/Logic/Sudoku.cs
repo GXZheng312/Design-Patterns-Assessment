@@ -7,22 +7,31 @@ using StringReader = Utility.Input.StringReader;
 
 namespace Logic;
 
-public class Sudoku : ISubject, IGame
+public class Sudoku : IGame
 {
-    public Board Board { get; set; } = new Board();
-    private List<IObserver> Observers { get; set; } = new List<IObserver>();
-    private IInputReader InputReader { get; set; } = new StringReader(); //Misschien refactoren
-    public string? Message { get; set; }
+    public Board Board { get; set; }
+    public IMessager Messager { get; set; }
+    private IInputReader InputReader { get; set; } 
+    public IPublisher BoardObserver { get; set; } 
+
+    public Sudoku()
+    {
+        this.Board = new Board();
+        this.Messager = new Messager();
+        this.InputReader = new StringReader();
+        this.BoardObserver = new BoardObserver();
+    }
 
     public void Start()
     {
-        SetMessage("Welcome to the Game SUDOKU SUPREME!");
-        SetMessage("Enter file name.");
+        Messager.AddMessage("Welcome to the Game SUDOKU SUPREME!");
+        Messager.AddMessage("Enter file name.");
 
-        //string fileName = InputReader.ReadInput();
+        string fileName = InputReader.ReadInput();
 
-        //SetupSudoku(fileName);
-        Board.Notify();
+        SetupSudoku(fileName);
+
+        BoardObserver.Notify();
     }
 
     public void Stop()
@@ -30,33 +39,6 @@ public class Sudoku : ISubject, IGame
         throw new NotImplementedException();
     }
 
-    public void Attach(IObserver observer)
-    {
-        Observers.Add(observer);
-    }
-
-    public void Detach(IObserver observer)
-    {
-        Observers.Remove(observer);
-    }
-
-    public void Notify()
-    {
-        if (Observers.Count < 0) return;
-
-        foreach (IObserver observer in Observers)
-        {
-            observer.Update(this);
-        }
-
-        Message = null;
-    }
-
-    private void SetMessage(string message)
-    {
-        Message = message;
-        Notify();
-    }
 
     private void SetupSudoku(string fileName)
     {
@@ -73,21 +55,20 @@ public class Sudoku : ISubject, IGame
                 if (board != null)
                 {
                     Board = board;
-                    Notify();
                 }
                 else
                 {
-                    SetMessage("Could not create board: Invalid file contents.");
+                    Messager.AddMessage("Could not create board: Invalid file contents.");
                 }
             }
             catch (ArgumentException e)
             {
-                SetMessage($"Could not create sudoku: {e.Message}");
+                Messager.AddMessage($"Could not create sudoku: {e.Message}");
             }
         }
         else
         {
-            SetMessage("Could not parse file: Invalid filename.");
+            Messager.AddMessage("Could not parse file: Invalid filename.");
         }
     }
 }

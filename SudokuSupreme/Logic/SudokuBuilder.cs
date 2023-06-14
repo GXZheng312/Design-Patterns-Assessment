@@ -16,21 +16,21 @@ public class SudokuBuilder : IBuilder<IGame>
         this.Game = new Sudoku();
     }
 
-    public IBuilder<IGame> AddBoardRenderer(IObserver observer)
+    public IBuilder<IGame> AddBoardRenderer(ISubscriber observer)
     {
-        Game.Board.Attach(observer);
+        (Game.BoardObserver).Subscribe(observer);
 
         return this;
     }
 
-    public IBuilder<IGame> AddInputReader(IObserver observer)
+    public IBuilder<IGame> AddInputReader(ISubscriber observer)
     {
         return this;
     }
 
-    public IBuilder<IGame> AddTextRenderer(IObserver observer)
+    public IBuilder<IGame> AddTextRenderer(ISubscriber observer)
     {
-        Game.Attach(observer);
+        ((Messager)Game.Messager).Subscribe(observer);
 
         return this;
     }

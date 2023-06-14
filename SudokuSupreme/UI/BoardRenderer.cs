@@ -5,7 +5,7 @@ using Presentation.Draw;
 
 namespace Presentation;
 
-public class BoardRenderer : IRenderer, IObserver
+public class BoardRenderer : IRenderer, ISubscriber
 {
     private BlueprintFactory _drawFactory;
     private char[] Cells { get; set; } 
@@ -27,14 +27,14 @@ public class BoardRenderer : IRenderer, IObserver
         Console.WriteLine(drawing);
     }
 
-    public void Update(ISubject subject)
+    public void Update(IPublisher publisher)
     {
-        if (subject != null)
+        if (publisher != null)
         {
-            Board? board = subject as Board;
+            BoardObserver? boardObserverable = publisher as BoardObserver;
 
-            this.Cells = board.Serialize();
-            this.Type = board.Type;
+            this.Cells = boardObserverable.Board.Serialize();
+            this.Type = boardObserverable.Board.Type;
 
             Render();
         }
