@@ -7,31 +7,55 @@ using StringReader = Utility.Input.StringReader;
 
 namespace Logic;
 
-public class Sudoku : ISubject
+public class Sudoku : ISubject, IGame
 {
-    public Board Board { get; set; }
-
-    private readonly List<IObserver> _observers;
-
+    public Board Board { get; set; } = new Board();
+    private List<IObserver> Observers { get; set; } = new List<IObserver>();
+    private IInputReader InputReader { get; set; } = new StringReader(); //Misschien refactoren
     public string? Message { get; set; }
-
-    private IInputReader _inputReader;
-
-    public Sudoku()
-    {
-        _observers = new List<IObserver>();
-
-        SetMessage("Welcome to the Game SUDOKU SUPREME!");
-    }
 
     public void Start()
     {
+        SetMessage("Welcome to the Game SUDOKU SUPREME!");
         SetMessage("Enter file name.");
 
-        _inputReader = new StringReader();
-        string fileName = _inputReader.ReadInput();
+        //string fileName = InputReader.ReadInput();
 
-        SetupSudoku(fileName);
+        //SetupSudoku(fileName);
+        Board.Notify();
+    }
+
+    public void Stop()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Attach(IObserver observer)
+    {
+        Observers.Add(observer);
+    }
+
+    public void Detach(IObserver observer)
+    {
+        Observers.Remove(observer);
+    }
+
+    public void Notify()
+    {
+        if (Observers.Count < 0) return;
+
+        foreach (IObserver observer in Observers)
+        {
+            observer.Update(this);
+        }
+
+        Message = null;
+    }
+
+    private void SetMessage(string message)
+    {
+        Message = message;
+        Notify();
     }
 
     private void SetupSudoku(string fileName)
@@ -39,7 +63,7 @@ public class Sudoku : ISubject
         if (FileUtilities.IsValidFilename(fileName))
         {
             string fileExtension = Path.GetExtension(fileName).TrimStart('.');
-            
+
             // TODO: Maybe un-hardcode this
             string sudokuType = fileExtension switch
             {
@@ -74,33 +98,5 @@ public class Sudoku : ISubject
         {
             SetMessage("Could not parse file: Invalid filename.");
         }
-    }
-
-    private void SetMessage(string message)
-    {
-        Message = message;
-        Notify();
-    }
-
-    public void Attach(IObserver observer)
-    {
-        _observers.Add(observer);
-    }
-
-    public void Detach(IObserver observer)
-    {
-        _observers.Remove(observer);
-    }
-
-    public void Notify()
-    {
-        if (_observers.Count < 0) return;
-
-        foreach (IObserver observer in _observers)
-        {
-            observer.Update(this);
-        }
-
-        Message = null; //dit logic misschien ergens anders
     }
 }

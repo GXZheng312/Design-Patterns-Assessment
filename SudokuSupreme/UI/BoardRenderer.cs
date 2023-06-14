@@ -31,13 +31,10 @@ public class BoardRenderer : IRenderer, IObserver
     {
         if (subject != null)
         {
-            Sudoku? sudoku = subject as Sudoku;
+            Board? board = subject as Board;
 
-            this.Cells = sudoku.Board.Serialize();
-            this.Type = sudoku.Board.Type;
-
-            Board = sudoku.Board.Serialize();
-            Type = sudoku.Board.Type;
+            this.Cells = board.Serialize();
+            this.Type = board.Type;
 
             Render();
         }

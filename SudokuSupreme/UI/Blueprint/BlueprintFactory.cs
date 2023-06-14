@@ -1,4 +1,6 @@
-﻿namespace Presentation.Blueprint;
+﻿using Utility;
+
+namespace Presentation.Blueprint;
 
 //registering factory
 public class BlueprintFactory
@@ -24,12 +26,37 @@ public class BlueprintFactory
     public IBlueprint Create(string type)
     {
         string lookupValue = type.ToLowerInvariant();
-
+       
         if (_drawMapping.TryGetValue(lookupValue, out Func<IBlueprint> drawCreator))
         {
             return drawCreator.Invoke();
         }
+        else
+        {
+            return GetByRefence(lookupValue);
+        }
+    }
 
-        throw new ArgumentException($"Blueprint type {type} is not supported");
+    private IBlueprint GetByRefence(string lookupValue)
+    {
+        lookupValue = lookupValue.ToLowerInvariant();
+
+        ReferenceFinderUtility finder = new ReferenceFinderUtility();
+        var references = finder.GetReferences(lookupValue);
+
+        if(references != null)
+        {
+            foreach (string reference in references)
+            {
+                string finding = reference.ToLowerInvariant();
+
+                if (_drawMapping.TryGetValue(finding, out Func<IBlueprint> drawCreator))
+                {
+                    return drawCreator.Invoke();
+                }
+            }
+        }
+
+        throw new ArgumentException($"Blueprint type {lookupValue} is not supported");
     }
 }
