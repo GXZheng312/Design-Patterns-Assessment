@@ -6,6 +6,10 @@ public class NormalSudokuParser : ISudokuParser
     private int CellsPerGroup { get; }
     private readonly int _size;
 
+    public NormalSudokuParser()
+    {
+    }
+
     protected NormalSudokuParser(int groupAmount, int cellsPerGroup)
     {
         GroupAmount = groupAmount;

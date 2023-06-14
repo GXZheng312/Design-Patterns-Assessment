@@ -3,6 +3,10 @@ namespace Logic.Parser;
 public class SamuraiSudokuParser : ISudokuParser
 {
     private const int Size = 9 * 9 * 5;
+
+    public SamuraiSudokuParser()
+    {
+    }
     
     public Board? LoadSudoku(string s)
     {
