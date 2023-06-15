@@ -10,7 +10,7 @@ public enum DrawingCharacter
 {
     Empty = ' ',
     VerticalWall = '|',
-    HorzitalWall = '-',
+    HorizontalWall = '-',
     SplitWall = '+',
     EmptyComparer = '0'
 }

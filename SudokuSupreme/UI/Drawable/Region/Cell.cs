@@ -17,7 +17,6 @@ public class Cell : IDrawable
         this.CellValue = cell;
     }
 
-
     public string Draw()
     {
         char cellContent = IsEmptyCell() ? (char)DrawingCharacter.Empty : CellValue;

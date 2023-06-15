@@ -28,6 +28,14 @@ public class Row : IDrawable
         Children.Add(child);
     }
 
+    public void Add(params IDrawable[] children)
+    {
+        foreach (IDrawable child in children)
+        {
+            Children.Add(child);
+        }
+    }
+
 
     public string Draw()
     {

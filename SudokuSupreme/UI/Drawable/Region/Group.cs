@@ -15,6 +15,13 @@ public class Group : IDrawable
         }
     }
 
+    public void Add(IDrawable child)
+    {
+        if (child == null) return;
+
+        Children.Add(child);
+    }
+
     public string Draw()
     {
         string drawing = "";

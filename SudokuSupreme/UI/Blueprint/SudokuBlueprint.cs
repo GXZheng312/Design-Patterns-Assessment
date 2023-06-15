@@ -19,14 +19,14 @@ public class SudokuBlueprint : IBlueprint
 
         for (int row = 1; row <= RowSize; row++)
         {
-            if(row == 1)
+            if(IsFirstRow(row))
             {
                 sudoku.Add(HorizontalDecoration());
             }
 
             sudoku.Add(GridRow(cells));
 
-            if(row % GroupSize == 0)
+            if(IsEndGroup(row))
             {
                 sudoku.Add(HorizontalDecoration());
             }
@@ -55,20 +55,23 @@ public class SudokuBlueprint : IBlueprint
     {
         Row collection = new Row();
 
-        for (int groupColumn = 0; groupColumn < GroupSize; groupColumn++)
+        for (int groupNr = 1; groupNr <= GroupSize; groupNr++)
         {
-            if(groupColumn == 0)
+            if(IsFirstGroup(groupNr))
             {
                 collection.Add(new Cell((char)DrawingCharacter.SplitWall));
             }
 
-            collection.Add(new Cell((char)DrawingCharacter.HorzitalWall));
-            collection.Add(new Cell((char)DrawingCharacter.HorzitalWall));
-            collection.Add(new Cell((char)DrawingCharacter.HorzitalWall));
+            collection.Add(new Cell((char)DrawingCharacter.HorizontalWall));
+            collection.Add(new Cell((char)DrawingCharacter.HorizontalWall));
+            collection.Add(new Cell((char)DrawingCharacter.HorizontalWall));
 
             collection.Add(new Cell((char)DrawingCharacter.SplitWall));
         }
 
         return collection;
     }
+    private bool IsFirstGroup(int groupNr) => groupNr == 1;
+    private bool IsFirstRow(int rowNumber) => rowNumber == 1;
+    private bool IsEndGroup(int rowNumber) => rowNumber % GroupSize == 0;
 }
