@@ -9,5 +9,5 @@ namespace Presentation.Blueprint;
 
 public interface IBlueprint
 {
-    IDrawable Generate(char[] cells);
+    IDrawable Generate(string[] cells);
 }

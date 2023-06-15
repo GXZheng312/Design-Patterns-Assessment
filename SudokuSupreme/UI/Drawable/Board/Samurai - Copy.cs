@@ -191,9 +191,4 @@ public class SamuraiOld : IDrawable
     {
         throw new NotImplementedException();
     }
-
-    string IDrawable.Draw()
-    {
-        throw new NotImplementedException();
-    }
 }

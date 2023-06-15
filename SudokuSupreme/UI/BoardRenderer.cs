@@ -8,7 +8,7 @@ namespace Presentation;
 public class BoardRenderer : IRenderer, ISubscriber
 {
     private BlueprintFactory _drawFactory;
-    private char[] Cells { get; set; } 
+    private string[] Cells { get; set; } 
     private string Type { get; set; }
 
     public BoardRenderer()
@@ -22,9 +22,7 @@ public class BoardRenderer : IRenderer, ISubscriber
 
         IDrawable board = blueprint.Generate(this.Cells);
 
-        string drawing = board.Draw();
-
-        Console.WriteLine(drawing);
+        board.Draw();
     }
 
     public void Update(IPublisher publisher)

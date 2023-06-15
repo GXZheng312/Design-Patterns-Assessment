@@ -36,18 +36,13 @@ public class Row : IDrawable
         }
     }
 
-
-    public string Draw()
+    public void Draw()
     {
-        string drawing = "";
-
         foreach (IDrawable child in Children)
         {
-            drawing += child.Draw();
+            child.Draw();
         }
 
-        drawing += "\n";
-
-        return drawing;
+        Console.Write("\n");
     }
 }

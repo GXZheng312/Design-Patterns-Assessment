@@ -3,14 +3,17 @@ using Presentation.Draw;
 
 namespace Presentation.Drawable.Board;
 
-public class VariantSix : IDrawable
+public class VariantSix : BaseBoard
 {
+    private const string NewIntroduction = "6x6 Board: \n";
+
     public VariantSix()
     {
+        this.Introduction = NewIntroduction;
     }
 
-    public string Draw()
+    public VariantSix(params IDrawable[] children) : base(children)
     {
-        throw new NotImplementedException();
+        this.Introduction = NewIntroduction;
     }
 }

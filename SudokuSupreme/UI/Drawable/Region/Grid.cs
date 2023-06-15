@@ -31,15 +31,13 @@ public class Grid : IDrawable
         Children.Add(child);
     }
 
-    public string Draw()
+    public void Draw()
     {
-        string drawing = ((char)DrawingCharacter.VerticalWall).ToString();
+        Console.Write(((char)DrawingCharacter.VerticalWall).ToString());
 
         foreach (IDrawable child in Children)
         {
-            drawing += child.Draw();
+            child.Draw();
         }
-
-        return drawing;
     }
 }

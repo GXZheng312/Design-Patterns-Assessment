@@ -8,6 +8,6 @@ namespace Logic.Serializer.Serialize;
 
 public interface ISerialize
 {
-    public char[] Serialize(Board board);
+    public string[] Serialize(Board board);
 }
 

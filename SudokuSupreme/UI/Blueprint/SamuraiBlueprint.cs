@@ -18,15 +18,19 @@ public class SamuraiBlueprint : IBlueprint
     private const int DefaultSudokuSize = 81;
     private const int SamuraiSudokuSize = DefaultSudokuSize * 5;
     private int CellIndex { get; set; }
-    private char[] Cells { get; set; }
+    private string[] Cells { get; set; }
 
+    private string EmptyDrawing = ((char)DrawingCharacter.Empty).ToString();
+    private string VerticalWall = ((char) DrawingCharacter.VerticalWall).ToString();
+    private string HorizontalWall = ((char)DrawingCharacter.HorizontalWall).ToString();
+    private string SplitWall = ((char)DrawingCharacter.SplitWall).ToString();
     public SamuraiBlueprint()
     {
         CellIndex = 0;
-        Cells = new char[DefaultSudokuSize];
+        Cells = new string[DefaultSudokuSize];
     }
 
-    public IDrawable Generate(char[] cells)
+    public IDrawable Generate(string[] cells)
     {
         if (!CheckInitValues(cells)) throw new ArgumentException($"Sudoku amount is invalid");
 
@@ -60,7 +64,7 @@ public class SamuraiBlueprint : IBlueprint
         return collection;
     }
 
-    private bool CheckInitValues(char[] cells)
+    private bool CheckInitValues(string[] cells)
     {
         if (cells == null || cells.Length != SamuraiSudokuSize) return false;
 
@@ -116,7 +120,7 @@ public class SamuraiBlueprint : IBlueprint
     {   
         for (int grid = 1; CenterGridOffset >= grid; grid++)
         {
-            collection.Add(new Cell((char)DrawingCharacter.Empty));
+            collection.Add(new Cell(EmptyDrawing));
             collection.Add(EmptyGroup());
         }
 
@@ -131,18 +135,18 @@ public class SamuraiBlueprint : IBlueprint
 
     private void PopulateSudokuGrid(Row collection, int offset)
     {
-        collection.Add(new Cell((char)DrawingCharacter.VerticalWall));
+        collection.Add(new Cell(VerticalWall));
         for (int grid = 1; grid <= GroupSize; grid++)
         {
             collection.Add(CreateGroup(offset));
-            collection.Add(new Cell((char)DrawingCharacter.VerticalWall));
+            collection.Add(new Cell(VerticalWall));
         }
     }
 
     private IDrawable HorizontalWalls(bool overlay)
     {
         Row collection = new Row();
-        collection.Add(new Cell((char)DrawingCharacter.SplitWall));
+        collection.Add(new Cell(SplitWall));
 
         for (int grid = 1; grid <= TotalGridGroups; grid++)
         {
@@ -155,7 +159,7 @@ public class SamuraiBlueprint : IBlueprint
                 collection.Add(HorizontalGroup());
             }
 
-            collection.Add(new Cell((char)DrawingCharacter.SplitWall));
+            collection.Add(new Cell(SplitWall));
         }
 
         return collection;
@@ -173,18 +177,18 @@ public class SamuraiBlueprint : IBlueprint
     private IDrawable[] EmptyGroup()
     {
         return new IDrawable[] {
-            new Cell((char)DrawingCharacter.Empty),
-            new Cell((char)DrawingCharacter.Empty),
-            new Cell((char)DrawingCharacter.Empty)
+            new Cell(EmptyDrawing),
+            new Cell(EmptyDrawing),
+            new Cell(EmptyDrawing)
         };
     }
 
     private IDrawable[] HorizontalGroup()
     {
         return new IDrawable[] {
-            new Cell((char)DrawingCharacter.HorizontalWall),
-            new Cell((char)DrawingCharacter.HorizontalWall),
-            new Cell((char)DrawingCharacter.HorizontalWall)
+            new Cell(HorizontalWall),
+            new Cell(HorizontalWall),
+            new Cell(HorizontalWall),
         };
     }
     private bool IsOverlayRow(int rowNumber) => rowNumber >= DefaultSudokuRowSize - MiddleRowSize && rowNumber <= TotalRowAmount - (DefaultSudokuRowSize - MiddleRowSize);

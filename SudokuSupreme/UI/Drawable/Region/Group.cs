@@ -22,17 +22,13 @@ public class Group : IDrawable
         Children.Add(child);
     }
 
-    public string Draw()
+    public void Draw()
     {
-        string drawing = "";
-
         foreach (IDrawable child in Children)
         {
-            drawing += child.Draw();
+            child.Draw();
         }
 
-        drawing += (char)DrawingCharacter.VerticalWall;
-
-        return drawing;
+        Console.Write((char)DrawingCharacter.VerticalWall);
     }
 }

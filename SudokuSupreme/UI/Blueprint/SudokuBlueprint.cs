@@ -6,72 +6,80 @@ namespace Presentation.Blueprint;
 
 public class SudokuBlueprint : IBlueprint
 {
-    private const int RowSize = 9;
-    private const int GroupSize = 3;
-    private const int CellSize = 81;
-    private int CellIndex { get; set; }
+    private const int GroupColumnSize = 3;
+    private const int GroupRowSize = 3;
 
-    public IDrawable Generate(char[] cells)
+    private const int GridColumnSize = 3;
+    private const int GridRowSize = 3;
+
+    private const int TotalRowCellAmount = GridColumnSize * GroupColumnSize;
+    private const int Size = TotalRowCellAmount * GroupRowSize * GridRowSize;
+
+    private int CellIndex { get; set; } = 0;
+
+    private string HorizontalWall = ((char)DrawingCharacter.HorizontalWall).ToString();
+    private string SplitWall = ((char)DrawingCharacter.SplitWall).ToString();
+
+    public IDrawable Generate(string[] cells)
     {
-        if (cells == null || cells.Length != CellSize) throw new ArgumentException($"Sudoku amount is invalid");
-        CellIndex = 0;
-        Sudoku sudoku = new Sudoku();
+        if (cells == null || cells.Length != Size) throw new ArgumentException($"Sudoku amount is invalid");
 
-        for (int row = 1; row <= RowSize; row++)
-        {
-            if(IsFirstRow(row))
-            {
-                sudoku.Add(HorizontalDecoration());
-            }
-
-            sudoku.Add(GridRow(cells));
-
-            if(IsEndGroup(row))
-            {
-                sudoku.Add(HorizontalDecoration());
-            }
-        }
-
-        return sudoku;
+        return new VariantSix(new IDrawable[] {
+            RowHorizontalWalls(),
+            CreateRow(cells),
+            CreateRow(cells),
+            CreateRow(cells),
+            RowHorizontalWalls(),
+            CreateRow(cells),
+            CreateRow(cells),
+            CreateRow(cells),
+            RowHorizontalWalls(),
+            CreateRow(cells),
+            CreateRow(cells),
+            CreateRow(cells),
+            RowHorizontalWalls(),
+        });
     }
 
-    private IDrawable GridRow(char[] cells)
+    private IDrawable CreateRow(string[] cells)
     {
-        IDrawable[] group = new IDrawable[GroupSize];
-
-        for (int groupColumn = 0; groupColumn < GroupSize; groupColumn++)
-        {
-            group[groupColumn] = new Group(new IDrawable[] {
-                    new Cell(cells[CellIndex++]),
-                    new Cell(cells[CellIndex++]),
-                    new Cell(cells[CellIndex++])
-                });
-        }
-
-        return new Row(new Grid(group));
-    }
-
-    private IDrawable HorizontalDecoration()
-    {
-        Row collection = new Row();
-
-        for (int groupNr = 1; groupNr <= GroupSize; groupNr++)
-        {
-            if(IsFirstGroup(groupNr))
+        return new Row(
+            new Grid(new IDrawable[]
             {
-                collection.Add(new Cell((char)DrawingCharacter.SplitWall));
-            }
-
-            collection.Add(new Cell((char)DrawingCharacter.HorizontalWall));
-            collection.Add(new Cell((char)DrawingCharacter.HorizontalWall));
-            collection.Add(new Cell((char)DrawingCharacter.HorizontalWall));
-
-            collection.Add(new Cell((char)DrawingCharacter.SplitWall));
-        }
-
-        return collection;
+                CreateGroup(cells),
+                CreateGroup(cells),
+                CreateGroup(cells),
+            })
+        );
     }
-    private bool IsFirstGroup(int groupNr) => groupNr == 1;
-    private bool IsFirstRow(int rowNumber) => rowNumber == 1;
-    private bool IsEndGroup(int rowNumber) => rowNumber % GroupSize == 0;
+
+    private IDrawable CreateGroup(string[] cells)
+    {
+        return new Group(new IDrawable[]
+        {
+            new Cell(cells[CellIndex++]),
+            new Cell(cells[CellIndex++]),
+            new Cell(cells[CellIndex++])
+        });
+    }
+
+    private Row RowHorizontalWalls()
+    {
+        return new Row(new IDrawable[]
+        {
+            new Cell(SplitWall),
+            new Cell(HorizontalWall),
+            new Cell(HorizontalWall),
+            new Cell(HorizontalWall),
+            new Cell(SplitWall),
+            new Cell(HorizontalWall),
+            new Cell(HorizontalWall),
+            new Cell(HorizontalWall),
+            new Cell(SplitWall),
+            new Cell(HorizontalWall),
+            new Cell(HorizontalWall),
+            new Cell(HorizontalWall),
+            new Cell(SplitWall),
+        });
+    }
 }

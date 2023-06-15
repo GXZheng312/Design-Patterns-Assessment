@@ -32,15 +32,14 @@ public abstract class BaseBoard : IDrawable
         Children.Add(child);
     }
 
-    public string Draw()
+    public void Draw()
     {
-        string drawing = Introduction;
+        Console.Write(Introduction);
 
         foreach (IDrawable child in Children)
         {
-            drawing += child.Draw();
+            child.Draw();
         }
 
-        return drawing;
     }
 }

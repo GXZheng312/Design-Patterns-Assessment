@@ -2,10 +2,10 @@
 
 public class VariantFourSerialize : ISerialize
 {
-    public char[] Serialize(Board sudoku)
+    public string[] Serialize(Board sudoku)
     {
         string testData = "0340400210030210";
-        return testData.ToCharArray();
+        return testData.Select(c => c.ToString()).ToArray();
     }
 }
 

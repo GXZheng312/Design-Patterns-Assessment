@@ -8,7 +8,7 @@ public class Board : ISudokuSerializable
 {
     public List<Cell> Cells { get; set; } = new List<Cell>();
     public List<Group> Groups { get; set; } = new List<Group>();
-    public string Type { get; set; } = "sudoku";
+    public string Type { get; set; } = "samurai";
 
     public Board()
     {
@@ -21,7 +21,7 @@ public class Board : ISudokuSerializable
         Groups = groups;
     }
 
-    public char[] Serialize()
+    public string[] Serialize()
     {
         return new SerializeSudokuFactory().getSerializerType(this.Type).Serialize(this);
     }

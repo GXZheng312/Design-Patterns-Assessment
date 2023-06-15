@@ -8,6 +8,6 @@ namespace Logic.Serializer;
 
 public interface ISudokuSerializable
 {
-    public char[] Serialize();
+    public string[] Serialize();
 }
 

@@ -10,23 +10,24 @@ namespace Presentation.Drawable.Region;
 
 public class Cell : IDrawable
 {
-    private char CellValue { get; set; }
+    private string CellValue { get; set; }
 
-    public Cell(char cell) 
+
+    public Cell(string cell) 
     {
         this.CellValue = cell;
     }
 
-    public string Draw()
+    public void Draw()
     {
-        char cellContent = IsEmptyCell() ? (char)DrawingCharacter.Empty : CellValue;
+        string cellContent = IsEmptyCell() ? ((char)DrawingCharacter.Empty).ToString() : CellValue;
 
-        return cellContent.ToString();
+        Console.Write(cellContent);
     }
 
     private bool IsEmptyCell()
     {
-        return this.CellValue == (char)DrawingCharacter.EmptyComparer;
+        return this.CellValue == ((char)DrawingCharacter.EmptyComparer).ToString();
     }
 
    

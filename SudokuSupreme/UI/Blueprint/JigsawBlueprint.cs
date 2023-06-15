@@ -11,7 +11,7 @@ public class JigsawBlueprint : IBlueprint
     private const int CellSize = 81;
     private int CellIndex { get; set; }
 
-    public IDrawable Generate(char[] cells)
+    public IDrawable Generate(string[] cells)
     {
         throw new NotImplementedException();
     }
