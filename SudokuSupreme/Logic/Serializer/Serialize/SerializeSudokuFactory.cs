@@ -34,11 +34,11 @@ public class SerializeSudokuFactory
         }
         else
         {
-            return GetByRefence(lookupValue);
+            return GetByReference(lookupValue);
         }
     }
 
-    private ISerialize GetByRefence(string lookupValue)
+    private ISerialize GetByReference(string lookupValue)
     {
         lookupValue = lookupValue.ToLowerInvariant();
 

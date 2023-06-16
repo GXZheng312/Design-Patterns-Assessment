@@ -33,11 +33,11 @@ public class BlueprintFactory
         }
         else
         {
-            return GetByRefence(lookupValue);
+            return GetByReference(lookupValue);
         }
     }
 
-    private IBlueprint GetByRefence(string lookupValue)
+    private IBlueprint GetByReference(string lookupValue)
     {
         lookupValue = lookupValue.ToLowerInvariant();
 

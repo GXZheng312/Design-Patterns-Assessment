@@ -11,6 +11,8 @@ namespace Presentation.Drawable.Region;
 public class Cell : IDrawable
 {
     private string CellValue { get; set; }
+    private bool Definitive { get; set; }
+    private bool Wrong { get; set; }
 
     public Cell(string cell) 
     {

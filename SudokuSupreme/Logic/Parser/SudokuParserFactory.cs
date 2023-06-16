@@ -33,11 +33,11 @@ public class SudokuParserFactory
         }
         else
         {
-            return GetByRefence(lookupValue);
+            return GetByReference(lookupValue);
         }
     }
 
-    private ISudokuParser GetByRefence(string type)
+    private ISudokuParser GetByReference(string type)
     {
         string lookupValue = type.ToLowerInvariant();
 
