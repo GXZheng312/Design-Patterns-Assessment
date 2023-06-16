@@ -10,7 +10,7 @@ public class Board : ISudokuSerializable, IGridValidate
     public List<Group> Sqaure { get; set; } = new List<Group>();
     public List<Group> Rows { get; set; } = new List<Group>();
     public List<Group> Columns { get; set; } = new List<Group>();
-    public string Type { get; set; } = "jigsaw";
+    public string Type { get; set; } = "6x6";
 
     public Board()
     {

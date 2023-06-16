@@ -32,6 +32,9 @@ public class VariantSixBlueprint : IBlueprint
             CreateRow(cells),
             CreateRow(cells),
             RowHorizontalWalls(),
+            CreateRow(cells),
+            CreateRow(cells),
+            RowHorizontalWalls(),
         });
     }
 
