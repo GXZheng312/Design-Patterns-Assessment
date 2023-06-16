@@ -1,4 +1,5 @@
-﻿using Logic.Observer;
+﻿using Logic.Grid;
+using Logic.Observer;
 using Logic.Parser;
 using Utility;
 using Utility.FileReader;

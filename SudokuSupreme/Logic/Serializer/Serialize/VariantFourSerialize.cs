@@ -1,4 +1,6 @@
-﻿namespace Logic.Serializer.Serialize;
+﻿using Logic.Grid;
+
+namespace Logic.Serializer.Serialize;
 
 public class VariantFourSerialize : ISerialize
 {

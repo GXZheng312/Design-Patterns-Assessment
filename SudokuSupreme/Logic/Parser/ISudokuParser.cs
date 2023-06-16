@@ -1,3 +1,5 @@
+using Logic.Grid;
+
 namespace Logic.Parser;
 
 public interface ISudokuParser
