@@ -56,6 +56,8 @@ public class Sudoku : IGame
                 if (board != null)
                 {
                     Board = board;
+                    ((BoardObserver)BoardObserver).Board = board;
+                    BoardObserver.Notify();
                 }
                 else
                 {
