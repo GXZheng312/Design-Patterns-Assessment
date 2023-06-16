@@ -12,7 +12,6 @@ public class Cell : IDrawable
 {
     private string CellValue { get; set; }
 
-
     public Cell(string cell) 
     {
         this.CellValue = cell;

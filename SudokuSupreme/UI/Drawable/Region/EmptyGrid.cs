@@ -1,13 +1,22 @@
-﻿using Logic;
-using Presentation.Draw;
+﻿using Presentation.Draw;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Presentation.Drawable.Region;
 
-public class Group : IDrawable
+public class EmptyGrid : IDrawable
 {
     private List<IDrawable> Children = new List<IDrawable>();
 
-    public Group(params IDrawable[] children)
+    public EmptyGrid()
+    {
+
+    }
+
+    public EmptyGrid(params IDrawable[] children)
     {
         Add(children);
     }
@@ -26,7 +35,5 @@ public class Group : IDrawable
         {
             child.Draw();
         }
-
-        Console.Write((char)DrawingCharacter.VerticalWall);
     }
 }

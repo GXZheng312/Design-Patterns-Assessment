@@ -5,7 +5,7 @@ namespace Presentation.Drawable.Board;
 
 public class Jigsaw : BaseBoard
 {
-    private const string NewIntroduction = "4x4 Board: \n";
+    private const string NewIntroduction = "Jigsaw Board: \n";
 
     public Jigsaw()
     {
