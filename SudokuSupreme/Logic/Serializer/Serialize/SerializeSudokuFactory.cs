@@ -1,4 +1,6 @@
 ﻿using Logic.Serializer.Serialize;
+using System.Runtime.Intrinsics.X86;
+using Utility;
 
 namespace Logic.Serializer.Serial;
 
@@ -30,8 +32,33 @@ public class SerializeSudokuFactory
         {
             return serialize.Invoke();
         }
+        else
+        {
+            return GetByRefence(lookupValue);
+        }
+    }
 
-        throw new ArgumentException($"Serializer type: {type} is not supported");
+    private ISerialize GetByRefence(string lookupValue)
+    {
+        lookupValue = lookupValue.ToLowerInvariant();
+
+        ReferenceFinderUtility finder = new ReferenceFinderUtility();
+        var references = finder.GetReferences(lookupValue);
+
+        if (references != null)
+        {
+            foreach (string reference in references)
+            {
+                string finding = reference.ToLowerInvariant();
+
+                if (_SerializeMapping.TryGetValue(finding, out Func<ISerialize> drawCreator))
+                {
+                    return drawCreator.Invoke();
+                }
+            }
+        }
+
+        throw new ArgumentException($"Serializer type: {lookupValue} is not supported");
     }
 
 }

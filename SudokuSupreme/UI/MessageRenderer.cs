@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Presentation;
 
-public class MessageRenderer : IRenderer, IObserver
+public class MessageRenderer : IRenderer, ISubscriber
 {
     private string Message { get; set; }
 
@@ -19,11 +19,11 @@ public class MessageRenderer : IRenderer, IObserver
         Console.WriteLine(Message);
     }
 
-    public void Update(ISubject subject)
+    public void Update(IPublisher publisher)
     {
-        if (subject != null)
+        if (publisher != null)
         {
-            Sudoku? sudoku = subject as Sudoku;
+            Messager? sudoku = publisher as Messager;
 
             Message = sudoku.Message;
 

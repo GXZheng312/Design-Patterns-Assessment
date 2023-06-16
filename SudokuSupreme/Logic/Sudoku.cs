@@ -1,4 +1,5 @@
-﻿using Logic.Observer;
+﻿using Logic.Grid;
+using Logic.Observer;
 using Logic.Parser;
 using Utility;
 using Utility.FileReader;
@@ -7,100 +8,68 @@ using StringReader = Utility.Input.StringReader;
 
 namespace Logic;
 
-public class Sudoku : ISubject
+public class Sudoku : IGame
 {
     public Board Board { get; set; }
-
-    private readonly List<IObserver> _observers;
-
-    public string? Message { get; set; }
-
-    private IInputReader _inputReader;
+    public IMessager Messager { get; set; }
+    private IInputReader InputReader { get; set; } 
+    public IPublisher BoardObserver { get; set; } 
 
     public Sudoku()
     {
-        _observers = new List<IObserver>();
-
-        SetMessage("Welcome to the Game SUDOKU SUPREME!");
+        this.Board = new Board();
+        this.Messager = new Messager();
+        this.InputReader = new StringReader();
+        this.BoardObserver = new BoardObserver();
     }
 
     public void Start()
     {
-        SetMessage("Enter file name.");
+        Messager.AddMessage("Welcome to the Game SUDOKU SUPREME!");
+        Messager.AddMessage("Enter file name.");
 
-        _inputReader = new StringReader();
-        string fileName = _inputReader.ReadInput();
+        string fileName = InputReader.ReadInput();
 
         SetupSudoku(fileName);
+
+        BoardObserver.Notify();
     }
+
+    public void Stop()
+    {
+        throw new NotImplementedException();
+    }
+
 
     private void SetupSudoku(string fileName)
     {
         if (FileUtilities.IsValidFilename(fileName))
         {
             string fileExtension = Path.GetExtension(fileName).TrimStart('.');
-            
-            // TODO: Maybe un-hardcode this
-            string sudokuType = fileExtension switch
-            {
-                "4x4" => "four",
-                "6x6" => "six",
-                "9x9" => "nine",
-                _ => fileExtension
-            };
 
             try
             {
-                ISudokuParser sudokuParser = new SudokuParserFactory().Create(sudokuType);
+                ISudokuParser sudokuParser = new SudokuParserFactory().Create(fileExtension);
                 string fileContents = FileReader.LoadFile(fileName);
 
                 Board? board = sudokuParser.LoadSudoku(fileContents);
                 if (board != null)
                 {
                     Board = board;
-                    Notify();
                 }
                 else
                 {
-                    SetMessage("Could not create board: Invalid file contents.");
+                    Messager.AddMessage("Could not create board: Invalid file contents.");
                 }
             }
             catch (ArgumentException e)
             {
-                SetMessage($"Could not create sudoku: {e.Message}");
+                Messager.AddMessage($"Could not create sudoku: {e.Message}");
             }
         }
         else
         {
-            SetMessage("Could not parse file: Invalid filename.");
+            Messager.AddMessage("Could not parse file: Invalid filename.");
         }
-    }
-
-    private void SetMessage(string message)
-    {
-        Message = message;
-        Notify();
-    }
-
-    public void Attach(IObserver observer)
-    {
-        _observers.Add(observer);
-    }
-
-    public void Detach(IObserver observer)
-    {
-        _observers.Remove(observer);
-    }
-
-    public void Notify()
-    {
-        if (_observers.Count < 0) return;
-
-        foreach (IObserver observer in _observers)
-        {
-            observer.Update(this);
-        }
-
-        Message = null; //dit logic misschien ergens anders
     }
 }

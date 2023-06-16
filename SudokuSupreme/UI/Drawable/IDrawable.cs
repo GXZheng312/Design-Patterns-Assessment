@@ -3,8 +3,8 @@ using System.Reflection;
 
 namespace Presentation.Draw;
 
-public interface IDraw
+public interface IDrawable
 {
-    void Draw(string[] cells);
+    void Draw();
 }
 

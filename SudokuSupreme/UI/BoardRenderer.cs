@@ -1,40 +1,38 @@
 ﻿using Logic;
 using Logic.Observer;
+using Presentation.Blueprint;
 using Presentation.Draw;
 
 namespace Presentation;
 
-public class BoardRenderer : IRenderer, IObserver
+public class BoardRenderer : IRenderer, ISubscriber
 {
-    private DrawFactory _drawFactory;
-    private string[] Board { get; set; } 
+    private BlueprintFactory _drawFactory;
+    private string[] Cells { get; set; } 
     private string Type { get; set; }
 
     public BoardRenderer()
     {
-        _drawFactory = new DrawFactory();
+        this._drawFactory = new BlueprintFactory();
     }
 
     public void Render()
     {
-        IDraw drawBoard = _drawFactory.Create(Type);
+        IBlueprint blueprint = this._drawFactory.Create(this.Type);
 
-        drawBoard.Draw(Board);
+        IDrawable board = blueprint.Generate(this.Cells);
+
+        board.Draw();
     }
 
-    public void Update(ISubject subject)
+    public void Update(IPublisher publisher)
     {
-        if (subject != null)
+        if (publisher != null)
         {
-            Sudoku? sudoku = subject as Sudoku;
+            BoardObserver? boardObserverable = publisher as BoardObserver;
 
-            if (sudoku?.Board == null)
-            {
-                return;
-            }
-
-            Board = sudoku.Board.Serialize();
-            Type = sudoku.Board.Type;
+            this.Cells = boardObserverable.Board.Serialize();
+            this.Type = boardObserverable.Board.Type;
 
             Render();
         }
