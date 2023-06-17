@@ -29,6 +29,8 @@ public class SamuraiSudokuParser : ISudokuParser
     {
         List<Cell> cells = new List<Cell>();
         List<Group> groups = new List<Group>();
+        List<Group> rows = new List<Group>();
+        List<Group> columns = new List<Group>();
 
         int index = 0;
         for (int subSudoku = 0; subSudoku < SubSudokuAmount; subSudoku++)
@@ -53,6 +55,6 @@ public class SamuraiSudokuParser : ISudokuParser
             }
         }
 
-        return new Board(cells, groups);
+        return new Board(cells, groups, rows, columns);
     }
 }

@@ -6,16 +6,20 @@ public class NormalSudokuParser : ISudokuParser
 {
     private int GroupAmount { get; }
     private int CellsPerGroup { get; }
+    private int RowAmount { get; }
+    private int ColumnAmount { get; }
     private readonly int _size;
 
     public NormalSudokuParser()
     {
     }
 
-    protected NormalSudokuParser(int groupAmount, int cellsPerGroup)
+    protected NormalSudokuParser(int groupAmount, int cellsPerGroup, int rowAmount, int columnAmount)
     {
         GroupAmount = groupAmount;
         CellsPerGroup = cellsPerGroup;
+        RowAmount = rowAmount;
+        ColumnAmount = columnAmount;
         _size = GroupAmount * CellsPerGroup;
     }
     
@@ -35,6 +39,8 @@ public class NormalSudokuParser : ISudokuParser
     {
         List<Cell> cells = new List<Cell>();
         List<Group> groups = new List<Group>();
+        List<Group> rows = new List<Group>();
+        List<Group> columns = new List<Group>();
 
         int index = 0;
         for (int row = 0; row < GroupAmount; row++)
@@ -53,6 +59,18 @@ public class NormalSudokuParser : ISudokuParser
             groups.Add(group);
         }
 
-        return new Board(cells, groups);
+        for (int row = 0; row < RowAmount; row++)
+        {
+            Group newRow = new Group(cells.FindAll(c => c.Y == (row + 1)));
+            rows.Add(newRow);
+        }
+
+        for (int column = 0; column < ColumnAmount; column++)
+        {
+            Group newColumn = new Group(cells.FindAll(c => c.X == (column + 1)));
+            rows.Add(newColumn);
+        }
+
+        return new Board(cells, groups, rows, columns);
     }
 }
