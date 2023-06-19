@@ -2,7 +2,7 @@ using Logic.Grid;
 
 namespace Logic.Parser;
 
-public class NormalSudokuParser : ISudokuParser
+public class NormalSudokuParser<T> : ISudokuParser<Board> where T : Board
 {
     private int GroupAmount { get; }
     private int CellsPerGroup { get; }
@@ -35,7 +35,7 @@ public class NormalSudokuParser : ISudokuParser
         return CreateBoard(numbers);
     }
 
-    private Board CreateBoard(List<int> numbers)
+    private T? CreateBoard(List<int> numbers)
     {
         List<Cell> cells = new List<Cell>();
         List<Group> groups = new List<Group>();
@@ -71,6 +71,6 @@ public class NormalSudokuParser : ISudokuParser
             rows.Add(newColumn);
         }
 
-        return new Board(cells, groups, rows, columns);
+        return (T?)Activator.CreateInstance(typeof(T), cells, groups, rows, columns);
     }
 }

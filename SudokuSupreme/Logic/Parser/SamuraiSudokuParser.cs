@@ -2,7 +2,7 @@ using Logic.Grid;
 
 namespace Logic.Parser;
 
-public class SamuraiSudokuParser : ISudokuParser
+public class SamuraiSudokuParser : ISudokuParser<SamuraiBoard>
 {
     private const int GroupAmount = 9;
     private const int CellsPerGroup = 9;
@@ -13,7 +13,7 @@ public class SamuraiSudokuParser : ISudokuParser
     {
     }
     
-    public Board? LoadSudoku(string s)
+    public SamuraiBoard? LoadSudoku(string s)
     {
         List<int>? numbers = SudokuFileParser.ParseContents(s, Size);
 
@@ -25,7 +25,7 @@ public class SamuraiSudokuParser : ISudokuParser
         return CreateBoard(numbers);
     }
 
-    private Board CreateBoard(List<int> numbers)
+    private SamuraiBoard CreateBoard(List<int> numbers)
     {
         List<Cell> cells = new List<Cell>();
         List<Group> groups = new List<Group>();
@@ -55,6 +55,6 @@ public class SamuraiSudokuParser : ISudokuParser
             }
         }
 
-        return new Board(cells, groups, rows, columns);
+        return new SamuraiBoard(cells, groups, rows, columns);
     }
 }

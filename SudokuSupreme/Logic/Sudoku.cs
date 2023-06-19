@@ -12,8 +12,8 @@ public class Sudoku : IGame
 {
     public Board Board { get; set; }
     public IMessager Messager { get; set; }
-    private IInputReader InputReader { get; set; } 
-    public IPublisher BoardObserver { get; set; } 
+    private IInputReader InputReader { get; set; }
+    public IPublisher BoardObserver { get; set; }
 
     public Sudoku()
     {
@@ -40,7 +40,6 @@ public class Sudoku : IGame
         throw new NotImplementedException();
     }
 
-
     private void SetupSudoku(string fileName)
     {
         if (FileUtilities.IsValidFilename(fileName))
@@ -49,7 +48,7 @@ public class Sudoku : IGame
 
             try
             {
-                ISudokuParser sudokuParser = new SudokuParserFactory().Create(fileExtension);
+                ISudokuParser<Board> sudokuParser = new SudokuParserFactory().Create<Board>(fileExtension);
                 string fileContents = FileReader.LoadFile(fileName);
 
                 Board? board = sudokuParser.LoadSudoku(fileContents);
