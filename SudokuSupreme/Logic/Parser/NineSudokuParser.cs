@@ -2,9 +2,10 @@ using Logic.Grid;
 
 namespace Logic.Parser;
 
-public class NineSudokuParser : NormalSudokuParser<VariantNineBoard>
+public class NineSudokuParser : ISudokuParser
 {
-    public NineSudokuParser() : base(9, 9, 9, 9)
+    public IBoard LoadSudoku(string s)
     {
+        throw new NotImplementedException();
     }
 }

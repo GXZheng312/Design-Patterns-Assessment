@@ -2,7 +2,7 @@ using Logic.Grid;
 
 namespace Logic.Parser;
 
-public interface ISudokuParser<T> where T : Board
+public interface ISudokuParser
 {
-    public T? LoadSudoku(string s);
+    public IBoard LoadSudoku(string s);
 }

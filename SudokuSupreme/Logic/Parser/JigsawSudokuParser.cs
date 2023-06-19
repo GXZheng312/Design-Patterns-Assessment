@@ -2,13 +2,13 @@ using Logic.Grid;
 
 namespace Logic.Parser;
 
-public class JigsawSudokuParser : ISudokuParser<JigsawBoard>
+public class JigsawSudokuParser : ISudokuParser
 {
     public JigsawSudokuParser()
     {
     }
     
-    public JigsawBoard? LoadSudoku(string s)
+    public IBoard LoadSudoku(string s)
     {
         Dictionary<int, int[]>? numbers = SudokuFileParser.ParseJigsawContent(s);
 
@@ -20,7 +20,7 @@ public class JigsawSudokuParser : ISudokuParser<JigsawBoard>
         return CreateBoard(numbers);
     }
 
-    private JigsawBoard CreateBoard(Dictionary<int, int[]> numbers)
+    private IBoard CreateBoard(Dictionary<int, int[]> numbers)
     {
         List<Cell> cells = new List<Cell>();
         List<Group> groups = new List<Group>();

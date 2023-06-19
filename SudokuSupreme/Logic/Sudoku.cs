@@ -48,10 +48,10 @@ public class Sudoku : IGame
 
             try
             {
-                ISudokuParser<Board> sudokuParser = new SudokuParserFactory().Create<Board>(fileExtension);
+                ISudokuParser sudokuParser = new SudokuParserFactory().Create(fileExtension);
                 string fileContents = FileReader.LoadFile(fileName);
 
-                Board? board = sudokuParser.LoadSudoku(fileContents);
+                Board board = (Board)sudokuParser.LoadSudoku(fileContents);
                 if (board != null)
                 {
                     Board = board;

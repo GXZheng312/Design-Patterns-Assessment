@@ -5,25 +5,14 @@ namespace Logic.Parser;
 
 public class SudokuParserFactory
 {
-    private Dictionary<string, Func<ISudokuParser<Board>>?> _parserMapping = new();
+    private Dictionary<string, Func<ISudokuParser>> _parserMapping = new();
 
     public SudokuParserFactory()
-    {
-        var t = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(x => x.GetTypes())
-            .Where(x => typeof(ISudokuParser<Board>).IsAssignableFrom(x) && !x.IsInterface);
-
-        foreach (var ttt in t)
-        {
-            Console.WriteLine(ttt.Name);
-        }
-        
-        Console.ReadKey();
-        
+    {        
         var parsers = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(x => x.GetTypes())
-            .Where(x => typeof(ISudokuParser<Board>).IsAssignableFrom(x) && !x.IsInterface)
-            .Select(x => Activator.CreateInstance(x) as ISudokuParser<Board>);
+            .Where(x => typeof(ISudokuParser).IsAssignableFrom(x) && !x.IsInterface)
+            .Select(x => Activator.CreateInstance(x) as ISudokuParser);
 
         foreach (var parser in parsers)
         {
@@ -35,21 +24,21 @@ public class SudokuParserFactory
         }
     }
     
-    public ISudokuParser<T> Create<T>(string type) where T : Board
+    public ISudokuParser Create(string type)
     {
         string lookupValue = type.ToLowerInvariant();
 
-        if (_parserMapping.TryGetValue(lookupValue, out Func<ISudokuParser<Board>>? parserCreator))
+        if (_parserMapping.TryGetValue(lookupValue, out Func<ISudokuParser> parserCreator))
         {
-            return (ISudokuParser<T>)parserCreator.Invoke();
+            return (ISudokuParser)parserCreator.Invoke();
         }
         else
         {
-            return GetByReference<T>(lookupValue);
+            return GetByReference(lookupValue);
         }
     }
 
-    private ISudokuParser<T> GetByReference<T>(string type) where T : Board
+    private ISudokuParser GetByReference(string type)
     {
         string lookupValue = type.ToLowerInvariant();
 
@@ -62,9 +51,9 @@ public class SudokuParserFactory
             {
                 string finding = reference.ToLowerInvariant();
 
-                if (_parserMapping.TryGetValue(finding, out Func<ISudokuParser<Board>>? drawCreator))
+                if (_parserMapping.TryGetValue(finding, out Func<ISudokuParser> drawCreator))
                 {
-                    return (ISudokuParser<T>)drawCreator.Invoke();
+                    return (ISudokuParser)drawCreator.Invoke();
                 }
             }
         }
