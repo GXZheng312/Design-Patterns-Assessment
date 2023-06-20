@@ -11,6 +11,8 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
     public List<Group> Columns { get; set; } = new List<Group>();
     public string Type { get; set; }
 
+    public Cell? CurrentCell { get; set; }
+
     public Board()
     {
     }
@@ -21,6 +23,8 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
         Boxes = groups;
         Rows = rows;
         Columns = columns;
+
+        CurrentCell = Cells[0];
     }
 
     public string[] Serialize()
@@ -31,5 +35,49 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
     public bool Validate()
     {
         throw new NotImplementedException();
+    }
+    
+    public void MoveUp()
+    {
+        if (CurrentCell == null) return;
+        
+        Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X && c.Y == CurrentCell.Y - 1);
+        if (newCell != null)
+        {
+            CurrentCell = newCell;
+        }
+    }
+    
+    public void MoveDown()
+    {
+        if (CurrentCell == null) return;
+        
+        Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X && c.Y == CurrentCell.Y + 1);
+        if (newCell != null)
+        {
+            CurrentCell = newCell;
+        }
+    }
+    
+    public void MoveLeft()
+    {
+        if (CurrentCell == null) return;
+        
+        Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X - 1 && c.Y == CurrentCell.Y);
+        if (newCell != null)
+        {
+            CurrentCell = newCell;
+        }
+    }
+    
+    public void MoveRight()
+    {
+        if (CurrentCell == null) return;
+        
+        Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X + 1 && c.Y == CurrentCell.Y);
+        if (newCell != null)
+        {
+            CurrentCell = newCell;
+        }
     }
 }
