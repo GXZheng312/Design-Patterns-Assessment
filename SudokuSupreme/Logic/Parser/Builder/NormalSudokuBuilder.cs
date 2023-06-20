@@ -25,7 +25,6 @@ internal class NormalSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildCells()
     {
-        Console.WriteLine("GEN CELLS");
         this.CellsRaw.ForEach(value => { Cells.Add(new Cell(value)); });
 
         return this;
@@ -33,7 +32,6 @@ internal class NormalSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildRows()
     {
-        Console.WriteLine("GEN ROWS");
         List<Cell> rowCollection = new List<Cell>();
 
         for (int i = 1; i <= this.Cells.Count; i++)
@@ -52,7 +50,6 @@ internal class NormalSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildColumns()
     {
-        Console.WriteLine("GEN COLS");
         List<List<Cell>> columnCellCollection = new List<List<Cell>>();
 
         for (int column = 0; column < ColumnAmount; column++)
@@ -75,7 +72,6 @@ internal class NormalSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildGroups()
     {
-        Console.WriteLine("GEN GROUPS");
         List<List<Cell>> groupCellCollection = new List<List<Cell>>();
 
         for (int groupNr = 0; groupNr < this.CellsPerGroup; groupNr++)
