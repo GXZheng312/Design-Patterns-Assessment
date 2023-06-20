@@ -1,117 +1,114 @@
 ﻿using Logic.Grid;
 
-namespace Logic.Parser.Builder
+namespace Logic.Parser.Builder;
+
+internal class NormalSudokuBuilder : IBoardBuilder
 {
-    internal class NormalSudokuBuilder : IBoardBuilder
+    private List<Group> Groups = new List<Group>();
+    private List<Group> Rows = new List<Group>();
+    private List<Group> Columns = new List<Group>();
+    private List<Cell> Cells = new List<Cell>();
+    private List<int> CellsRaw { get; set; }
+
+    private int CellsPerGroup { get; set; }
+    private int RowAmount { get; set; }
+
+    private int ColumnAmount { get; set; }
+
+    public NormalSudokuBuilder(List<int> cells, int cellsPerGroup, int rowAmount, int columnAmount)
     {
+        this.CellsRaw = cells;
+        this.CellsPerGroup = cellsPerGroup;
+        this.RowAmount = rowAmount;
+        this.ColumnAmount = columnAmount;
+    }
 
-        private List<Group> Groups = new List<Group>();
-        private List<Group> Rows = new List<Group>();
-        private List<Group> Columns = new List<Group>();
-        private List<Cell> Cells = new List<Cell>();
-        private List<int> CellsRaw { get; set; }
+    public IBoardBuilder BuildCells()
+    {
+        Console.WriteLine("GEN CELLS");
+        this.CellsRaw.ForEach(value => { Cells.Add(new Cell(value)); });
 
-        private int CellsPerGroup { get; set; }
-        private int RowAmount { get; set; }
-        private int ColumnAmount { get; set; }
-        //(12)34(12)3412341234
-        public NormalSudokuBuilder(List<int> cells, int cellsPerGroup, int rowAmount, int columnAmount) 
+        return this;
+    }
+
+    public IBoardBuilder BuildRows()
+    {
+        Console.WriteLine("GEN ROWS");
+        List<Cell> rowCollection = new List<Cell>();
+
+        for (int i = 1; i <= this.Cells.Count; i++)
         {
-            this.CellsRaw = cells;
-            this.CellsPerGroup = cellsPerGroup;
-            this.RowAmount = rowAmount;
-            this.ColumnAmount = columnAmount;   
+            rowCollection.Add(this.Cells[i - 1]);
+
+            if (i % this.RowAmount == 0)
+            {
+                this.Groups.Add(new Group(rowCollection));
+                rowCollection = new List<Cell>();
+            }
+        }
+
+        return this;
+    }
+
+    public IBoardBuilder BuildColumns()
+    {
+        Console.WriteLine("GEN COLS");
+        List<List<Cell>> columnCellCollection = new List<List<Cell>>();
+
+        for (int column = 0; column < ColumnAmount; column++)
+        {
+            columnCellCollection.Add(new List<Cell>());
+        }
+
+        for (int i = 0; i < this.Cells.Count; i++)
+        {
+            columnCellCollection[i % ColumnAmount].Add(this.Cells[i]);
+        }
+
+        for (int column = 0; column < ColumnAmount; column++)
+        {
+            Columns.Add(new Group(columnCellCollection[column]));
+        }
+
+        return this;
+    }
+
+    public IBoardBuilder BuildGroups()
+    {
+        Console.WriteLine("GEN GROUPS");
+        List<List<Cell>> groupCellCollection = new List<List<Cell>>();
+
+        for (int groupNr = 0; groupNr < this.CellsPerGroup; groupNr++)
+        {
+            groupCellCollection.Add(new List<Cell>());
+        }
+
+        for (int i = 0; i < this.Cells.Count; i++)
+        {
+            Cell cell = this.Cells[i];
+
+            int row = i / CellsPerGroup;
+            int col = i % CellsPerGroup;
+
+            int groupRow = row / CellsPerGroup;
+            int groupCol = col / CellsPerGroup;
+
+            int groupIndex = groupRow * CellsPerGroup + groupCol;
+
+            groupCellCollection[groupIndex].Add(cell);
+        }
+
+        for (int groupNr = 0; groupNr < this.CellsPerGroup; groupNr++)
+        {
+            Groups.Add(new Group(groupCellCollection[groupNr]));
         }
 
 
-        public IBoardBuilder BuildCell()
-        {
-            this.CellsRaw.ForEach((value) =>
-            {
-                Cells.Add(new Cell(value));
-            });
+        return this;
+    }
 
-            return this;
-        }
-
-        public IBoardBuilder BuildColumn()
-        {
-            List<List<Cell>> columnCellCollection = new List<List<Cell>>();
-
-            for (int column = 0; column < ColumnAmount; column++)
-            {
-                columnCellCollection.Add(new List<Cell>());
-            }
-
-            for (int i = 0; i < this.Cells.Count; i++)
-            {
-                columnCellCollection[i % ColumnAmount].Add(this.Cells[i]); 
-
-            }
-
-            for (int column = 0; column < ColumnAmount; column++)
-            {
-                Columns.Add(new Group(columnCellCollection[column]));
-            }
-
-            return this;   
-        }
-
-        public IBoardBuilder BuildGroup()
-        {
-            List<List<Cell>> groupCellCollection = new List<List<Cell>>();
-
-            for (int groupNr = 0; groupNr < this.CellsPerGroup; groupNr++)
-            {
-                groupCellCollection.Add(new List<Cell>());
-            }
-
-            for (int i = 0; i < this.Cells.Count; i++)
-            {
-                Cell cell = this.Cells[i];
-
-                int row = i / CellsPerGroup;
-                int col = i % CellsPerGroup;
-
-                int groupRow = row / CellsPerGroup;
-                int groupCol = col / CellsPerGroup;
-
-                int groupIndex = groupRow * CellsPerGroup + groupCol;
-
-                groupCellCollection[groupIndex].Add(cell);
-
-            }
-
-            for (int groupNr = 0; groupNr < this.CellsPerGroup; groupNr++)
-            {
-                Groups.Add(new Group(groupCellCollection[groupNr]));
-            }
-
-
-            return this;
-        }
-
-        public IBoardBuilder BuildRow()
-        {
-            List<Cell> rowCollection = new List<Cell>();
-
-            for (int i = 1; i <= this.Cells.Count; i++)
-            {
-                rowCollection.Add(this.Cells[i]);
-
-                if (i % this.RowAmount == 0)
-                {
-                    this.Groups.Add(new Group(rowCollection));
-                    rowCollection = new List<Cell>();
-                }
-            }
-
-            return this;
-        }
-
-        public IBoard Generate()
-        {
-            return new VariantFourBoard(this.Cells, this.Groups, this.Rows, this.Columns);
-        }
+    public IBoard Generate()
+    {
+        return new VariantFourBoard(this.Cells, this.Groups, this.Rows, this.Columns);
     }
 }

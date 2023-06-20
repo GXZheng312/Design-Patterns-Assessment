@@ -15,6 +15,8 @@ public class Sudoku : IGame
     private IInputReader InputReader { get; set; }
     public IPublisher BoardObserver { get; set; }
 
+    public bool IsRunning { get; private set; }
+
     public Sudoku()
     {
         this.Board = new Board();
@@ -33,11 +35,36 @@ public class Sudoku : IGame
         SetupSudoku(fileName);
 
         BoardObserver.Notify();
+
+        Messager.AddMessage("Use the arrow keys to move around the board, press ENTER to select the cell.\nPress Q to quit.");
+        InputReader = new KeyPressReader();
+
+        IsRunning = true;
+
+        while (IsRunning)
+        {
+            string key = InputReader.ReadInput();
+
+            if (key.Equals(ConsoleKey.Q.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                IsRunning = false;
+                break;
+            }
+
+            if (key.StartsWith("Arrow", StringComparison.OrdinalIgnoreCase) && Enum.TryParse(key, out ConsoleKey consoleKey))
+            {
+                ConsoleKeyInfo keyInfo = new ConsoleKeyInfo('\0', consoleKey, false, false, false);
+
+                HandleArrowKeyInput(keyInfo);
+
+                BoardObserver.Notify();
+            }
+        }
     }
 
     public void Stop()
     {
-        throw new NotImplementedException();
+        IsRunning = false;
     }
 
     private void SetupSudoku(string fileName)
@@ -71,6 +98,27 @@ public class Sudoku : IGame
         else
         {
             Messager.AddMessage("Could not parse file: Invalid filename.");
+        }
+    }
+
+    private void HandleArrowKeyInput(ConsoleKeyInfo keyInfo)
+    {
+        switch (keyInfo.Key)
+        {
+            case ConsoleKey.UpArrow:
+                Board.MoveUp();
+                break;
+            case ConsoleKey.DownArrow:
+                Board.MoveDown();
+                break;
+            case ConsoleKey.LeftArrow:
+                Board.MoveLeft();
+                break;
+            case ConsoleKey.RightArrow:
+                Board.MoveRight();
+                break;
+            default:
+                break;
         }
     }
 }

@@ -29,7 +29,10 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
 
     public string[] Serialize()
     {
-        return new SerializeSudokuFactory().getSerializerType(Type).Serialize(this);
+        if (string.IsNullOrEmpty(Type)) return new string[] { };
+        
+        return new SerializeSudokuFactory().GetSerializerType(Type).Serialize(this);
+
     }
 
     public bool Validate()

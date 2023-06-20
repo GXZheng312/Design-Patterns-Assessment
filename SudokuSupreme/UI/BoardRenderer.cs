@@ -18,6 +18,8 @@ public class BoardRenderer : IRenderer, ISubscriber
 
     public void Render()
     {
+        if (string.IsNullOrEmpty(Type)) return;
+        
         IBlueprint blueprint = this._drawFactory.Create(this.Type);
 
         IDrawable board = blueprint.Generate(this.Cells);
