@@ -103,7 +103,7 @@ internal class NormalSudokuBuilder : IBoardBuilder
         return this;
     }
 
-    public IBoard? Generate<T>() where T : Board
+    public IBoard? Generate<T>() where T : IBoard
     {
         return (T)Activator.CreateInstance(typeof(T), this.Cells, this.Groups, this.Rows, this.Columns);
     }
