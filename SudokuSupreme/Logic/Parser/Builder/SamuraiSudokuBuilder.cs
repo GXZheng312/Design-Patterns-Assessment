@@ -31,7 +31,7 @@ public class SamuraiSudokuBuilder : IBoardBuilder
         throw new NotImplementedException();
     }
 
-    public IBoard Generate()
+    public IBoard Generate<T>() where T : Board
     {
         throw new NotImplementedException();
     }

@@ -13,7 +13,7 @@ public class SamuraiSudokuParser : ISudokuParser
     {
     }
 
-    public IBoard LoadSudoku(string s)
+    public IBoard? LoadSudoku(string s)
     {
         List<int>? numbers = SudokuFileParser.ParseContents(s, Size);
 

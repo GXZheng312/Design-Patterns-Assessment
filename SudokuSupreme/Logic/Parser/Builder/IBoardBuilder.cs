@@ -8,5 +8,5 @@ public interface IBoardBuilder
     IBoardBuilder BuildRows();
     IBoardBuilder BuildColumns();
     IBoardBuilder BuildGroups();
-    IBoard Generate();
+    IBoard? Generate<T>() where T : Board;
 }
