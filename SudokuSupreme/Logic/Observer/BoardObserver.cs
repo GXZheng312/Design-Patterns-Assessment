@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Logic.Grid;
+﻿using Logic.Grid;
 
 namespace Logic.Observer
 {
     public class BoardObserver : IPublisher
     {
-        private List<ISubscriber> Subscribers { get; set; } = new List<ISubscriber>();
-        public Board Board { get; set; } = new Board();
+        private List<ISubscriber> Subscribers { get; set; } = new();
+        public Board Board { get; set; } = new();
 
         public void Notify()
         {
