@@ -1,8 +1,29 @@
+using Logic.Grid;
+using Logic.Parser.Builder;
+
 namespace Logic.Parser;
 
-public class FourSudokuParser : NormalSudokuParser
+public class FourSudokuParser : ISudokuParser
 {
-    public FourSudokuParser() : base(4, 4)
+    private int CellsPerGroup => 4;
+    private int RowAmount => 4;
+    private int ColumnAmount => 4;
+    private const int Size = 4 * 4;
+
+    public FourSudokuParser()
     {
+    }
+
+    public IBoard? LoadSudoku(string s)
+    {
+        List<int>? numbers = SudokuFileParser.ParseContents(s, Size);
+
+        if (numbers == null)
+        {
+            return null;
+        }
+
+        return new NormalSudokuBuilder(numbers, this.CellsPerGroup, this.RowAmount, this.ColumnAmount)
+            .BuildCells().BuildRows().BuildColumns().BuildGroups().Generate<VariantFourBoard>();
     }
 }

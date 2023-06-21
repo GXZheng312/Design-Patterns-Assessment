@@ -16,13 +16,13 @@ public class SudokuParserFactory
         foreach (var parser in parsers)
         {
             if (parser == null) continue;
-            
+
             string name = parser.GetType().Name.Substring(0, parser.GetType().Name.Length - 12);
-            
+
             _parserMapping.Add(name.ToLowerInvariant(), () => parser);
         }
     }
-    
+
     public ISudokuParser Create(string type)
     {
         string lookupValue = type.ToLowerInvariant();
@@ -31,10 +31,8 @@ public class SudokuParserFactory
         {
             return parserCreator.Invoke();
         }
-        else
-        {
-            return GetByReference(lookupValue);
-        }
+
+        return GetByReference(lookupValue);
     }
 
     private ISudokuParser GetByReference(string type)
@@ -59,5 +57,4 @@ public class SudokuParserFactory
 
         throw new ArgumentException($"Parser type {type} is not supported.");
     }
-
 }

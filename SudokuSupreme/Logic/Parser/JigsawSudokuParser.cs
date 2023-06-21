@@ -7,8 +7,8 @@ public class JigsawSudokuParser : ISudokuParser
     public JigsawSudokuParser()
     {
     }
-    
-    public Board? LoadSudoku(string s)
+
+    public IBoard? LoadSudoku(string s)
     {
         Dictionary<int, int[]>? numbers = SudokuFileParser.ParseJigsawContent(s);
 
@@ -20,10 +20,12 @@ public class JigsawSudokuParser : ISudokuParser
         return CreateBoard(numbers);
     }
 
-    private Board? CreateBoard(Dictionary<int, int[]> numbers)
+    private IBoard CreateBoard(Dictionary<int, int[]> numbers)
     {
         List<Cell> cells = new List<Cell>();
         List<Group> groups = new List<Group>();
+        List<Group> rows = new List<Group>();
+        List<Group> columns = new List<Group>();
 
         int index = 0;
         foreach (var values in numbers.Values)
@@ -48,6 +50,6 @@ public class JigsawSudokuParser : ISudokuParser
             index++;
         }
 
-        return new Board(cells, groups);
+        return new JigsawBoard(cells, groups, rows, columns);
     }
 }

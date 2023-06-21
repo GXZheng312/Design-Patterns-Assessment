@@ -1,13 +1,11 @@
 ﻿using Logic.Serializer.Serialize;
-using System.Runtime.Intrinsics.X86;
 using Utility;
 
 namespace Logic.Serializer.Serial;
 
 public class SerializeSudokuFactory
 {
-
-    private Dictionary<string, Func<ISerialize>> _SerializeMapping = new Dictionary<string, Func<ISerialize>>();
+    private Dictionary<string, Func<ISerialize>> _SerializeMapping = new();
 
     public SerializeSudokuFactory()
     {
@@ -24,7 +22,7 @@ public class SerializeSudokuFactory
         }
     }
 
-    public ISerialize getSerializerType (string type)
+    public ISerialize GetSerializerType(string type)
     {
         string lookupValue = type.ToLowerInvariant();
 
@@ -32,10 +30,8 @@ public class SerializeSudokuFactory
         {
             return serialize.Invoke();
         }
-        else
-        {
-            return GetByReference(lookupValue);
-        }
+
+        return GetByReference(lookupValue);
     }
 
     private ISerialize GetByReference(string lookupValue)
@@ -60,6 +56,4 @@ public class SerializeSudokuFactory
 
         throw new ArgumentException($"Serializer type: {lookupValue} is not supported");
     }
-
 }
-

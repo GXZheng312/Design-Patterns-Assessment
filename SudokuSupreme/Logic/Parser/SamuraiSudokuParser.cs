@@ -12,8 +12,8 @@ public class SamuraiSudokuParser : ISudokuParser
     public SamuraiSudokuParser()
     {
     }
-    
-    public Board? LoadSudoku(string s)
+
+    public IBoard? LoadSudoku(string s)
     {
         List<int>? numbers = SudokuFileParser.ParseContents(s, Size);
 
@@ -25,10 +25,12 @@ public class SamuraiSudokuParser : ISudokuParser
         return CreateBoard(numbers);
     }
 
-    private Board CreateBoard(List<int> numbers)
+    private IBoard CreateBoard(List<int> numbers)
     {
         List<Cell> cells = new List<Cell>();
         List<Group> groups = new List<Group>();
+        List<Group> rows = new List<Group>();
+        List<Group> columns = new List<Group>();
 
         int index = 0;
         for (int subSudoku = 0; subSudoku < SubSudokuAmount; subSudoku++)
@@ -40,7 +42,7 @@ public class SamuraiSudokuParser : ISudokuParser
                 {
                     int absoluteRow = subSudoku + row;
                     int absoluteCol = subSudoku + col;
-                    
+
                     Cell cell = new Cell(numbers[index], absoluteCol + 1, absoluteRow + 1);
                     groupCells.Add(cell);
                     cells.Add(cell);
@@ -53,6 +55,6 @@ public class SamuraiSudokuParser : ISudokuParser
             }
         }
 
-        return new Board(cells, groups);
+        return new SamuraiBoard(cells, groups, rows, columns);
     }
 }

@@ -11,7 +11,7 @@ public class FileReader
             if (string.IsNullOrEmpty(folderPath)) throw new ArgumentException("File does not exist.");
             
             string filePath = Path.Combine(folderPath, "Files", fileName);
-            Console.WriteLine(filePath);
+            
             return File.ReadAllText(filePath);
 
         }

@@ -1,5 +1,4 @@
-﻿using Logic;
-using Presentation.Draw;
+﻿using Presentation.Draw;
 
 namespace Presentation.Drawable.Board;
 
