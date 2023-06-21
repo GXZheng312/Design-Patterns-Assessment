@@ -30,53 +30,52 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
     public string[] Serialize()
     {
         if (string.IsNullOrEmpty(Type)) return new string[] { };
-        
-        return new SerializeSudokuFactory().GetSerializerType(Type).Serialize(this);
 
+        return new SerializeSudokuFactory().GetSerializerType(Type).Serialize(this);
     }
 
     public bool Validate()
     {
         throw new NotImplementedException();
     }
-    
+
     public void MoveUp()
     {
         if (CurrentCell == null) return;
-        
+
         Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X && c.Y == CurrentCell.Y - 1);
         if (newCell != null)
         {
             CurrentCell = newCell;
         }
     }
-    
+
     public void MoveDown()
     {
         if (CurrentCell == null) return;
-        
+
         Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X && c.Y == CurrentCell.Y + 1);
         if (newCell != null)
         {
             CurrentCell = newCell;
         }
     }
-    
+
     public void MoveLeft()
     {
         if (CurrentCell == null) return;
-        
+
         Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X - 1 && c.Y == CurrentCell.Y);
         if (newCell != null)
         {
             CurrentCell = newCell;
         }
     }
-    
+
     public void MoveRight()
     {
         if (CurrentCell == null) return;
-        
+
         Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X + 1 && c.Y == CurrentCell.Y);
         if (newCell != null)
         {
@@ -87,7 +86,7 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
     public void SetCurrentCell(int number)
     {
         if (CurrentCell == null) return;
-        
+
         CurrentCell.Number = number;
     }
 }

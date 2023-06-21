@@ -1,5 +1,4 @@
-﻿using Logic;
-using Logic.Observer;
+﻿using Logic.Observer;
 using Presentation.Blueprint;
 using Presentation.Draw;
 
@@ -8,7 +7,7 @@ namespace Presentation;
 public class BoardRenderer : IRenderer, ISubscriber
 {
     private BlueprintFactory _drawFactory;
-    private string[] Cells { get; set; } 
+    private string[] Cells { get; set; }
     private string Type { get; set; }
 
     public BoardRenderer()
@@ -19,7 +18,7 @@ public class BoardRenderer : IRenderer, ISubscriber
     public void Render()
     {
         if (string.IsNullOrEmpty(Type)) return;
-        
+
         IBlueprint blueprint = this._drawFactory.Create(this.Type);
 
         IDrawable board = blueprint.Generate(this.Cells);

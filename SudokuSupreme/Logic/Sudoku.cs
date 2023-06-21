@@ -32,9 +32,15 @@ public class Sudoku : IGame
 
         string fileName = InputReader.ReadInput();
 
-        SetupSudoku(fileName);
+        if (!SetupSudoku(fileName))
+        {
+            Console.ReadKey();
+            
+            return;
+        }
 
-        Messager.AddMessage("Use the arrow keys to move around the board, press ENTER to select the cell.\nPress Q to quit.");
+        Messager.AddMessage(
+            "Use the arrow keys to move around the board, press ENTER to select the cell.\nPress Q to quit.");
         InputReader = new KeyPressReader();
 
         IsRunning = true;
@@ -54,7 +60,8 @@ public class Sudoku : IGame
                 HandleEnterKeyPress();
             }
 
-            if (input.StartsWith("Arrow", StringComparison.OrdinalIgnoreCase) && Enum.TryParse(input, out ConsoleKey consoleKey))
+            if (input.StartsWith("Arrow", StringComparison.OrdinalIgnoreCase) &&
+                Enum.TryParse(input, out ConsoleKey consoleKey))
             {
                 HandleArrowKeyPress(consoleKey);
             }
@@ -66,7 +73,7 @@ public class Sudoku : IGame
         IsRunning = false;
     }
 
-    private void SetupSudoku(string fileName)
+    private bool SetupSudoku(string fileName)
     {
         if (FileUtilities.IsValidFilename(fileName))
         {
@@ -83,48 +90,50 @@ public class Sudoku : IGame
                     Board = board;
                     ((BoardObserver)BoardObserver).Board = board;
                     BoardObserver.Notify();
+
+                    return true;
                 }
-                else
-                {
-                    Messager.AddMessage("Could not create board: Invalid file contents.");
-                }
+
+                Messager.AddMessage("Could not create board: Invalid file contents.");
             }
             catch (ArgumentException e)
             {
                 Messager.AddMessage($"Could not create sudoku: {e.Message}");
+
+                return false;
             }
         }
         else
         {
             Messager.AddMessage("Could not parse file: Invalid filename.");
         }
+
+        return false;
     }
-    
+
     private void HandleEnterKeyPress()
     {
         Messager.AddMessage("Enter a number between 1 and 9.");
+
+        InputReader = new StringReader();
 
         bool pressedEnter = false;
 
         while (!pressedEnter)
         {
-            string key = new KeyPressReader().ReadInput();
-
-            if (!key.Equals(ConsoleKey.Enter.ToString())) continue;
-            
             string input = InputReader.ReadInput();
 
             if (int.TryParse(input, out int number) && number is >= 1 and <= 9)
             {
                 Board.SetCurrentCell(number);
+
+                BoardObserver.Notify();
             }
             else
             {
                 Messager.AddMessage("Invalid input.");
             }
 
-            BoardObserver.Notify();
-                
             pressedEnter = true;
         }
     }
