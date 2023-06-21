@@ -34,8 +34,6 @@ public class Sudoku : IGame
 
         SetupSudoku(fileName);
 
-        BoardObserver.Notify();
-
         Messager.AddMessage("Use the arrow keys to move around the board, press ENTER to select the cell.\nPress Q to quit.");
         InputReader = new KeyPressReader();
 
