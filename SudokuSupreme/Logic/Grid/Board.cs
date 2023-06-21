@@ -83,4 +83,11 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
             CurrentCell = newCell;
         }
     }
+
+    public void SetCurrentCell(int number)
+    {
+        if (CurrentCell == null) return;
+        
+        CurrentCell.Number = number;
+    }
 }

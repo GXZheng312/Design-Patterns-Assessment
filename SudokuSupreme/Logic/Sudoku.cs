@@ -43,21 +43,22 @@ public class Sudoku : IGame
 
         while (IsRunning)
         {
-            string key = InputReader.ReadInput();
+            string input = InputReader.ReadInput();
 
-            if (key.Equals(ConsoleKey.Q.ToString(), StringComparison.OrdinalIgnoreCase))
+            if (input.Equals(ConsoleKey.Q.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 IsRunning = false;
                 break;
             }
 
-            if (key.StartsWith("Arrow", StringComparison.OrdinalIgnoreCase) && Enum.TryParse(key, out ConsoleKey consoleKey))
+            if (input.Equals(ConsoleKey.Enter.ToString(), StringComparison.OrdinalIgnoreCase))
             {
-                ConsoleKeyInfo keyInfo = new ConsoleKeyInfo('\0', consoleKey, false, false, false);
+                HandleEnterKeyPress();
+            }
 
-                HandleArrowKeyInput(keyInfo);
-
-                BoardObserver.Notify();
+            if (input.StartsWith("Arrow", StringComparison.OrdinalIgnoreCase) && Enum.TryParse(input, out ConsoleKey consoleKey))
+            {
+                HandleArrowKeyPress(consoleKey);
             }
         }
     }
@@ -99,6 +100,44 @@ public class Sudoku : IGame
         {
             Messager.AddMessage("Could not parse file: Invalid filename.");
         }
+    }
+    
+    private void HandleEnterKeyPress()
+    {
+        Messager.AddMessage("Enter a number between 1 and 9.");
+
+        bool pressedEnter = false;
+
+        while (!pressedEnter)
+        {
+            string key = new KeyPressReader().ReadInput();
+
+            if (!key.Equals(ConsoleKey.Enter.ToString())) continue;
+            
+            string input = InputReader.ReadInput();
+
+            if (int.TryParse(input, out int number) && number is >= 1 and <= 9)
+            {
+                Board.SetCurrentCell(number);
+            }
+            else
+            {
+                Messager.AddMessage("Invalid input.");
+            }
+
+            BoardObserver.Notify();
+                
+            pressedEnter = true;
+        }
+    }
+
+    private void HandleArrowKeyPress(ConsoleKey key)
+    {
+        ConsoleKeyInfo keyInfo = new ConsoleKeyInfo('\0', key, false, false, false);
+
+        HandleArrowKeyInput(keyInfo);
+
+        BoardObserver.Notify();
     }
 
     private void HandleArrowKeyInput(ConsoleKeyInfo keyInfo)
