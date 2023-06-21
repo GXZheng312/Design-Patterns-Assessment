@@ -34,7 +34,7 @@ public abstract class BaseBoard : IDrawable
 
     public void Draw()
     {
-        Console.Write(Introduction);
+        Console.Write($"\n{Introduction}");
 
         foreach (IDrawable child in Children)
         {

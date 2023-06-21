@@ -28,19 +28,19 @@ public class Sudoku : IGame
     public void Start()
     {
         Messager.AddMessage("Welcome to the Game SUDOKU SUPREME!");
-        Messager.AddMessage("Enter file name.");
+        Messager.AddMessage("\nEnter file name: (e.g. puzzle.4x4)");
 
         string fileName = InputReader.ReadInput();
 
         if (!SetupSudoku(fileName))
         {
             Console.ReadKey();
-            
+
             return;
         }
 
         Messager.AddMessage(
-            "Use the arrow keys to move around the board, press ENTER to select the cell.\nPress Q to quit.");
+            "\nControls:\nARROW keys: Move around board\nENTER: Select cell\nSPACE: Swap game state (edit/definitive)\nQ: Quit\n");
         InputReader = new KeyPressReader();
 
         IsRunning = true;
