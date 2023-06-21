@@ -23,6 +23,7 @@ public class SudokuBlueprint : IBlueprint
     public IDrawable Generate(string[] cells)
     {
         if (cells == null || cells.Length != Size) throw new ArgumentException($"Sudoku amount is invalid");
+        this.CellIndex = 0;
 
         return new VariantSix(new IDrawable[] {
             RowHorizontalWalls(),

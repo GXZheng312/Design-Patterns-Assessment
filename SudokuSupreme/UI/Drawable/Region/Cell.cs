@@ -1,10 +1,4 @@
-﻿using Logic;
-using Presentation.Draw;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Presentation.Draw;
 
 namespace Presentation.Drawable.Region;
 
@@ -13,10 +7,11 @@ public class Cell : IDrawable
     private string CellValue { get; set; }
     private bool Definitive { get; set; }
     private bool Wrong { get; set; }
+    private bool Selected { get; set; }
 
-    public Cell(string cell) 
+    public Cell(string cellValue)
     {
-        this.CellValue = cell;
+        this.CellValue = cellValue;
     }
 
     public void Draw()
@@ -30,6 +25,4 @@ public class Cell : IDrawable
     {
         return this.CellValue == ((char)DrawingCharacter.EmptyComparer).ToString();
     }
-
-   
 }

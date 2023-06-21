@@ -7,6 +7,11 @@ public class Cell : IGridValidate
     public int X { get; set; }
     public int Y { get; set; }
 
+    public Cell(int number)
+    {
+        Number = number;
+    }
+
     public Cell(int number, int x, int y)
     {
         Number = number;

@@ -1,12 +1,11 @@
 ﻿using Logic.Observer;
 
-
 namespace Logic;
 
 public class Messager : IPublisher, IMessager
 {
-    private Queue<string> MessageQueue { get; set; } = new Queue<string>();
-    private List<ISubscriber> Subscribers { get; set; } = new List<ISubscriber>();
+    private Queue<string> MessageQueue { get; set; } = new();
+    private List<ISubscriber> Subscribers { get; set; } = new();
 
     public string Message { get; set; }
 

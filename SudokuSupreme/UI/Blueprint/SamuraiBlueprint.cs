@@ -33,6 +33,7 @@ public class SamuraiBlueprint : IBlueprint
     public IDrawable Generate(string[] cells)
     {
         if (!CheckInitValues(cells)) throw new ArgumentException($"Sudoku amount is invalid");
+        CellIndex = 0;
 
         Samurai samurai = new Samurai();
 
