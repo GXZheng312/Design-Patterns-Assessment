@@ -11,7 +11,7 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
     public List<Group> Columns { get; set; } = new List<Group>();
     public string Type { get; set; }
 
-    public Cell? CurrentCell { get; set; }
+    public Cell? SelectedCell { get; set; }
 
     public Board()
     {
@@ -24,7 +24,7 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
         Rows = rows;
         Columns = columns;
 
-        CurrentCell = Cells[0];
+        SelectedCell = Cells[0];
     }
 
     public string[] Serialize()
@@ -41,52 +41,52 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
 
     public void MoveUp()
     {
-        if (CurrentCell == null) return;
+        if (SelectedCell == null) return;
 
-        Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X && c.Y == CurrentCell.Y - 1);
+        Cell? newCell = Cells.FirstOrDefault(c => c.X == SelectedCell.X && c.Y == SelectedCell.Y - 1);
         if (newCell != null)
         {
-            CurrentCell = newCell;
+            SelectedCell = newCell;
         }
     }
 
     public void MoveDown()
     {
-        if (CurrentCell == null) return;
+        if (SelectedCell == null) return;
 
-        Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X && c.Y == CurrentCell.Y + 1);
+        Cell? newCell = Cells.FirstOrDefault(c => c.X == SelectedCell.X && c.Y == SelectedCell.Y + 1);
         if (newCell != null)
         {
-            CurrentCell = newCell;
+            SelectedCell = newCell;
         }
     }
 
     public void MoveLeft()
     {
-        if (CurrentCell == null) return;
+        if (SelectedCell == null) return;
 
-        Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X - 1 && c.Y == CurrentCell.Y);
+        Cell? newCell = Cells.FirstOrDefault(c => c.X == SelectedCell.X - 1 && c.Y == SelectedCell.Y);
         if (newCell != null)
         {
-            CurrentCell = newCell;
+            SelectedCell = newCell;
         }
     }
 
     public void MoveRight()
     {
-        if (CurrentCell == null) return;
+        if (SelectedCell == null) return;
 
-        Cell? newCell = Cells.FirstOrDefault(c => c.X == CurrentCell.X + 1 && c.Y == CurrentCell.Y);
+        Cell? newCell = Cells.FirstOrDefault(c => c.X == SelectedCell.X + 1 && c.Y == SelectedCell.Y);
         if (newCell != null)
         {
-            CurrentCell = newCell;
+            SelectedCell = newCell;
         }
     }
 
     public void SetCurrentCell(int number)
     {
-        if (CurrentCell == null) return;
+        if (SelectedCell == null) return;
 
-        CurrentCell.Number = number;
+        SelectedCell.Number = number;
     }
 }

@@ -1,19 +1,13 @@
 ﻿using Presentation.Draw;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Presentation.Drawable.Region;
 
 public class Grid : IDrawable
 {
-    private List<IDrawable> Children = new List<IDrawable>();
+    private List<IDrawable> Children = new();
 
-    public Grid() 
-    {  
-
+    public Grid()
+    {
     }
 
     public Grid(params IDrawable[] children)
