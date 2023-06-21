@@ -1,10 +1,6 @@
-﻿using Logic;
-using System.Reflection;
-
-namespace Presentation.Draw;
+﻿namespace Presentation.Draw;
 
 public interface IDrawable
 {
     void Draw();
 }
-

@@ -18,6 +18,7 @@ public class VariantFourBlueprint : IBlueprint
     public IDrawable Generate(string[] cells)
     {
         if (cells == null || cells.Length != Size) throw new ArgumentException($"Sudoku amount is invalid");
+        this.CellIndex = 0;
 
         return new VariantFour(new IDrawable[] {
             RowHorizontalWalls(),

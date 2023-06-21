@@ -1,11 +1,10 @@
-﻿using Logic;
-using Presentation.Draw;
+﻿using Presentation.Draw;
 
 namespace Presentation.Drawable.Region;
 
 public class Group : IDrawable
 {
-    private List<IDrawable> Children = new List<IDrawable>();
+    private List<IDrawable> Children = new();
 
     public Group(params IDrawable[] children)
     {

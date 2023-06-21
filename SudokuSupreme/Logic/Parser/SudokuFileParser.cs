@@ -5,7 +5,7 @@ public class SudokuFileParser
     public static List<int>? ParseContents(string s, int size)
     {
         s = s.Replace(Environment.NewLine, "");
-        
+
         if (s.Length != size)
         {
             return null;
@@ -45,7 +45,7 @@ public class SudokuFileParser
             {
                 int value = int.Parse(cell.Substring(0, 1));
                 int subIndex = int.Parse(cell.Substring(2, 1));
-                numbers[i] = new [] { value, subIndex };
+                numbers[i] = new[] { value, subIndex };
             }
         }
 

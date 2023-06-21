@@ -1,11 +1,29 @@
 using Logic.Grid;
+using Logic.Parser.Builder;
 
 namespace Logic.Parser;
 
 public class NineSudokuParser : ISudokuParser
 {
-    public IBoard LoadSudoku(string s)
+    private int CellsPerGroup => 9;
+    private int RowAmount => 9;
+    private int ColumnAmount => 9;
+    private const int Size = 9 * 9;
+
+    public NineSudokuParser()
     {
-        throw new NotImplementedException();
+    }
+    
+    public IBoard? LoadSudoku(string s)
+    {
+        List<int>? numbers = SudokuFileParser.ParseContents(s, Size);
+
+        if (numbers == null)
+        {
+            return null;
+        }
+
+        return new NormalSudokuBuilder(numbers, this.CellsPerGroup, this.RowAmount, this.ColumnAmount)
+            .BuildCells().BuildRows().BuildColumns().BuildGroups().Generate<VariantNineBoard>();
     }
 }

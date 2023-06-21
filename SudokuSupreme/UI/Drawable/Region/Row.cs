@@ -1,17 +1,14 @@
 ﻿using Presentation.Draw;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Presentation.Drawable.Region;
 
 public class Row : IDrawable
 {
-    private List<IDrawable> Children = new List<IDrawable>();
-    
-    public Row() { }
+    private List<IDrawable> Children = new();
+
+    public Row()
+    {
+    }
 
     public Row(params IDrawable[] children)
     {

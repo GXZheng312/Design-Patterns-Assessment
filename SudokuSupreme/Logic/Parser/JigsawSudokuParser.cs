@@ -7,8 +7,8 @@ public class JigsawSudokuParser : ISudokuParser
     public JigsawSudokuParser()
     {
     }
-    
-    public IBoard LoadSudoku(string s)
+
+    public IBoard? LoadSudoku(string s)
     {
         Dictionary<int, int[]>? numbers = SudokuFileParser.ParseJigsawContent(s);
 

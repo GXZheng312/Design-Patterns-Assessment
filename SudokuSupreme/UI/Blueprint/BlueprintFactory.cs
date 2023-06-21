@@ -2,10 +2,9 @@
 
 namespace Presentation.Blueprint;
 
-//registering factory
 public class BlueprintFactory
 {
-    private Dictionary<string, Func<IBlueprint>> _drawMapping = new Dictionary<string, Func<IBlueprint>>();
+    private Dictionary<string, Func<IBlueprint>> _drawMapping = new();
 
     public BlueprintFactory()
     {
@@ -20,21 +19,18 @@ public class BlueprintFactory
 
             _drawMapping.Add(name.ToLowerInvariant(), () => drawable);
         }
-
     }
 
     public IBlueprint Create(string type)
     {
         string lookupValue = type.ToLowerInvariant();
-       
+
         if (_drawMapping.TryGetValue(lookupValue, out Func<IBlueprint> drawCreator))
         {
             return drawCreator.Invoke();
         }
-        else
-        {
-            return GetByReference(lookupValue);
-        }
+
+        return GetByReference(lookupValue);
     }
 
     private IBlueprint GetByReference(string lookupValue)
@@ -44,7 +40,7 @@ public class BlueprintFactory
         ReferenceFinderUtility finder = new ReferenceFinderUtility();
         var references = finder.GetReferences(lookupValue);
 
-        if(references != null)
+        if (references != null)
         {
             foreach (string reference in references)
             {

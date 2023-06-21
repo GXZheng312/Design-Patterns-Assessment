@@ -12,8 +12,8 @@ public class SamuraiSudokuParser : ISudokuParser
     public SamuraiSudokuParser()
     {
     }
-    
-    public IBoard LoadSudoku(string s)
+
+    public IBoard? LoadSudoku(string s)
     {
         List<int>? numbers = SudokuFileParser.ParseContents(s, Size);
 
@@ -42,7 +42,7 @@ public class SamuraiSudokuParser : ISudokuParser
                 {
                     int absoluteRow = subSudoku + row;
                     int absoluteCol = subSudoku + col;
-                    
+
                     Cell cell = new Cell(numbers[index], absoluteCol + 1, absoluteRow + 1);
                     groupCells.Add(cell);
                     cells.Add(cell);
