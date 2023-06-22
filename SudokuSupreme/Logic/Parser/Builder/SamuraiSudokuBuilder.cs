@@ -144,9 +144,8 @@ public class SamuraiSudokuBuilder : IBoardBuilder
                 int minY = ((y - 1) * 3) + 1;
                 int maxY = ((y - 1) * 3) + 3;
 
-                List<Cell> cells = Cells
-                    .Where(cell => cell.X >= minX && cell.X <= maxX && cell.Y >= minY && cell.Y <= maxY).ToList();
-                // Console.WriteLine($"{cells.Count}: {minX}-{maxX}, {minY}-{maxY}");
+                List<Cell> cells = Cells.Where(cell => cell.X >= minX && cell.X <= maxX && cell.Y >= minY && cell.Y <= maxY).ToList();
+                
                 Group group = new Group(cells);
                 Groups.Add(group);
             }
