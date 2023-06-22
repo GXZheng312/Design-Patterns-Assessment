@@ -7,7 +7,7 @@ public static class EntryPoint
 {
     public static void Main(string[] args)
     {
-        new SudokuBuilder()
+        new SudokuGameBuilder()
             .AddBoardRenderer(new BoardRenderer())
             .AddTextRenderer(new MessageRenderer())
             //.AddInputReader()
