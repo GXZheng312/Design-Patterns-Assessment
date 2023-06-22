@@ -4,20 +4,21 @@ namespace Logic.Parser.Builder;
 
 internal class NormalSudokuBuilder : IBoardBuilder
 {
-    private List<Group> Groups = new List<Group>();
+    private List<Cell> Cells = new List<Cell>();
     private List<Group> Rows = new List<Group>();
     private List<Group> Columns = new List<Group>();
-    private List<Cell> Cells = new List<Cell>();
+    private List<Group> Groups = new List<Group>();
+    
     private List<int> CellsRaw { get; set; }
 
     private int CellsPerGroup { get; set; }
     private int RowAmount { get; set; }
-
     private int ColumnAmount { get; set; }
 
     public NormalSudokuBuilder(List<int> cells, int cellsPerGroup, int rowAmount, int columnAmount)
     {
         this.CellsRaw = cells;
+        
         this.CellsPerGroup = cellsPerGroup;
         this.RowAmount = rowAmount;
         this.ColumnAmount = columnAmount;
@@ -99,6 +100,26 @@ internal class NormalSudokuBuilder : IBoardBuilder
             Groups.Add(new Group(groupCellCollection[groupNr]));
         }
 
+
+        return this;
+    }
+
+    public IBoardBuilder AssignGroups()
+    {
+        foreach (var row in Rows)
+        {
+            row.Cells.ForEach(c => c.AddValidations(row));
+        }
+        
+        foreach (var column in Columns)
+        {
+            column.Cells.ForEach(c => c.AddValidations(column));
+        }
+        
+        foreach (var group in Groups)
+        {
+            group.Cells.ForEach(c => c.AddValidations(group));
+        }
 
         return this;
     }

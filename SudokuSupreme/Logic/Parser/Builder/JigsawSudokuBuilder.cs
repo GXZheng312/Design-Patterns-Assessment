@@ -1,12 +1,12 @@
-﻿using Logic.Grid;
+using Logic.Grid;
 
 namespace Logic.Parser.Builder;
 
-public class SamuraiSudokuBuilder : IBoardBuilder
+public class JigsawSudokuBuilder : IBoardBuilder
 {
-    private List<string> Cells { get; set; }
+    private Dictionary<int, int[]> Cells { get; set; }
 
-    public SamuraiSudokuBuilder(List<string> cells)
+    public JigsawSudokuBuilder(Dictionary<int, int[]> cells)
     {
         this.Cells = cells;
     }
@@ -36,7 +36,7 @@ public class SamuraiSudokuBuilder : IBoardBuilder
         throw new NotImplementedException();
     }
 
-    public IBoard Generate<T>() where T : IBoard
+    public IBoard? Generate<T>() where T : IBoard
     {
         throw new NotImplementedException();
     }

@@ -24,6 +24,6 @@ public class FourSudokuParser : ISudokuParser
         }
 
         return new NormalSudokuBuilder(numbers, this.CellsPerGroup, this.RowAmount, this.ColumnAmount)
-            .BuildCells().BuildRows().BuildColumns().BuildGroups().Generate<VariantFourBoard>();
+            .BuildCells().BuildRows().BuildColumns().BuildGroups().AssignGroups().Generate<VariantFourBoard>();
     }
 }
