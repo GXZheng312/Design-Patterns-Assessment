@@ -83,10 +83,11 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
         }
     }
 
-    public void SetCurrentCell(int number)
+    public void SetCurrentCell(int number, bool isDefinitive)
     {
         if (SelectedCell == null) return;
 
         SelectedCell.Number = number;
+        SelectedCell.IsDefinitive = isDefinitive;
     }
 }

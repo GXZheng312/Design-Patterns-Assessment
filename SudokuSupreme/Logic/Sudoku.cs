@@ -14,6 +14,7 @@ public class Sudoku : IGame
     public IMessager Messager { get; set; }
     private IInputReader InputReader { get; set; }
     public IPublisher BoardObserver { get; set; }
+    public ISudokuState State { get; set; }
 
     public bool IsRunning { get; private set; }
 
@@ -23,6 +24,7 @@ public class Sudoku : IGame
         this.Messager = new Messager();
         this.InputReader = new StringReader();
         this.BoardObserver = new BoardObserver();
+        this.State = new DefinitiveState();
     }
 
     public void Start()
@@ -58,6 +60,11 @@ public class Sudoku : IGame
             if (input.Equals(ConsoleKey.Enter.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 HandleEnterKeyPress();
+            }
+
+            if (input.Equals(ConsoleKey.Spacebar.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                SwapGameState();
             }
 
             if (input.StartsWith("Arrow", StringComparison.OrdinalIgnoreCase) &&
@@ -125,7 +132,7 @@ public class Sudoku : IGame
 
             if (int.TryParse(input, out int number) && number is >= 1 and <= 9)
             {
-                Board.SetCurrentCell(number);
+                Board.SetCurrentCell(number, State is DefinitiveState);
 
                 BoardObserver.Notify();
             }
@@ -135,6 +142,22 @@ public class Sudoku : IGame
             }
 
             pressedEnter = true;
+        }
+    }
+
+    private void SwapGameState()
+    {
+        if (State is DefinitiveState)
+        {
+            State = new HelpState();
+            
+            Messager.AddMessage("Current state: Help state");
+        }
+        else
+        {
+            State = new DefinitiveState();
+            
+            Messager.AddMessage("Current state: Definitive state");
         }
     }
 
