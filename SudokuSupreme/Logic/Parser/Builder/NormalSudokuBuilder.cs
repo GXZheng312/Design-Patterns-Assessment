@@ -4,11 +4,11 @@ namespace Logic.Parser.Builder;
 
 internal class NormalSudokuBuilder : IBoardBuilder
 {
-    private List<Cell> Cells = new List<Cell>();
-    private List<Group> Rows = new List<Group>();
-    private List<Group> Columns = new List<Group>();
-    private List<Group> Groups = new List<Group>();
-
+    private List<Cell> Cells = new();
+    private List<Group> Rows = new();
+    private List<Group> Columns = new();
+    private List<Group> Groups = new();
+    
     private List<int> CellsRaw { get; set; }
 
     private int CellsPerGroup { get; set; }

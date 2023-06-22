@@ -4,40 +4,47 @@ namespace Logic.Parser.Builder;
 
 public class SamuraiSudokuBuilder : IBoardBuilder
 {
-    private List<string> Cells { get; set; }
+    private List<Cell> Cells = new();
+    private List<Group> Rows = new();
+    private List<Group> Columns = new();
+    private List<Group> Groups = new();
 
-    public SamuraiSudokuBuilder(List<string> cells)
+    private List<int> CellsRaw { get; set; }
+
+    public SamuraiSudokuBuilder(List<int> cells)
     {
-        this.Cells = cells;
+        this.CellsRaw = cells;
     }
 
     public IBoardBuilder BuildCells()
     {
-        throw new NotImplementedException();
+        this.CellsRaw.ForEach(value => { Cells.Add(new Cell(value)); });
+
+        return this;
     }
 
     public IBoardBuilder BuildRows()
     {
-        throw new NotImplementedException();
+        return this;
     }
 
     public IBoardBuilder BuildColumns()
     {
-        throw new NotImplementedException();
+        return this;
     }
 
     public IBoardBuilder BuildGroups()
     {
-        throw new NotImplementedException();
+        return this;
     }
 
     public IBoardBuilder AssignGroups()
     {
-        throw new NotImplementedException();
+        return this;
     }
 
     public IBoard Generate<T>() where T : IBoard
     {
-        throw new NotImplementedException();
+        return (T)Activator.CreateInstance(typeof(T), this.Cells, this.Groups, this.Rows, this.Columns);
     }
 }
