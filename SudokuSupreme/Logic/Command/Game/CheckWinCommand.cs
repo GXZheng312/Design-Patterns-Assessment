@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Command
+namespace Logic.Command.Game
 {
     public class CheckWinCommand : ICommand
     {
         public void Execute(IGame game)
         {
             SudokuGame sudokuGame = game as SudokuGame;
-          
+
             if (sudokuGame != null)
             {
-                this.WinConditionProcess(sudokuGame);
+                WinConditionProcess(sudokuGame);
             }
         }
 
@@ -22,9 +22,9 @@ namespace Logic.Command
         {
             bool won = sudokuGame.SudokuObject.Board.Validate();
 
-            if(won)
+            if (won)
             {
-                this.IsWin(sudokuGame);
+                IsWin(sudokuGame);
             }
         }
 

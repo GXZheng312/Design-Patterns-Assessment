@@ -77,7 +77,6 @@ public class SetupBoardCommand : ICommand
             if (board != null)
             {
                 sudokuGame.SudokuObject.Board = board;
-                sudokuGame.BoardObserver.Notify();
                 return true;
             }
 

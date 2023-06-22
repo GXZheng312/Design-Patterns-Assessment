@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Logic.Command.Game;
+using Logic.Command.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +14,12 @@ public class GameCommandFactory : CommandFactory
     {
         switch (input)
         {
-            case "Enter":
-            case "Spacebar":
-            case "UpArrow":
-            case "DownArrow":
-            case "LeftArrow":
-            case "RightArrow":
+            case "Enter": return new SelectCommand();
+            case "Spacebar": return new ChangeGameStateCommand();
+            case "UpArrow": return new MoveUpCommand();
+            case "DownArrow": return new MoveDownCommand();
+            case "LeftArrow": return new MoveLeftCommand(); 
+            case "RightArrow": return new MoveRightCommand();
             default: return base.Create(input);
         }
     }

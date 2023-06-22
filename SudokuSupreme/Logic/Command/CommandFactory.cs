@@ -14,7 +14,6 @@ public abstract class CommandFactory
         switch (input)
         {
             case "Q": return new ExitCommand();
-            case "Initialize": return new InitializeCommand();
             case "SetupBoard": return new SetupBoardCommand();
             default: throw new ArgumentException($"Command not supported");
         }

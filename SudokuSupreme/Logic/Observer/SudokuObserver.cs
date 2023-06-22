@@ -2,10 +2,16 @@
 
 namespace Logic.Observer
 {
-    public class BoardObserver : IPublisher
+    public class SudokuObserver : IPublisher
     {
-        private List<ISubscriber> Subscribers { get; set; } = new();
-        public Board Board { get; set; } = new();
+        private List<ISubscriber> Subscribers { get; set; }
+        public Sudoku SudokuObject { get; set; } = new();
+
+        public SudokuObserver(Sudoku sudokuObject)
+        {
+            Subscribers = new List<ISubscriber>();
+            this.SudokuObject = sudokuObject;
+        }
 
         public void Notify()
         {
