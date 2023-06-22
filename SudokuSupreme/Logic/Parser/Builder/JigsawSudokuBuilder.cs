@@ -10,6 +10,7 @@ public class JigsawSudokuBuilder : IBoardBuilder
     private List<Group> Groups = new();
     
     private Dictionary<int, int[]> Raw { get; set; }
+    private Dictionary<int, Cell> _cellsRaw = new();
 
     private int CellsPerGroup = 9;
     private int RowAmount = 9;
@@ -28,8 +29,10 @@ public class JigsawSudokuBuilder : IBoardBuilder
             int number = value[0];
             int x = (key % 9) + 1;
             int y = (key / 9) + 1;
-            
-            Cells.Add(new Cell(number, x, y));
+
+            Cell cell = new Cell(number, x, y);
+            Cells.Add(cell);
+            _cellsRaw[key] = cell;
         }
 
         return this;
@@ -57,6 +60,25 @@ public class JigsawSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildGroups()
     {
+        Dictionary<int, List<Cell>> groupCells = new();
+
+        foreach (var (key, value) in Raw)
+        {
+            int groupNumber = value[1];
+
+            if (!groupCells.ContainsKey(groupNumber))
+            {
+                groupCells[groupNumber] = new List<Cell>();
+            }
+            
+            groupCells[groupNumber].Add(_cellsRaw[key]);
+        }
+        
+        foreach (var groupCellPair in groupCells)
+        {
+            Groups.Add(new Group(groupCellPair.Value));
+        }
+
         return this;
     }
 
