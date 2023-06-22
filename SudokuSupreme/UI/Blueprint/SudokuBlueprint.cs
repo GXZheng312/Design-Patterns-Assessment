@@ -64,7 +64,7 @@ public class SudokuBlueprint : IBlueprint
         });
     }
 
-    private Row RowHorizontalWalls()
+    private IDrawable RowHorizontalWalls()
     {
         return new Row(new IDrawable[]
         {

@@ -2,201 +2,208 @@
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
 
-namespace Presentation.Blueprint;
-
-public class SamuraiBlueprint : IBlueprint
+namespace Presentation.Blueprint
 {
-    private const int DefaultSudokuRowSize  = 9;
-    private const int MiddleRowSize = 3;
-    private const int TotalRowAmount = (DefaultSudokuRowSize  * 2) + MiddleRowSize;
-
-    private const int TotalGridGroups = 7;
-    private const int TotalPopulateSudokuGridGroups = 3;
-    private const int CenterGridOffset = 2;
-
-    private const int GroupSize = 3;
-    private const int DefaultSudokuSize = 81;
-    private const int SamuraiSudokuSize = DefaultSudokuSize * 5;
-    private int CellIndex { get; set; }
-    private string[] Cells { get; set; }
-
-    private string EmptyDrawing = ((char)DrawingCharacter.Empty).ToString();
-    private string VerticalWall = ((char) DrawingCharacter.VerticalWall).ToString();
-    private string HorizontalWall = ((char)DrawingCharacter.HorizontalWall).ToString();
-    private string SplitWall = ((char)DrawingCharacter.SplitWall).ToString();
-    public SamuraiBlueprint()
+    public class SamuraiBlueprint : IBlueprint
     {
-        CellIndex = 0;
-        Cells = new string[DefaultSudokuSize];
-    }
+        private const int DefaultSudokuSize = 81;
+        private const int SamuraiSudokuSize = DefaultSudokuSize * 5;
 
-    public IDrawable Generate(string[] cells)
-    {
-        if (!CheckInitValues(cells)) throw new ArgumentException($"Sudoku amount is invalid");
-        CellIndex = 0;
+        private string[] Cells { get; set; } = new string[SamuraiSudokuSize];
 
-        Samurai samurai = new Samurai();
+        private string EmptyDrawing => ((char)DrawingCharacter.Empty).ToString();
+        private string HorizontalWall => ((char)DrawingCharacter.HorizontalWall).ToString();
+        private string SplitWall => ((char)DrawingCharacter.SplitWall).ToString();
 
-        samurai.Add(HorizontalWalls(false));
-
-        for (int row = 1; row <= TotalRowAmount; row++)
+        public IDrawable Generate(string[] cells)
         {
-            samurai.Add(GenerateRow(row));
-
-            if (IsGroupRowEnd(row))
+            if (cells == null || cells.Length != SamuraiSudokuSize)
             {
-                bool isOverlay = IsOverlayRow(row);
-                samurai.Add(HorizontalWalls(isOverlay));
+                throw new ArgumentException("Invalid Sudoku amount");
             }
 
-        }
+            Cells = cells;
 
-        return samurai;
-    }
+            int firstGroupIndex = DefaultSudokuSize * 0;
+            int secondGroupIndex = DefaultSudokuSize * 1;
+            int thirdGroupIndex = DefaultSudokuSize * 2;
+            int fourthGroupIndex = DefaultSudokuSize * 3;
+            int fifthGroupIndex = DefaultSudokuSize * 4;
 
-    private IDrawable GenerateRow(int rowNumber)
-    {
-        Row collection = new Row();
-
-        ProcessSideSudoku(rowNumber, collection, isLeftSide: true);
-        ProcessMiddleSudoku(rowNumber, collection);
-        ProcessSideSudoku(rowNumber, collection, isLeftSide: false);
-
-        return collection;
-    }
-
-    private bool CheckInitValues(string[] cells)
-    {
-        if (cells == null || cells.Length != SamuraiSudokuSize) return false;
-
-        CellIndex = 0;
-        Cells = cells;
-
-        return true;
-    }
-
-    private void ProcessSideSudoku(int rowNumber, Row collection, bool isLeftSide)
-    {
-        int sideOffset = isLeftSide ? 0 : DefaultSudokuSize;
-
-        if (IsTopSide(rowNumber))
-        {
-            int offset = sideOffset;
-            CellIndex = (rowNumber - 1) * 9;
-
-            PopulateSudokuGrid(collection, offset);
-            return;
-        }
-
-        if (IsBottomSide(rowNumber))
-        {
-            int offset = DefaultSudokuSize * 3 + sideOffset;
-            CellIndex = (rowNumber - DefaultSudokuRowSize - MiddleRowSize - 1) * 9;
-
-            PopulateSudokuGrid(collection, offset);
-            return;
-        }
-    }
-
-    private void ProcessMiddleSudoku(int rowNumber, Row collection)
-    {
-        CellIndex = (rowNumber - (DefaultSudokuRowSize - MiddleRowSize) - 1) * 9;
-        int offset = DefaultSudokuSize * 2;
-
-        if (IsCenter(rowNumber))
-        {
-            PopulateCenterGrid(collection, offset);
-        }
-        else if (IsOuterCenter(rowNumber))
-        {
-            PopulateOuterCenterGrid(collection, offset);
-        }
-        else
-        {
-            collection.Add(EmptyGroup());
-        }
-    }
-
-    private void PopulateCenterGrid(Row collection, int offset)
-    {   
-        for (int grid = 1; CenterGridOffset >= grid; grid++)
-        {
-            collection.Add(new Cell(EmptyDrawing));
-            collection.Add(EmptyGroup());
-        }
-
-        PopulateSudokuGrid(collection, offset);
-    }
-
-    private void PopulateOuterCenterGrid(Row collection, int offset)
-    {
-        CellIndex += GroupSize;
-        collection.Add(CreateGroup(offset));
-    }
-
-    private void PopulateSudokuGrid(Row collection, int offset)
-    {
-        collection.Add(new Cell(VerticalWall));
-        for (int grid = 1; grid <= GroupSize; grid++)
-        {
-            collection.Add(CreateGroup(offset));
-            collection.Add(new Cell(VerticalWall));
-        }
-    }
-
-    private IDrawable HorizontalWalls(bool overlay)
-    {
-        Row collection = new Row();
-        collection.Add(new Cell(SplitWall));
-
-        for (int grid = 1; grid <= TotalGridGroups; grid++)
-        {
-            if (!overlay && grid == TotalGridGroups - TotalPopulateSudokuGridGroups)
+            return new Samurai(new IDrawable[]
             {
-                collection.Add(EmptyGroup());
-            }
-            else
-            {
-                collection.Add(HorizontalGroup());
-            }
-
-            collection.Add(new Cell(SplitWall));
+                HorizontalWallsRow(),
+                NormalSectionRows(ref firstGroupIndex, ref secondGroupIndex),
+                HorizontalWallsRow(),
+                NormalSectionRows(ref firstGroupIndex, ref secondGroupIndex),
+                SamuraiWallsRow(),
+                SamuraiSectionRows(ref firstGroupIndex, ref thirdGroupIndex, ref secondGroupIndex),
+                SamuraiWallsRow(),
+                MiddleSectionRows(ref thirdGroupIndex),
+                SamuraiWallsRow(),
+                SamuraiSectionRows(ref fourthGroupIndex, ref thirdGroupIndex, ref fifthGroupIndex),
+                SamuraiWallsRow(),
+                NormalSectionRows(ref fourthGroupIndex, ref fifthGroupIndex),
+                HorizontalWallsRow(),
+                NormalSectionRows(ref fourthGroupIndex, ref fifthGroupIndex),
+                HorizontalWallsRow()
+            });
         }
 
-        return collection;
-    }
+        private IDrawable SamuraiSectionRows(ref int leftIndex, ref int middleIndex, ref int rightIndex)
+        {
+            return new EmptyGrid(new IDrawable[]
+            {
+                SamuraiRow(ref leftIndex, ref middleIndex, ref rightIndex),
+                SamuraiRow(ref leftIndex, ref middleIndex, ref rightIndex),
+                SamuraiRow(ref leftIndex, ref middleIndex, ref rightIndex),
+            });
+        }
 
-    private IDrawable[] CreateGroup(int offset)
-    {
-        return new IDrawable[] {
-            new Cell(Cells[offset + CellIndex++]),
-            new Cell(Cells[offset + CellIndex++]),
-            new Cell(Cells[offset + CellIndex++])
-        };
-    }
+        private IDrawable SamuraiRow(ref int leftIndex, ref int middleIndex, ref int rightIndex)
+        {
+            return new Row(new IDrawable[]
+            {
+                SudokuSizeGrid(ref leftIndex),
+                CenterSudokuGroup(ref middleIndex),
+                SudokuSizeGrid(ref rightIndex),
+            });
+        }
 
-    private IDrawable[] EmptyGroup()
-    {
-        return new IDrawable[] {
-            new Cell(EmptyDrawing),
-            new Cell(EmptyDrawing),
-            new Cell(EmptyDrawing)
-        };
-    }
+        private IDrawable NormalSectionRows(ref int leftIndex, ref int rightIndex)
+        {
+            return new EmptyGrid(new IDrawable[]
+            {
+                NormalRow(ref leftIndex, ref rightIndex),
+                NormalRow(ref leftIndex, ref rightIndex),
+                NormalRow(ref leftIndex, ref rightIndex),
+            });
+        }
 
-    private IDrawable[] HorizontalGroup()
-    {
-        return new IDrawable[] {
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
-        };
-    }
-    private bool IsOverlayRow(int rowNumber) => rowNumber >= DefaultSudokuRowSize - MiddleRowSize && rowNumber <= TotalRowAmount - (DefaultSudokuRowSize - MiddleRowSize);
-    private bool IsGroupRowEnd(int rowNumber) => rowNumber % GroupSize == 0;
-    private bool IsCenter(int rowNumber) => rowNumber > DefaultSudokuRowSize && rowNumber <= TotalRowAmount - DefaultSudokuRowSize;
-    private bool IsOuterCenter(int rowNumber) => (rowNumber > DefaultSudokuRowSize - MiddleRowSize && rowNumber <= TotalRowAmount - (DefaultSudokuRowSize - MiddleRowSize));
-    private bool IsTopSide(int rowNumber) => rowNumber <= DefaultSudokuRowSize;
-    private bool IsBottomSide(int rowNumber) => rowNumber > (DefaultSudokuRowSize + MiddleRowSize);
+        private IDrawable NormalRow(ref int leftIndex, ref int rightIndex)
+        {
+            return new Row(new IDrawable[]
+            {
+                SudokuSizeGrid(ref leftIndex),
+                EmptyGroup(),
+                SudokuSizeGrid(ref rightIndex),
+            });
+        }
 
+        private IDrawable MiddleRow(ref int thirdGroupIndex)
+        {
+            return new Row(new IDrawable[]
+            {
+                new Cell(EmptyDrawing),
+                EmptyGroup(),
+                new Cell(EmptyDrawing),
+                EmptyGroup(),
+                SudokuSizeGrid(ref thirdGroupIndex),
+                EmptyGroup(),
+                new Cell(EmptyDrawing),
+                EmptyGroup(),
+                new Cell(EmptyDrawing),
+            });
+        }
+
+        private IDrawable MiddleSectionRows(ref int thirdGroupIndex)
+        {
+            return new EmptyGrid(new IDrawable[]
+            {
+                MiddleRow(ref thirdGroupIndex),
+                MiddleRow(ref thirdGroupIndex),
+                MiddleRow(ref thirdGroupIndex),
+            });
+        }
+
+        private IDrawable SamuraiWallsRow()
+        {
+            return new Row(new IDrawable[]
+            {
+                SudokuSizeHorizontalWalls(),
+                HorizontalWallGroup(),
+                SudokuSizeHorizontalWalls(),
+            });
+        }
+
+        private IDrawable HorizontalWallsRow()
+        {
+            return new Row(new IDrawable[]
+            {
+                SudokuSizeHorizontalWalls(),
+                EmptyGroup(),
+                SudokuSizeHorizontalWalls(),
+            });
+        }
+
+        private IDrawable SudokuSizeGrid(ref int index)
+        {
+            return new Grid(new IDrawable[]
+            {
+                CreateGroup(ref index),
+                CreateGroup(ref index),
+                CreateGroup(ref index),
+            });
+        }
+
+        private IDrawable CenterSudokuGroup(ref int index)
+        {
+            index += 3;
+
+            IDrawable group = new EmptyGrid(new IDrawable[]
+            {
+                new Cell(Cells[index++]),
+                new Cell(Cells[index++]),
+                new Cell(Cells[index++])
+            });
+
+            index += 3;
+
+            return group;
+        }
+
+        private IDrawable SudokuSizeHorizontalWalls()
+        {
+            return new EmptyGrid(new IDrawable[]
+            {
+                new Cell(SplitWall),
+                HorizontalWallGroup(),
+                new Cell(SplitWall),
+                HorizontalWallGroup(),
+                new Cell(SplitWall),
+                HorizontalWallGroup(),
+                new Cell(SplitWall),
+            });
+        }
+
+        private IDrawable EmptyGroup()
+        {
+            return new EmptyGrid(new IDrawable[]
+            {
+                new Cell(EmptyDrawing),
+                new Cell(EmptyDrawing),
+                new Cell(EmptyDrawing)
+            });
+        }
+
+        private IDrawable HorizontalWallGroup()
+        {
+            return new EmptyGrid(new IDrawable[]
+            {
+                new Cell(HorizontalWall),
+                new Cell(HorizontalWall),
+                new Cell(HorizontalWall),
+            });
+        }
+
+        private IDrawable CreateGroup(ref int index)
+        {
+            return new Group(new IDrawable[]
+            {
+                new Cell(Cells[index++]),
+                new Cell(Cells[index++]),
+                new Cell(Cells[index++])
+            });
+        }
+    }
 }
