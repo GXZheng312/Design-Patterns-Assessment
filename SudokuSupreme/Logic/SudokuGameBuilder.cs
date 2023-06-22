@@ -2,13 +2,13 @@
 
 namespace Logic;
 
-public class SudokuBuilder : IBuilder<IGame>
+public class SudokuGameBuilder : IBuilder<IGame>
 {
-    private Sudoku Game { get; set; }
+    private SudokuGame Game { get; set; }
 
-    public SudokuBuilder()
+    public SudokuGameBuilder()
     {
-        this.Game = new Sudoku();
+        this.Game = new SudokuGame();
     }
 
     public IBuilder<IGame> AddBoardRenderer(ISubscriber observer)

@@ -40,7 +40,7 @@ internal class NormalSudokuBuilder : IBoardBuilder
 
             if (i % this.RowAmount == 0)
             {
-                this.Groups.Add(new Group(rowCollection));
+                this.Rows.Add(new Group(rowCollection));
                 rowCollection = new List<Cell>();
             }
         }

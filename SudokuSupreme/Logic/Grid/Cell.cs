@@ -2,6 +2,7 @@ namespace Logic.Grid;
 
 public class Cell : IGridValidate
 {
+    private List<IGridValidate> Validations = new List<IGridValidate>();
     public bool IsDefinitive { get; set; } = false;
     public int Number { get; set; }
     public int X { get; set; }
@@ -19,8 +20,23 @@ public class Cell : IGridValidate
         Y = y;
     }
 
+    public void AddValidations(IGridValidate child)
+    {
+        if (child == null) return;
+
+        Validations.Add(child);
+    }
+
     public bool Validate()
     {
-        return Number != 0;
+        foreach (IGridValidate child in Validations)
+        {
+            if (!child.Validate())
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

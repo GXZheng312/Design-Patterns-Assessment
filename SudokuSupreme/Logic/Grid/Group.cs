@@ -15,9 +15,14 @@ public class Group : IGridValidate
 
         foreach (Cell cell in Cells)
         {
-            if (!cell.Validate())
+            if (cell.Number == 0)
             {
-                return false;
+                continue;
+            }
+
+            if (cell.IsDefinitive)
+            {
+                continue;
             }
 
             if (results[cell.Number]) 

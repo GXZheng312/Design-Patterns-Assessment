@@ -6,4 +6,6 @@ public class SamuraiBoard : Board
     {
         base.Type = "samurai";
     }
+
+
 }
