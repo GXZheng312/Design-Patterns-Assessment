@@ -10,7 +10,6 @@ public class SamuraiSudokuBuilder : IBoardBuilder
     private List<Group> Groups = new();
 
     private List<int> Raw { get; set; }
-    private Dictionary<int[], Cell> _cellsRaw = new();
 
     private int GroupAmount = 9;
     private int CellsPerGroup = 9;
@@ -35,9 +34,14 @@ public class SamuraiSudokuBuilder : IBoardBuilder
                     int absoluteRow = (subSudoku * 3) + row + 1;
                     int absoluteCol = (subSudoku * 3) + col + 1;
 
+                    // Empty cells
+                    // if (absoluteCol is >= 10 and <= 12 && ((absoluteRow is >= 1 and <= 6) || (absoluteRow is >= 16 and <= 21)))
+                    //     continue;
+                    // if (absoluteRow is >= 10 and <= 12 && ((absoluteCol is >= 1 and <= 6) || (absoluteCol is >= 16 and <= 21)))
+                    //     continue;
+
                     Cell cell = new Cell(Raw[index], absoluteCol, absoluteRow);
                     Cells.Add(cell);
-                    _cellsRaw.Add(new[] { absoluteCol, absoluteRow }, cell);
 
                     index++;
                 }
@@ -58,7 +62,7 @@ public class SamuraiSudokuBuilder : IBoardBuilder
                     int minX = 0 + (x * 12) + 1;
                     int maxX = 8 + (x * 12) + 1;
                     int rowNumber = y + (r * 12) + 1;
-                    
+
                     List<Cell> cells = new();
                     cells.AddRange(Cells.Where(cell => cell.Y == rowNumber && cell.X >= minX && cell.X <= maxX));
 
@@ -91,7 +95,7 @@ public class SamuraiSudokuBuilder : IBoardBuilder
                     int minY = 0 + (y * 12) + 1;
                     int maxY = 8 + (y * 12) + 1;
                     int colNumber = x + (c * 12) + 1;
-                    
+
                     List<Cell> cells = new();
                     cells.AddRange(Cells.Where(cell => cell.X == colNumber && cell.Y >= minY && cell.Y <= maxY));
 
@@ -115,6 +119,28 @@ public class SamuraiSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildGroups()
     {
+        Cells.Where(c => c.X == 4).ToList().ForEach(c => Console.WriteLine(c.Y));
+        for (int x = 1; x <= 7; x++)
+        {
+            for (int y = 1; y <= 7; y++)
+            {
+                if (x == 4 && (y is >= 1 and <= 2 or >= 6 and <= 7))
+                    continue;
+                if (y == 4 && (x is >= 1 and <= 2 or >= 6 and <= 7))
+                    continue;
+
+                int minX = ((x - 1) * 3) + 1;
+                int maxX = ((x - 1) * 3) + 3;
+                int minY = ((y - 1) * 3) + 1;
+                int maxY = ((y - 1) * 3) + 3;
+
+                List<Cell> cells = Cells.Where(cell => cell.X >= minX && cell.X <= maxX && cell.Y >= minY && cell.Y <= maxY).ToList();
+                // Console.WriteLine($"{cells.Count}: {minX}-{maxX}, {minY}-{maxY}");
+                Group group = new Group(cells);
+                Groups.Add(group);
+            }
+        }
+
         return this;
     }
 
