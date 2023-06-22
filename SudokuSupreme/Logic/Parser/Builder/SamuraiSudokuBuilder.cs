@@ -49,11 +49,67 @@ public class SamuraiSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildRows()
     {
+        for (int x = 0; x < 2; x++)
+        {
+            for (int r = 0; r < 2; r++)
+            {
+                for (int y = 0; y < RowColAmount; y++)
+                {
+                    int minX = 0 + (x * 12) + 1;
+                    int maxX = 8 + (x * 12) + 1;
+                    int rowNumber = y + (r * 12) + 1;
+                    
+                    List<Cell> cells = new();
+                    cells.AddRange(Cells.Where(cell => cell.Y == rowNumber && cell.X >= minX && cell.X <= maxX));
+
+                    Group row = new Group(cells);
+                    Rows.Add(row);
+                }
+            }
+        }
+
+        for (int y = 7; y <= 15; y++)
+        {
+            int minX = 7;
+            int maxX = 15;
+
+            Group row = new Group(Cells.Where(cell => cell.Y == y && cell.X >= minX && cell.X <= maxX).ToList());
+            Rows.Add(row);
+        }
+
         return this;
     }
 
     public IBoardBuilder BuildColumns()
     {
+        for (int y = 0; y < 2; y++)
+        {
+            for (int c = 0; c < 2; c++)
+            {
+                for (int x = 0; x < RowColAmount; x++)
+                {
+                    int minY = 0 + (y * 12) + 1;
+                    int maxY = 8 + (y * 12) + 1;
+                    int colNumber = x + (c * 12) + 1;
+                    
+                    List<Cell> cells = new();
+                    cells.AddRange(Cells.Where(cell => cell.X == colNumber && cell.Y >= minY && cell.Y <= maxY));
+
+                    Group column = new Group(cells);
+                    Columns.Add(column);
+                }
+            }
+        }
+
+        for (int x = 7; x <= 15; x++)
+        {
+            int minY = 7;
+            int maxY = 15;
+
+            Group column = new Group(Cells.Where(cell => cell.X == x && cell.Y >= minY && cell.Y <= maxY).ToList());
+            Columns.Add(column);
+        }
+
         return this;
     }
 
