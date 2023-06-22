@@ -44,8 +44,8 @@ public class SudokuFileParser
             if (cell.Length == 3)
             {
                 int value = int.Parse(cell.Substring(0, 1));
-                int subIndex = int.Parse(cell.Substring(2, 1));
-                numbers[i] = new[] { value, subIndex };
+                int group = int.Parse(cell.Substring(2, 1));
+                numbers[i] = new[] { value, group };
             }
         }
 

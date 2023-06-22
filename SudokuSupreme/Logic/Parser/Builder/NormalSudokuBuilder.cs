@@ -8,7 +8,7 @@ internal class NormalSudokuBuilder : IBoardBuilder
     private List<Group> Rows = new List<Group>();
     private List<Group> Columns = new List<Group>();
     private List<Group> Groups = new List<Group>();
-    
+
     private List<int> CellsRaw { get; set; }
 
     private int CellsPerGroup { get; set; }
@@ -18,7 +18,7 @@ internal class NormalSudokuBuilder : IBoardBuilder
     public NormalSudokuBuilder(List<int> cells, int cellsPerGroup, int rowAmount, int columnAmount)
     {
         this.CellsRaw = cells;
-        
+
         this.CellsPerGroup = cellsPerGroup;
         this.RowAmount = rowAmount;
         this.ColumnAmount = columnAmount;
@@ -33,16 +33,16 @@ internal class NormalSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildRows()
     {
-        List<Cell> rowCollection = new List<Cell>();
+        List<Cell> cells = new List<Cell>();
 
         for (int i = 1; i <= this.Cells.Count; i++)
         {
-            rowCollection.Add(this.Cells[i - 1]);
+            cells.Add(this.Cells[i - 1]);
 
             if (i % this.RowAmount == 0)
             {
-                this.Rows.Add(new Group(rowCollection));
-                rowCollection = new List<Cell>();
+                this.Rows.Add(new Group(cells));
+                cells = new List<Cell>();
             }
         }
 
@@ -51,21 +51,21 @@ internal class NormalSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildColumns()
     {
-        List<List<Cell>> columnCellCollection = new List<List<Cell>>();
+        List<List<Cell>> columnCells = new List<List<Cell>>();
 
         for (int column = 0; column < ColumnAmount; column++)
         {
-            columnCellCollection.Add(new List<Cell>());
+            columnCells.Add(new List<Cell>());
         }
 
         for (int i = 0; i < this.Cells.Count; i++)
         {
-            columnCellCollection[i % ColumnAmount].Add(this.Cells[i]);
+            columnCells[i % ColumnAmount].Add(this.Cells[i]);
         }
 
         for (int column = 0; column < ColumnAmount; column++)
         {
-            Columns.Add(new Group(columnCellCollection[column]));
+            Columns.Add(new Group(columnCells[column]));
         }
 
         return this;
@@ -73,11 +73,11 @@ internal class NormalSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildGroups()
     {
-        List<List<Cell>> groupCellCollection = new List<List<Cell>>();
+        List<List<Cell>> groupCells = new List<List<Cell>>();
 
         for (int groupNr = 0; groupNr < this.CellsPerGroup; groupNr++)
         {
-            groupCellCollection.Add(new List<Cell>());
+            groupCells.Add(new List<Cell>());
         }
 
         for (int i = 0; i < this.Cells.Count; i++)
@@ -92,14 +92,13 @@ internal class NormalSudokuBuilder : IBoardBuilder
 
             int groupIndex = groupRow * CellsPerGroup + groupCol;
 
-            groupCellCollection[groupIndex].Add(cell);
+            groupCells[groupIndex].Add(cell);
         }
 
         for (int groupNr = 0; groupNr < this.CellsPerGroup; groupNr++)
         {
-            Groups.Add(new Group(groupCellCollection[groupNr]));
+            Groups.Add(new Group(groupCells[groupNr]));
         }
-
 
         return this;
     }
@@ -110,12 +109,12 @@ internal class NormalSudokuBuilder : IBoardBuilder
         {
             row.Cells.ForEach(c => c.AddValidations(row));
         }
-        
+
         foreach (var column in Columns)
         {
             column.Cells.ForEach(c => c.AddValidations(column));
         }
-        
+
         foreach (var group in Groups)
         {
             group.Cells.ForEach(c => c.AddValidations(group));

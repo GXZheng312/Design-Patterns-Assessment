@@ -4,40 +4,84 @@ namespace Logic.Parser.Builder;
 
 public class JigsawSudokuBuilder : IBoardBuilder
 {
-    private Dictionary<int, int[]> Cells { get; set; }
+    private List<Cell> Cells = new();
+    private List<Group> Rows = new();
+    private List<Group> Columns = new();
+    private List<Group> Groups = new();
+    
+    private Dictionary<int, int[]> Raw { get; set; }
 
-    public JigsawSudokuBuilder(Dictionary<int, int[]> cells)
+    private int CellsPerGroup = 9;
+    private int RowAmount = 9;
+    private int ColumnAmount = 9;
+    private int GroupAmount = 9;
+
+    public JigsawSudokuBuilder(Dictionary<int, int[]> raw)
     {
-        this.Cells = cells;
+        this.Raw = raw;
     }
 
     public IBoardBuilder BuildCells()
     {
-        throw new NotImplementedException();
+        foreach (var (key, value) in Raw)
+        {
+            int number = value[0];
+            int x = (key % 9) + 1;
+            int y = (key / 9) + 1;
+            
+            Cells.Add(new Cell(number, x, y));
+        }
+
+        return this;
     }
 
     public IBoardBuilder BuildRows()
     {
-        throw new NotImplementedException();
+        for (int row = 1; row <= this.RowAmount; row++)
+        {
+            this.Rows.Add(new Group(this.Cells.Where(cell => cell.Y == row).ToList()));
+        }
+        
+        return this;
     }
 
     public IBoardBuilder BuildColumns()
     {
-        throw new NotImplementedException();
+        for (int column = 1; column <= this.ColumnAmount; column++)
+        {
+            this.Rows.Add(new Group(this.Cells.Where(cell => cell.X == column).ToList()));
+        }
+
+        return this;
     }
 
     public IBoardBuilder BuildGroups()
     {
-        throw new NotImplementedException();
+        return this;
     }
 
     public IBoardBuilder AssignGroups()
     {
-        throw new NotImplementedException();
+        foreach (var row in Rows)
+        {
+            row.Cells.ForEach(c => c.AddValidations(row));
+        }
+        
+        foreach (var column in Columns)
+        {
+            column.Cells.ForEach(c => c.AddValidations(column));
+        }
+        
+        foreach (var group in Groups)
+        {
+            group.Cells.ForEach(c => c.AddValidations(group));
+        }
+
+        return this;
     }
 
     public IBoard? Generate<T>() where T : IBoard
     {
-        throw new NotImplementedException();
+        return (T)Activator.CreateInstance(typeof(T), this.Cells, this.Groups, this.Rows, this.Columns);
     }
 }
