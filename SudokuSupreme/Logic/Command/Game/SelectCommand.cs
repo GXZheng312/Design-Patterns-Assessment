@@ -8,5 +8,6 @@ namespace Logic.Command.Game
 {
     internal class SelectCommand
     {
+
     }
 }
