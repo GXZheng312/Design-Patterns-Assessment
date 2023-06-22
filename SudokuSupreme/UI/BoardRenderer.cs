@@ -32,11 +32,11 @@ public class BoardRenderer : IRenderer, ISubscriber
     {
         if (publisher != null)
         {
-            BoardObserver? boardObserverable = publisher as BoardObserver;
+            SudokuObserver? boardObserverable = publisher as SudokuObserver;
 
-            this.Cells = boardObserverable.Board.Serialize();
-            this.SelectedCell = boardObserverable.Board.SelectedCell;
-            this.Type = boardObserverable.Board.Type;
+            this.Cells = boardObserverable.SudokuObject.Board.Serialize();
+            this.SelectedCell = boardObserverable.SudokuObject.Board.SelectedCell;
+            this.Type = boardObserverable.SudokuObject.Board.Type;
 
             Render();
         }

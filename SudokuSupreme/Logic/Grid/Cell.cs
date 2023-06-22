@@ -2,7 +2,7 @@ namespace Logic.Grid;
 
 public class Cell : IGridValidate
 {
-    private List<IGridValidate> Validations = new List<IGridValidate>();
+    private List<IGridValidate> Validations = new List<IGridValidate>(); // max 3 groups
     public bool IsDefinitive { get; set; } = false;
     public int Number { get; set; }
     public int X { get; set; }

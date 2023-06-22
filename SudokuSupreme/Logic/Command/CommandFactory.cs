@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logic.Command.Default;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,8 @@ public abstract class CommandFactory
     {
         switch (input)
         {
-            case "Q": 
+            case "Q": return new ExitCommand();
+            case "SetupBoard": return new SetupBoardCommand();
             default: throw new ArgumentException($"Command not supported");
         }
     }   

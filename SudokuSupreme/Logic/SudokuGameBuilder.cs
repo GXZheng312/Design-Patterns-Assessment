@@ -13,7 +13,7 @@ public class SudokuGameBuilder : IBuilder<IGame>
 
     public IBuilder<IGame> AddBoardRenderer(ISubscriber observer)
     {
-        (Game.BoardObserver).Subscribe(observer);
+        Game.SudokuObserver.Subscribe(observer);
 
         return this;
     }
