@@ -2,15 +2,15 @@
 
 namespace Presentation.Drawable.Region;
 
-public class Row : IDrawable
+public class RowRegion : IDrawable
 {
     private List<IDrawable> Children = new();
 
-    public Row()
+    public RowRegion()
     {
     }
 
-    public Row(params IDrawable[] children)
+    public RowRegion(params IDrawable[] children)
     {
         foreach (IDrawable child in children)
         {

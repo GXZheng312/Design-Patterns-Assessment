@@ -1,13 +1,9 @@
-﻿using Presentation.Draw;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Logic.Grid;
+using Presentation.Draw;
 
 namespace Presentation.Blueprint;
 
 public interface IBlueprint
 {
-    IDrawable Generate(string[] cells);
+    IDrawable Generate(string[] rawCells, List<Cell> cells, string? mode, Cell? selectedCell);
 }

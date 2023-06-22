@@ -1,4 +1,5 @@
-﻿using Presentation.Draw;
+﻿using Logic.Grid;
+using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
 
@@ -30,9 +31,9 @@ internal class SamuraiBlueprintOld : IBlueprint
         Cells = new string[DefaultSudokuSize];
     }
 
-    public IDrawable Generate(string[] cells)
+    public IDrawable Generate(string[] rawCells, List<Cell> cells, string? mode, Cell? selectedCell)
     {
-        if (!CheckInitValues(cells)) throw new ArgumentException($"Sudoku amount is invalid");
+        if (!CheckInitValues(rawCells)) throw new ArgumentException($"Sudoku amount is invalid");
         CellIndex = 0;
 
         Samurai samurai = new Samurai();
@@ -56,7 +57,7 @@ internal class SamuraiBlueprintOld : IBlueprint
 
     private IDrawable GenerateRow(int rowNumber)
     {
-        Row collection = new Row();
+        RowRegion collection = new RowRegion();
 
         ProcessSideSudoku(rowNumber, collection, isLeftSide: true);
         ProcessMiddleSudoku(rowNumber, collection);
@@ -75,7 +76,7 @@ internal class SamuraiBlueprintOld : IBlueprint
         return true;
     }
 
-    private void ProcessSideSudoku(int rowNumber, Row collection, bool isLeftSide)
+    private void ProcessSideSudoku(int rowNumber, RowRegion collection, bool isLeftSide)
     {
         int sideOffset = isLeftSide ? 0 : DefaultSudokuSize;
 
@@ -98,7 +99,7 @@ internal class SamuraiBlueprintOld : IBlueprint
         }
     }
 
-    private void ProcessMiddleSudoku(int rowNumber, Row collection)
+    private void ProcessMiddleSudoku(int rowNumber, RowRegion collection)
     {
         CellIndex = (rowNumber - (DefaultSudokuRowSize - MiddleRowSize) - 1) * 9;
         int offset = DefaultSudokuSize * 2;
@@ -117,37 +118,37 @@ internal class SamuraiBlueprintOld : IBlueprint
         }
     }
 
-    private void PopulateCenterGrid(Row collection, int offset)
+    private void PopulateCenterGrid(RowRegion collection, int offset)
     {
         for (int grid = 1; CenterGridOffset >= grid; grid++)
         {
-            collection.Add(new Cell(EmptyDrawing));
+            collection.Add(new CellRegion(EmptyDrawing));
             collection.Add(EmptyGroup());
         }
 
         PopulateSudokuGrid(collection, offset);
     }
 
-    private void PopulateOuterCenterGrid(Row collection, int offset)
+    private void PopulateOuterCenterGrid(RowRegion collection, int offset)
     {
         CellIndex += GroupSize;
         collection.Add(CreateGroup(offset));
     }
 
-    private void PopulateSudokuGrid(Row collection, int offset)
+    private void PopulateSudokuGrid(RowRegion collection, int offset)
     {
-        collection.Add(new Cell(VerticalWall));
+        collection.Add(new CellRegion(VerticalWall));
         for (int grid = 1; grid <= GroupSize; grid++)
         {
             collection.Add(CreateGroup(offset));
-            collection.Add(new Cell(VerticalWall));
+            collection.Add(new CellRegion(VerticalWall));
         }
     }
 
     private IDrawable HorizontalWalls(bool overlay)
     {
-        Row collection = new Row();
-        collection.Add(new Cell(SplitWall));
+        RowRegion collection = new RowRegion();
+        collection.Add(new CellRegion(SplitWall));
 
         for (int grid = 1; grid <= TotalGridGroups; grid++)
         {
@@ -160,7 +161,7 @@ internal class SamuraiBlueprintOld : IBlueprint
                 collection.Add(HorizontalGroup());
             }
 
-            collection.Add(new Cell(SplitWall));
+            collection.Add(new CellRegion(SplitWall));
         }
 
         return collection;
@@ -169,27 +170,27 @@ internal class SamuraiBlueprintOld : IBlueprint
     private IDrawable[] CreateGroup(int offset)
     {
         return new IDrawable[] {
-            new Cell(Cells[offset + CellIndex++]),
-            new Cell(Cells[offset + CellIndex++]),
-            new Cell(Cells[offset + CellIndex++])
+            new CellRegion(Cells[offset + CellIndex++]),
+            new CellRegion(Cells[offset + CellIndex++]),
+            new CellRegion(Cells[offset + CellIndex++])
         };
     }
 
     private IDrawable[] EmptyGroup()
     {
         return new IDrawable[] {
-            new Cell(EmptyDrawing),
-            new Cell(EmptyDrawing),
-            new Cell(EmptyDrawing)
+            new CellRegion(EmptyDrawing),
+            new CellRegion(EmptyDrawing),
+            new CellRegion(EmptyDrawing)
         };
     }
 
     private IDrawable[] HorizontalGroup()
     {
         return new IDrawable[] {
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(HorizontalWall),
         };
     }
     private bool IsOverlayRow(int rowNumber) => rowNumber >= DefaultSudokuRowSize - MiddleRowSize && rowNumber <= TotalRowAmount - (DefaultSudokuRowSize - MiddleRowSize);

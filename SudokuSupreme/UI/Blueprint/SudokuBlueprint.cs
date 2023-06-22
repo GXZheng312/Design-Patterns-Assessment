@@ -1,4 +1,5 @@
-﻿using Presentation.Draw;
+﻿using Logic.Grid;
+using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
 
@@ -20,67 +21,67 @@ public class SudokuBlueprint : IBlueprint
     private string HorizontalWall = ((char)DrawingCharacter.HorizontalWall).ToString();
     private string SplitWall = ((char)DrawingCharacter.SplitWall).ToString();
 
-    public IDrawable Generate(string[] cells)
+    public IDrawable Generate(string[] rawCells, List<Cell> cells, string? mode, Cell? selectedCell)
     {
-        if (cells == null || cells.Length != Size) throw new ArgumentException($"Sudoku amount is invalid");
+        if (cells == null || rawCells.Length != Size) throw new ArgumentException($"Sudoku amount is invalid");
         this.CellIndex = 0;
 
         return new VariantSix(new IDrawable[] {
             RowHorizontalWalls(),
-            CreateRow(cells),
-            CreateRow(cells),
-            CreateRow(cells),
+            CreateRow(cells, selectedCell),
+            CreateRow(cells, selectedCell),
+            CreateRow(cells, selectedCell),
             RowHorizontalWalls(),
-            CreateRow(cells),
-            CreateRow(cells),
-            CreateRow(cells),
+            CreateRow(cells, selectedCell),
+            CreateRow(cells, selectedCell),
+            CreateRow(cells, selectedCell),
             RowHorizontalWalls(),
-            CreateRow(cells),
-            CreateRow(cells),
-            CreateRow(cells),
+            CreateRow(cells, selectedCell),
+            CreateRow(cells, selectedCell),
+            CreateRow(cells, selectedCell),
             RowHorizontalWalls(),
         });
     }
 
-    private IDrawable CreateRow(string[] cells)
+    private IDrawable CreateRow(List<Cell> cells, Cell? selectedCell)
     {
-        return new Row(
-            new Grid(new IDrawable[]
+        return new RowRegion(
+            new GridRegion(new IDrawable[]
             {
-                CreateGroup(cells),
-                CreateGroup(cells),
-                CreateGroup(cells),
+                CreateGroup(cells, selectedCell),
+                CreateGroup(cells, selectedCell),
+                CreateGroup(cells, selectedCell),
             })
         );
     }
 
-    private IDrawable CreateGroup(string[] cells)
+    private IDrawable CreateGroup(List<Cell> cells, Cell? selectedCell)
     {
-        return new Group(new IDrawable[]
+        return new GroupRegion(new IDrawable[]
         {
-            new Cell(cells[CellIndex++]),
-            new Cell(cells[CellIndex++]),
-            new Cell(cells[CellIndex++])
+            new CellRegion(cells[CellIndex++], selectedCell),
+            new CellRegion(cells[CellIndex++], selectedCell),
+            new CellRegion(cells[CellIndex++], selectedCell)
         });
     }
 
     private IDrawable RowHorizontalWalls()
     {
-        return new Row(new IDrawable[]
+        return new RowRegion(new IDrawable[]
         {
-            new Cell(SplitWall),
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
-            new Cell(SplitWall),
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
-            new Cell(SplitWall),
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
-            new Cell(SplitWall),
+            new CellRegion(SplitWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(SplitWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(SplitWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(SplitWall),
         });
     }
 }

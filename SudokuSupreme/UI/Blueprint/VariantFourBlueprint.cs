@@ -1,4 +1,5 @@
-﻿using Presentation.Draw;
+﻿using Logic.Grid;
+using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
 
@@ -15,9 +16,9 @@ public class VariantFourBlueprint : IBlueprint
     private string HorizontalWall = ((char)DrawingCharacter.HorizontalWall).ToString();
     private string SplitWall = ((char)DrawingCharacter.SplitWall).ToString();
 
-    public IDrawable Generate(string[] cells)
+    public IDrawable Generate(string[] rawCells, List<Cell> cells, string? mode, Cell? selectedCell)
     {
-        if (cells == null || cells.Length != Size) throw new ArgumentException($"Sudoku amount is invalid");
+        if (rawCells == null || rawCells.Length != Size) throw new ArgumentException($"Sudoku amount is invalid");
         this.CellIndex = 0;
 
         return new VariantFour(new IDrawable[] {
@@ -31,10 +32,10 @@ public class VariantFourBlueprint : IBlueprint
         });
     }
 
-    private IDrawable CreateRow(string[] cells)
+    private IDrawable CreateRow(List<Cell> cells)
     {
-        return new Row(
-            new Grid(new IDrawable[]
+        return new RowRegion(
+            new GridRegion(new IDrawable[]
             {
                 CreateGroup(cells),
                 CreateGroup(cells),
@@ -42,26 +43,26 @@ public class VariantFourBlueprint : IBlueprint
         );
     }
 
-    private IDrawable CreateGroup(string[] cells)
+    private IDrawable CreateGroup(List<Cell> cells)
     {
-        return new Group(new IDrawable[]
+        return new GroupRegion(new IDrawable[]
         {
-            new Cell(cells[CellIndex++]),
-            new Cell(cells[CellIndex++])
+            new CellRegion(cells[CellIndex++]),
+            new CellRegion(cells[CellIndex++])
         });
     }
 
-    private Row RowHorizontalWalls()
+    private RowRegion RowHorizontalWalls()
     {
-        return new Row(new IDrawable[]
+        return new RowRegion(new IDrawable[]
         {
-            new Cell(SplitWall),
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
-            new Cell(SplitWall),
-            new Cell(HorizontalWall),
-            new Cell(HorizontalWall),
-            new Cell(SplitWall),
+            new CellRegion(SplitWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(SplitWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(HorizontalWall),
+            new CellRegion(SplitWall),
         });
     }
 }

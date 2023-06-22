@@ -1,4 +1,5 @@
-﻿using Presentation.Draw;
+﻿using Logic.Grid;
+using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
 
@@ -9,20 +10,22 @@ namespace Presentation.Blueprint
         private const int DefaultSudokuSize = 81;
         private const int SamuraiSudokuSize = DefaultSudokuSize * 5;
 
-        private string[] Cells { get; set; } = new string[SamuraiSudokuSize];
+        private List<Cell> Cells { get; set; } = new List<Cell> ();
 
         private string EmptyDrawing => ((char)DrawingCharacter.Empty).ToString();
         private string HorizontalWall => ((char)DrawingCharacter.HorizontalWall).ToString();
         private string SplitWall => ((char)DrawingCharacter.SplitWall).ToString();
+        private Cell SelectedCell { get; set; } = null;
 
-        public IDrawable Generate(string[] cells)
+        public IDrawable Generate(string[] rawCells, List<Cell> cells, string? mode, Cell? selectedCell)
         {
-            if (cells == null || cells.Length != SamuraiSudokuSize)
+            if (rawCells == null || rawCells.Length != SamuraiSudokuSize)
             {
                 throw new ArgumentException("Invalid Sudoku amount");
             }
 
             Cells = cells;
+            SelectedCell = selectedCell;
 
             int firstGroupIndex = DefaultSudokuSize * 0;
             int secondGroupIndex = DefaultSudokuSize * 1;
@@ -52,7 +55,7 @@ namespace Presentation.Blueprint
 
         private IDrawable SamuraiSectionRows(ref int leftIndex, ref int middleIndex, ref int rightIndex)
         {
-            return new EmptyGrid(new IDrawable[]
+            return new EmptyRegion(new IDrawable[]
             {
                 SamuraiRow(ref leftIndex, ref middleIndex, ref rightIndex),
                 SamuraiRow(ref leftIndex, ref middleIndex, ref rightIndex),
@@ -62,7 +65,7 @@ namespace Presentation.Blueprint
 
         private IDrawable SamuraiRow(ref int leftIndex, ref int middleIndex, ref int rightIndex)
         {
-            return new Row(new IDrawable[]
+            return new RowRegion(new IDrawable[]
             {
                 SudokuSizeGrid(ref leftIndex),
                 CenterSudokuGroup(ref middleIndex),
@@ -72,7 +75,7 @@ namespace Presentation.Blueprint
 
         private IDrawable NormalSectionRows(ref int leftIndex, ref int rightIndex)
         {
-            return new EmptyGrid(new IDrawable[]
+            return new EmptyRegion(new IDrawable[]
             {
                 NormalRow(ref leftIndex, ref rightIndex),
                 NormalRow(ref leftIndex, ref rightIndex),
@@ -82,7 +85,7 @@ namespace Presentation.Blueprint
 
         private IDrawable NormalRow(ref int leftIndex, ref int rightIndex)
         {
-            return new Row(new IDrawable[]
+            return new RowRegion(new IDrawable[]
             {
                 SudokuSizeGrid(ref leftIndex),
                 EmptyGroup(),
@@ -92,23 +95,23 @@ namespace Presentation.Blueprint
 
         private IDrawable MiddleRow(ref int thirdGroupIndex)
         {
-            return new Row(new IDrawable[]
+            return new RowRegion(new IDrawable[]
             {
-                new Cell(EmptyDrawing),
+                new CellRegion(EmptyDrawing),
                 EmptyGroup(),
-                new Cell(EmptyDrawing),
+                new CellRegion(EmptyDrawing),
                 EmptyGroup(),
                 SudokuSizeGrid(ref thirdGroupIndex),
                 EmptyGroup(),
-                new Cell(EmptyDrawing),
+                new CellRegion(EmptyDrawing),
                 EmptyGroup(),
-                new Cell(EmptyDrawing),
+                new CellRegion(EmptyDrawing),
             });
         }
 
         private IDrawable MiddleSectionRows(ref int thirdGroupIndex)
         {
-            return new EmptyGrid(new IDrawable[]
+            return new EmptyRegion(new IDrawable[]
             {
                 MiddleRow(ref thirdGroupIndex),
                 MiddleRow(ref thirdGroupIndex),
@@ -118,7 +121,7 @@ namespace Presentation.Blueprint
 
         private IDrawable SamuraiWallsRow()
         {
-            return new Row(new IDrawable[]
+            return new RowRegion(new IDrawable[]
             {
                 SudokuSizeHorizontalWalls(),
                 HorizontalWallGroup(),
@@ -128,7 +131,7 @@ namespace Presentation.Blueprint
 
         private IDrawable HorizontalWallsRow()
         {
-            return new Row(new IDrawable[]
+            return new RowRegion(new IDrawable[]
             {
                 SudokuSizeHorizontalWalls(),
                 EmptyGroup(),
@@ -138,7 +141,7 @@ namespace Presentation.Blueprint
 
         private IDrawable SudokuSizeGrid(ref int index)
         {
-            return new Grid(new IDrawable[]
+            return new GridRegion(new IDrawable[]
             {
                 CreateGroup(ref index),
                 CreateGroup(ref index),
@@ -150,11 +153,11 @@ namespace Presentation.Blueprint
         {
             index += 3;
 
-            IDrawable group = new EmptyGrid(new IDrawable[]
+            IDrawable group = new EmptyRegion(new IDrawable[]
             {
-                new Cell(Cells[index++]),
-                new Cell(Cells[index++]),
-                new Cell(Cells[index++])
+                new CellRegion(Cells[index++], this.SelectedCell),
+                new CellRegion(Cells[index++], this.SelectedCell),
+                new CellRegion(Cells[index++], this.SelectedCell)
             });
 
             index += 3;
@@ -164,45 +167,45 @@ namespace Presentation.Blueprint
 
         private IDrawable SudokuSizeHorizontalWalls()
         {
-            return new EmptyGrid(new IDrawable[]
+            return new EmptyRegion(new IDrawable[]
             {
-                new Cell(SplitWall),
+                new CellRegion(SplitWall),
                 HorizontalWallGroup(),
-                new Cell(SplitWall),
+                new CellRegion(SplitWall),
                 HorizontalWallGroup(),
-                new Cell(SplitWall),
+                new CellRegion(SplitWall),
                 HorizontalWallGroup(),
-                new Cell(SplitWall),
+                new CellRegion(SplitWall),
             });
         }
 
         private IDrawable EmptyGroup()
         {
-            return new EmptyGrid(new IDrawable[]
+            return new EmptyRegion(new IDrawable[]
             {
-                new Cell(EmptyDrawing),
-                new Cell(EmptyDrawing),
-                new Cell(EmptyDrawing)
+                new CellRegion(EmptyDrawing),
+                new CellRegion(EmptyDrawing),
+                new CellRegion(EmptyDrawing)
             });
         }
 
         private IDrawable HorizontalWallGroup()
         {
-            return new EmptyGrid(new IDrawable[]
+            return new EmptyRegion(new IDrawable[]
             {
-                new Cell(HorizontalWall),
-                new Cell(HorizontalWall),
-                new Cell(HorizontalWall),
+                new CellRegion(HorizontalWall),
+                new CellRegion(HorizontalWall),
+                new CellRegion(HorizontalWall),
             });
         }
 
         private IDrawable CreateGroup(ref int index)
         {
-            return new Group(new IDrawable[]
+            return new GroupRegion(new IDrawable[]
             {
-                new Cell(Cells[index++]),
-                new Cell(Cells[index++]),
-                new Cell(Cells[index++])
+                new CellRegion(Cells[index++], this.SelectedCell),
+                new CellRegion(Cells[index++], this.SelectedCell),
+                new CellRegion(Cells[index++], this.SelectedCell)
             });
         }
     }

@@ -1,4 +1,5 @@
-﻿using Presentation.Draw;
+﻿using Logic.Grid;
+using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
 using System.Drawing;
@@ -19,11 +20,11 @@ public class JigsawBlueprint : IBlueprint
 
     private string[,] Cells2D { get; set; }
 
-    public IDrawable Generate(string[] cells)
+    public IDrawable Generate(string[] rawCells, List<Cell> cells, string? mode, Cell? selectedCell)
     {
-        if (cells == null || cells.Length != CellSize) throw new ArgumentException($"Sudoku amount is invalid");
+        if (rawCells == null || rawCells.Length != CellSize) throw new ArgumentException($"Sudoku amount is invalid");
 
-        Cells2D = Convert2DArray(cells);
+        Cells2D = Convert2DArray(rawCells);
         Jigsaw jigsaw = new Jigsaw();
 
         jigsaw.Add(DefaultHorizontalWalls(false));
@@ -45,15 +46,15 @@ public class JigsawBlueprint : IBlueprint
 
     private IDrawable JigsawRow(int y)
     {
-        EmptyGrid jigsawGroup = new EmptyGrid();
+        EmptyRegion jigsawGroup = new EmptyRegion();
 
-        jigsawGroup.Add(new Cell(VerticalWall));
+        jigsawGroup.Add(new CellRegion(VerticalWall));
 
         for (int x = 0; x < ColumnSize; x++)
         {
             string value = Cells2D[y, x][0].ToString();
 
-            jigsawGroup.Add(new Cell(value));
+            jigsawGroup.Add(new CellRegion(value));
 
             if (!IsLastIteration(ColumnSize, x + 1))
             {
@@ -61,27 +62,27 @@ public class JigsawBlueprint : IBlueprint
             }
             else
             {
-                jigsawGroup.Add(new Cell(VerticalWall));
+                jigsawGroup.Add(new CellRegion(VerticalWall));
             }
         }
 
-        return new Row(jigsawGroup);
+        return new RowRegion(jigsawGroup);
     }
 
     private IDrawable JigsawHorizontalWalls(int y)
     {
-        EmptyGrid jigsawGroup = new EmptyGrid();
+        EmptyRegion jigsawGroup = new EmptyRegion();
 
         string topLeftGroupNr = Cells2D[y, 0][2].ToString();
         string bottomLeftGroupNr = Cells2D[y + 1, 0][2].ToString();
 
         if (topLeftGroupNr == bottomLeftGroupNr)
         {
-            jigsawGroup.Add(new Cell(VerticalWall));
+            jigsawGroup.Add(new CellRegion(VerticalWall));
         }
         else
         {
-            jigsawGroup.Add(new Cell(SplitWall));
+            jigsawGroup.Add(new CellRegion(SplitWall));
         }
         
 
@@ -100,18 +101,18 @@ public class JigsawBlueprint : IBlueprint
 
                 if (topLeftGroupNr == bottomLeftGroupNr)
                 {
-                    jigsawGroup.Add(new Cell(VerticalWall));
+                    jigsawGroup.Add(new CellRegion(VerticalWall));
                 }
                 else
                 {
-                    jigsawGroup.Add(new Cell(SplitWall));
+                    jigsawGroup.Add(new CellRegion(SplitWall));
                 }
                 
             }
             
         }
 
-        return new Row(jigsawGroup);
+        return new RowRegion(jigsawGroup);
     }
 
     private IDrawable SplitSeparationDrawing(int y, int x)
@@ -124,14 +125,14 @@ public class JigsawBlueprint : IBlueprint
         string topRightGroupNr = Cells2D[y, x + 1][2].ToString();
         string bottomRightGroupNr = Cells2D[y + 1, x + 1][2].ToString();
 
-        IDrawable drawable = new Cell(SplitWall);
+        IDrawable drawable = new CellRegion(SplitWall);
 
         if (topLeftGroupNr != topRightGroupNr &&
             bottomLeftGroupNr != bottomRightGroupNr && 
             topLeftGroupNr == bottomLeftGroupNr &&
             topRightGroupNr == bottomRightGroupNr)
         {     
-            return new Cell(VerticalWall);        
+            return new CellRegion(VerticalWall);        
         }
 
         if (topLeftGroupNr == topRightGroupNr &&
@@ -139,13 +140,13 @@ public class JigsawBlueprint : IBlueprint
             topLeftGroupNr != bottomLeftGroupNr &&
             topRightGroupNr != bottomRightGroupNr)
         {
-            return new Cell(HorizontalWall);    
+            return new CellRegion(HorizontalWall);    
         }
 
         if (topLeftGroupNr == bottomRightGroupNr &&
             topRightGroupNr == bottomLeftGroupNr)
         {
-            return new Cell(EmptyDrawing);
+            return new CellRegion(EmptyDrawing);
         }
 
         return drawable;
@@ -160,10 +161,10 @@ public class JigsawBlueprint : IBlueprint
 
         if (leftGroupNr != rightGroupNr)
         {
-            return new Cell(VerticalWall);
+            return new CellRegion(VerticalWall);
         }
 
-        return new Cell(EmptyDrawing);
+        return new CellRegion(EmptyDrawing);
     }
 
     private IDrawable HorizontalSeparationDrawing(int y, int x)
@@ -175,21 +176,21 @@ public class JigsawBlueprint : IBlueprint
 
         if (topGroupNr != bottomGroupNr)
         {
-            return new Cell(HorizontalWall);
+            return new CellRegion(HorizontalWall);
         }
 
-        return new Cell(EmptyDrawing);
+        return new CellRegion(EmptyDrawing);
     }
 
     private IDrawable DefaultHorizontalWalls(bool isLast)
     {
-        EmptyGrid jigsawGroup = new EmptyGrid();
+        EmptyRegion jigsawGroup = new EmptyRegion();
 
-        jigsawGroup.Add(new Cell(SplitWall));
+        jigsawGroup.Add(new CellRegion(SplitWall));
 
         for (int x = 0; x < ColumnSize; x++)
         {
-            jigsawGroup.Add(new Cell(HorizontalWall));
+            jigsawGroup.Add(new CellRegion(HorizontalWall));
 
             if(x != ColumnSize - 1)
             {
@@ -200,20 +201,20 @@ public class JigsawBlueprint : IBlueprint
 
                 if(topLeftGroupNr == topRightGroupNr)
                 {
-                    jigsawGroup.Add(new Cell(HorizontalWall));
+                    jigsawGroup.Add(new CellRegion(HorizontalWall));
                 }
                 else
                 {
-                    jigsawGroup.Add(new Cell(SplitWall));
+                    jigsawGroup.Add(new CellRegion(SplitWall));
                 }
                 
             }
 
         }
 
-        jigsawGroup.Add(new Cell(SplitWall));
+        jigsawGroup.Add(new CellRegion(SplitWall));
 
-        return new Row(jigsawGroup);
+        return new RowRegion(jigsawGroup);
     }
 
 
