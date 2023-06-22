@@ -1,4 +1,5 @@
 using Logic.Grid;
+using Logic.Parser.Builder;
 
 namespace Logic.Parser;
 
@@ -22,39 +23,7 @@ public class SamuraiSudokuParser : ISudokuParser
             return null;
         }
 
-        return CreateBoard(numbers);
-    }
-
-    private IBoard CreateBoard(List<int> numbers)
-    {
-        List<Cell> cells = new List<Cell>();
-        List<Group> groups = new List<Group>();
-        List<Group> rows = new List<Group>();
-        List<Group> columns = new List<Group>();
-
-        int index = 0;
-        for (int subSudoku = 0; subSudoku < SubSudokuAmount; subSudoku++)
-        {
-            for (int row = 0; row < GroupAmount; row++)
-            {
-                List<Cell> groupCells = new List<Cell>();
-                for (int col = 0; col < CellsPerGroup; col++)
-                {
-                    int absoluteRow = subSudoku + row;
-                    int absoluteCol = subSudoku + col;
-
-                    Cell cell = new Cell(numbers[index], absoluteCol + 1, absoluteRow + 1);
-                    groupCells.Add(cell);
-                    cells.Add(cell);
-
-                    index++;
-                }
-
-                Group group = new Group(groupCells);
-                groups.Add(group);
-            }
-        }
-
-        return new SamuraiBoard(cells, groups, rows, columns);
+        return new SamuraiSudokuBuilder(numbers)
+            .BuildCells().BuildRows().BuildColumns().BuildGroups().AssignGroups().Generate<SamuraiBoard>();
     }
 }
