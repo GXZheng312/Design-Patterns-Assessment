@@ -25,14 +25,26 @@ public class SamuraiSudokuBuilder : IBoardBuilder
     public IBoardBuilder BuildCells()
     {
         int index = 0;
-        for (int subSudoku = 0; subSudoku < SubSudokuAmount; subSudoku++)
+        for (int i = 0; i < SubSudokuAmount; i++)
         {
-            for (int row = 0; row < GroupAmount; row++)
+            for (int y = 0; y < GroupAmount; y++)
             {
-                for (int col = 0; col < CellsPerGroup; col++)
-                {
-                    int absoluteRow = (subSudoku * 3) + row + 1;
-                    int absoluteCol = (subSudoku * 3) + col + 1;
+                for (int x = 0; x < CellsPerGroup; x++)
+                {   
+                    int absoluteRow = (i * 3) + y + 1;
+                    int absoluteCol = (i * 3) + x + 1;
+
+                    switch (i)
+                    {
+                        case 1:
+                            absoluteRow -= 3;
+                            absoluteCol += 9;
+                            break;
+                        case 3:
+                            absoluteRow += 3;
+                            absoluteCol -= 9;
+                            break;
+                    }
 
                     // Empty cells
                     // if (absoluteCol is >= 10 and <= 12 && ((absoluteRow is >= 1 and <= 6) || (absoluteRow is >= 16 and <= 21)))
@@ -40,8 +52,7 @@ public class SamuraiSudokuBuilder : IBoardBuilder
                     // if (absoluteRow is >= 10 and <= 12 && ((absoluteCol is >= 1 and <= 6) || (absoluteCol is >= 16 and <= 21)))
                     //     continue;
 
-                    Cell cell = new Cell(Raw[index], absoluteCol, absoluteRow);
-                    Cells.Add(cell);
+                    Cells.Add(new Cell(Raw[index], absoluteCol, absoluteRow));
 
                     index++;
                 }
@@ -119,7 +130,6 @@ public class SamuraiSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildGroups()
     {
-        Cells.Where(c => c.X == 4).ToList().ForEach(c => Console.WriteLine(c.Y));
         for (int x = 1; x <= 7; x++)
         {
             for (int y = 1; y <= 7; y++)
@@ -134,7 +144,8 @@ public class SamuraiSudokuBuilder : IBoardBuilder
                 int minY = ((y - 1) * 3) + 1;
                 int maxY = ((y - 1) * 3) + 3;
 
-                List<Cell> cells = Cells.Where(cell => cell.X >= minX && cell.X <= maxX && cell.Y >= minY && cell.Y <= maxY).ToList();
+                List<Cell> cells = Cells
+                    .Where(cell => cell.X >= minX && cell.X <= maxX && cell.Y >= minY && cell.Y <= maxY).ToList();
                 // Console.WriteLine($"{cells.Count}: {minX}-{maxX}, {minY}-{maxY}");
                 Group group = new Group(cells);
                 Groups.Add(group);
