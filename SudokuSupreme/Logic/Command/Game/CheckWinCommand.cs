@@ -30,7 +30,7 @@ namespace Logic.Command.Game
 
         private void IsWin(SudokuGame sudokuGame)
         {
-
+            sudokuGame.Stop();
         }
     }
 

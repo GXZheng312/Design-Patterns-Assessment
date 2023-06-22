@@ -16,7 +16,6 @@ public class SudokuGame : IGame
     public IPublisher SudokuObserver { get; set; }
     public IInputReader InputReader { get; set; }
     public CommandHandler CommandHandler { get; set; }
-
     public bool IsRunning { get; set; }
 
     public SudokuGame()
@@ -28,25 +27,13 @@ public class SudokuGame : IGame
         this.CommandHandler = new CommandHandler();
     }
 
-    public void Initialize()
-    {
-        this.Messager.AddMessage("Welcome to the Game SUDOKU SUPREME!");
-
-        this.CommandHandler.SwitchMode(new DefaultCommandFactory());
-        this.CommandHandler.HandleInput("SetupBoard").Execute(this);
-        this.CommandHandler.SwitchMode(new GameCommandFactory());  
-
-        this.InputReader = new KeyPressReader();
-        this.IsRunning = true;
-        this.Render();
-    }
-
     public void Start()
     {
         this.Initialize();
 
         while (IsRunning)
         {
+            this.UpdateGameState();
             this.ProcessInput();
             this.Render();
         }
@@ -54,7 +41,30 @@ public class SudokuGame : IGame
         this.CleanUp();
     }
 
-    public void ProcessInput()
+    public void Stop()
+    {
+        IsRunning = false;
+    }
+
+    private void Initialize()
+    {
+        this.Messager.AddMessage("Welcome to the Game SUDOKU SUPREME!");
+
+        this.CommandHandler.SwitchMode(new DefaultCommandFactory());
+        this.CommandHandler.HandleInput("SetupBoard").Execute(this);
+        this.CommandHandler.SwitchMode(new GameCommandFactory());
+
+        this.InputReader = new KeyPressReader();
+        this.IsRunning = true;
+        this.Render();
+    }
+
+    private void UpdateGameState()
+    {
+        //this.CommandHandler.HandleInput("CheckWin").Execute(this);
+    }
+
+    private void ProcessInput()
     {
         string input = InputReader.ReadInput();
 
@@ -69,20 +79,15 @@ public class SudokuGame : IGame
         }
     }
 
-    public void Render()
+    private void Render()
     {
         this.SudokuObserver.Notify();
         this.Messager.AddMessage("\nControls:\nARROW keys: Move around board\nENTER: Select cell\nSPACE: Swap game state (edit/definitive)\nQ: Quit\n");
     }
 
-    public void Stop()
-    {
-        IsRunning = false;
-    }
-
-    public void CleanUp()
+    private void CleanUp()
     {
         this.Messager.AddMessage("bye bye");
     }
-    
+      
 }

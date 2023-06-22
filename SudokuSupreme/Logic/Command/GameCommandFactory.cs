@@ -14,6 +14,7 @@ public class GameCommandFactory : CommandFactory
     {
         switch (input)
         {
+            case "CheckWin": return new CheckWinCommand();
             case "Enter": return new SelectCommand();
             case "Spacebar": return new ChangeGameStateCommand();
             case "UpArrow": return new MoveUpCommand();
