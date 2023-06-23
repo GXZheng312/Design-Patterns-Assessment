@@ -8,8 +8,6 @@ internal static class TestJigsawSudokuBoardBuilder
     internal static JigsawBoard Build(int[] values, int[] groupNumbers)
     {
         List<Cell> cells = new();
-        List<Group> rows = new();
-        List<Group> columns = new();
         List<Group> groups = Enumerable.Range(0, 9).Select(_ => new Group(new List<Cell>())).ToList();
 
         for (int i = 0; i < values.Length; i++)
@@ -24,9 +22,11 @@ internal static class TestJigsawSudokuBoardBuilder
             groups[groupNumber].Cells.Add(cell);
         }
 
-        rows = TestSudokuGridBuilder.BuildRows(9, cells);
-        columns = TestSudokuGridBuilder.BuildColumns(9, cells);
+        List<Group> rows = TestSudokuGridBuilder.BuildRows(9, cells);
+        List<Group> columns = TestSudokuGridBuilder.BuildColumns(9, cells);
         
+        TestSudokuGridBuilder.AssignGroups(rows, columns, groups);
+
         // Use this to log the board
         TestSudokuLogger.Log(9, 9, cells, rows, columns, groups);
 
