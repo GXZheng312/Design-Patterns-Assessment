@@ -30,8 +30,6 @@ internal static class TestSamuraiSudokuBoardBuilder
             {
                 for (int x = 0; x < 9; x++)
                 {
-                    int number = subGrid[x, y];
-
                     int absoluteRow = (i * 3) + y + 1;
                     int absoluteCol = (i * 3) + x + 1;
 
@@ -47,7 +45,7 @@ internal static class TestSamuraiSudokuBoardBuilder
                             break;
                     }
                     
-                    TestContext.Progress.Write($"{absoluteCol}:{absoluteRow},");
+                    int number = subGrid[y, x];
 
                     Cell cell = new Cell(number, absoluteCol, absoluteRow);
                     cells.Add(cell);
@@ -166,7 +164,7 @@ internal static class TestSamuraiSudokuBoardBuilder
                 Cell outerCell;
                 Cell centerCell;
 
-                if (g <= 1)
+                if (g is 0 or 2)
                 {
                     outerCell = group.Cells[i];
                     centerCell = group.Cells[i + 9];
@@ -177,7 +175,7 @@ internal static class TestSamuraiSudokuBoardBuilder
                     centerCell = group.Cells[i];
                 }
 
-                if (centerCell.Number == 0 && outerCell.Number != 0)
+                if (centerCell.Number == 0 && outerCell.Number != -1)
                 {
                     centerCell.Number = outerCell.Number;
                 }
@@ -197,7 +195,7 @@ internal static class TestSamuraiSudokuBoardBuilder
                 }
             });
         });
-
+        
         return groups;
     }
 }
