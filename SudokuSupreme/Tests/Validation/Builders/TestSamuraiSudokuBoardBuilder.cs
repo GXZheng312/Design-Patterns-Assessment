@@ -1,36 +1,38 @@
-﻿using Logic.Grid;
+using Logic.Grid;
+using NUnit.Framework;
 
-namespace Logic.Parser.Builder;
+namespace Tests.Validation.Builders;
 
-public class SamuraiSudokuBuilder : IBoardBuilder
+internal static class TestSamuraiSudokuBoardBuilder
 {
-    private List<Cell> Cells = new();
-    private List<Group> Rows = new();
-    private List<Group> Columns = new();
-    private List<Group> Groups = new();
-
-    private List<int> Raw { get; set; }
-
-    private int GroupAmount = 9;
-    private int CellsPerGroup = 9;
-    private int RowColAmount = 9;
-    private int TotalRowColAmount = 21;
-    private int SubSudokuAmount = 5;
-
-    public SamuraiSudokuBuilder(List<int> cells)
+    internal static SamuraiBoard Build(List<int[,]> grid)
     {
-        this.Raw = cells;
+        List<Cell> cells = BuildCells(grid);
+        List<Group> rows = BuildRows(cells);
+        List<Group> columns = BuildColumns(cells);
+        List<Group> groups = BuildGroups(cells);
+        
+        groups.ForEach(g=>TestContext.Progress.WriteLine(g.Cells.Count));
+
+        return new SamuraiBoard(cells, groups, rows, columns);
     }
 
-    public IBoardBuilder BuildCells()
+    private static List<Cell> BuildCells(List<int[,]> grid)
     {
-        int index = 0;
-        for (int i = 0; i < SubSudokuAmount; i++)
+        List<Cell> cells = new();
+
+        for (var i = 0; i < grid.Count; i++)
         {
-            for (int y = 0; y < GroupAmount; y++)
+            int[,] subGrid = grid[i];
+
+            for (int y = 0; y < 9; y++)
             {
-                for (int x = 0; x < CellsPerGroup; x++)
+                for (int x = 0; x < 9; x++)
                 {
+                    int number = subGrid[x, y];
+                    
+                    if (number == -1) continue;
+                    
                     int absoluteRow = (i * 3) + y + 1;
                     int absoluteCol = (i * 3) + x + 1;
 
@@ -46,33 +48,34 @@ public class SamuraiSudokuBuilder : IBoardBuilder
                             break;
                     }
 
-                    Cells.Add(new Cell(Raw[index], absoluteCol, absoluteRow));
-
-                    index++;
+                    Cell cell = new Cell(number, absoluteCol, absoluteRow);
+                    cells.Add(cell);
                 }
             }
         }
 
-        return this;
+        return cells;
     }
 
-    public IBoardBuilder BuildRows()
+    private static List<Group> BuildRows(List<Cell> cells)
     {
+        List<Group> rows = new();
+        
         for (int x = 0; x < 2; x++)
         {
             for (int r = 0; r < 2; r++)
             {
-                for (int y = 0; y < RowColAmount; y++)
+                for (int y = 0; y < 9; y++)
                 {
                     int minX = 0 + (x * 12) + 1;
                     int maxX = 8 + (x * 12) + 1;
                     int rowNumber = y + (r * 12) + 1;
 
-                    List<Cell> cells = new();
-                    cells.AddRange(Cells.Where(cell => cell.Y == rowNumber && cell.X >= minX && cell.X <= maxX));
+                    List<Cell> rowCells = new();
+                    rowCells.AddRange(cells.Where(cell => cell.Y == rowNumber && cell.X >= minX && cell.X <= maxX));
 
-                    Group row = new Group(cells);
-                    Rows.Add(row);
+                    Group row = new Group(rowCells);
+                    rows.Add(row);
                 }
             }
         }
@@ -82,30 +85,32 @@ public class SamuraiSudokuBuilder : IBoardBuilder
             int minX = 7;
             int maxX = 15;
 
-            Group row = new Group(Cells.Where(cell => cell.Y == y && cell.X >= minX && cell.X <= maxX).ToList());
-            Rows.Add(row);
+            Group row = new Group(cells.Where(cell => cell.Y == y && cell.X >= minX && cell.X <= maxX).ToList());
+            rows.Add(row);
         }
 
-        return this;
+        return rows;
     }
 
-    public IBoardBuilder BuildColumns()
+    private static List<Group> BuildColumns(List<Cell> cells)
     {
+        List<Group> columns = new();
+        
         for (int y = 0; y < 2; y++)
         {
             for (int c = 0; c < 2; c++)
             {
-                for (int x = 0; x < RowColAmount; x++)
+                for (int x = 0; x < 9; x++)
                 {
                     int minY = 0 + (y * 12) + 1;
                     int maxY = 8 + (y * 12) + 1;
                     int colNumber = x + (c * 12) + 1;
 
-                    List<Cell> cells = new();
-                    cells.AddRange(Cells.Where(cell => cell.X == colNumber && cell.Y >= minY && cell.Y <= maxY));
+                    List<Cell> columnCells = new();
+                    columnCells.AddRange(cells.Where(cell => cell.X == colNumber && cell.Y >= minY && cell.Y <= maxY));
 
-                    Group column = new Group(cells);
-                    Columns.Add(column);
+                    Group column = new Group(columnCells);
+                    columns.Add(column);
                 }
             }
         }
@@ -115,15 +120,17 @@ public class SamuraiSudokuBuilder : IBoardBuilder
             int minY = 7;
             int maxY = 15;
 
-            Group column = new Group(Cells.Where(cell => cell.X == x && cell.Y >= minY && cell.Y <= maxY).ToList());
-            Columns.Add(column);
+            Group column = new Group(cells.Where(cell => cell.X == x && cell.Y >= minY && cell.Y <= maxY).ToList());
+            columns.Add(column);
         }
 
-        return this;
+        return columns;
     }
 
-    public IBoardBuilder BuildGroups()
+    private static List<Group> BuildGroups(List<Cell> cells)
     {
+        List<Group> groups = new();
+        
         for (int x = 1; x <= 7; x++)
         {
             for (int y = 1; y <= 7; y++)
@@ -138,16 +145,16 @@ public class SamuraiSudokuBuilder : IBoardBuilder
                 int minY = ((y - 1) * 3) + 1;
                 int maxY = ((y - 1) * 3) + 3;
 
-                List<Cell> cells = Cells
+                List<Cell> groupCells = cells
                     .Where(cell => cell.X >= minX && cell.X <= maxX && cell.Y >= minY && cell.Y <= maxY).ToList();
 
-                Group group = new Group(cells);
-                Groups.Add(group);
+                Group group = new Group(groupCells);
+                groups.Add(group);
             }
         }
 
         // Overlapping groups/cells
-        List<Group> doubleGroups = Groups.Where(g => g.Cells.Count == 18).ToList();
+        List<Group> doubleGroups = groups.Where(g => g.Cells.Count == 18).ToList();
         List<Cell> cellsToRemove = new();
         for (var g = 0; g < doubleGroups.Count; g++)
         {
@@ -180,8 +187,7 @@ public class SamuraiSudokuBuilder : IBoardBuilder
 
         cellsToRemove.ForEach(c =>
         {
-            Cells.Remove(c);
-            Groups.ForEach(g =>
+            groups.ForEach(g =>
             {
                 if (g.Cells.Contains(c))
                 {
@@ -190,31 +196,6 @@ public class SamuraiSudokuBuilder : IBoardBuilder
             });
         });
 
-        return this;
-    }
-
-    public IBoardBuilder AssignGroups()
-    {
-        foreach (var row in Rows)
-        {
-            row.Cells.ForEach(c => c.AddValidations(row));
-        }
-
-        foreach (var column in Columns)
-        {
-            column.Cells.ForEach(c => c.AddValidations(column));
-        }
-
-        foreach (var group in Groups)
-        {
-            group.Cells.ForEach(c => c.AddValidations(group));
-        }
-
-        return this;
-    }
-
-    public IBoard Generate<T>() where T : IBoard
-    {
-        return (T)Activator.CreateInstance(typeof(T), this.Cells, this.Groups, this.Rows, this.Columns);
+        return groups;
     }
 }
