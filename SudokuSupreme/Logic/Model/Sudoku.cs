@@ -1,14 +1,13 @@
-﻿using Logic.Grid;
-using Logic.Observer;
+﻿using Logic.Observer;
 using Logic.Parser;
 using Utility;
 using Utility.FileReader;
 using Utility.Input;
 using StringReader = Utility.Input.StringReader;
 
-namespace Logic;
+namespace Logic.Grid;
 
-public class Sudoku 
+public class Sudoku
 {
     public Board Board { get; set; }
 
@@ -16,7 +15,7 @@ public class Sudoku
 
     public Sudoku()
     {
-        this.State = new DefinitiveState();
+        State = new DefinitiveState();
     }
 
 }
