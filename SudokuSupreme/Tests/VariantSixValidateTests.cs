@@ -19,7 +19,8 @@ public class VariantSixValidateTests
             { 6, 1, 2, 3, 4, 5 }
         };
 
-        Assert.True(BuildBoard(grid));
+        VariantSixBoard? board = NormalTestSudokuBuilder.BuildBoard<VariantSixBoard>(grid, 6, 6, 3, 2);
+        Assert.True(board?.Validate());
     }
     
     [Test]
@@ -35,7 +36,8 @@ public class VariantSixValidateTests
             { 6, 1, 2, 3, 4, 5 }
         };
 
-        Assert.False(BuildBoard(grid));
+        VariantSixBoard? board = NormalTestSudokuBuilder.BuildBoard<VariantSixBoard>(grid, 6, 6, 3, 2);
+        Assert.False(board?.Validate());
     }
     
     [Test]
@@ -51,34 +53,7 @@ public class VariantSixValidateTests
             { 6, 0, 2, 0, 4, 0 }
         };
 
-        Assert.False(BuildBoard(grid));
-    }
-
-    private bool BuildBoard(int[,] grid)
-    {
-        List<Cell> cells = Enumerable.Range(0, 36)
-            .Select(index => new Cell(grid[index / 6, index % 6], (index % 6) + 1, (index / 6) + 1))
-            .ToList();
-        List<Group> rows = Enumerable.Range(0, 6)
-            .Select(index => new Group(cells.Where(c => c.Y == index + 1).ToList()))
-            .ToList();
-        List<Group> columns = Enumerable.Range(0, 6)
-            .Select(index => new Group(cells.Where(c => c.X == index + 1).ToList()))
-            .ToList();
-        List<Group> groups = new();
-
-        for (int i = 0; i < 6; i++)
-        {
-            int minY = (i / 2) * 2 + 1;
-            int maxY = (i / 2 + 1) * 2;
-            int minX = (i % 2) * 3 + 1;
-            int maxX = (i % 2 + 1) * 3;
-
-            List<Cell> groupCells = cells.Where(c => c.Y >= minY && c.Y <= maxY && c.X >= minX && c.X <= maxX).ToList();
-            groups.Add(new Group(groupCells));
-        }
-
-        VariantSixBoard board = new VariantSixBoard(cells, groups, rows, columns);
-        return board.Validate();
+        VariantSixBoard? board = NormalTestSudokuBuilder.BuildBoard<VariantSixBoard>(grid, 6, 6, 3, 2);
+        Assert.False(board?.Validate());
     }
 }
