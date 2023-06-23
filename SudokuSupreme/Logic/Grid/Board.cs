@@ -36,7 +36,7 @@ public class Board : ISudokuSerializable, IGridValidate, IBoard
 
     public bool Validate()
     {
-        throw new NotImplementedException();
+        return true;
     }
 
     public void MoveUp()
