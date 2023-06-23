@@ -77,10 +77,8 @@ public class VariantSixValidateTests
             List<Cell> groupCells = cells.Where(c => c.Y >= minY && c.Y <= maxY && c.X >= minX && c.X <= maxX).ToList();
             groups.Add(new Group(groupCells));
         }
-        
-        groups.ForEach(r => TestContext.Progress.WriteLine($"{r.Cells.Count}"));
 
-        VariantFourBoard board = new VariantFourBoard(cells, groups, rows, columns);
+        VariantSixBoard board = new VariantSixBoard(cells, groups, rows, columns);
         return board.Validate();
     }
 }
