@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace Tests;
 
-internal class NormalTestSudokuBuilder
+internal static class NormalTestSudokuBuilder
 {
     internal static T? BuildBoard<T>(int[,] grid, int sizeX, int sizeY, int groupSizeX, int groupSizeY) where T : Board
     {
