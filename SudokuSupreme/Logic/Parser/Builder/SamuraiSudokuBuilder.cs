@@ -30,7 +30,7 @@ public class SamuraiSudokuBuilder : IBoardBuilder
             for (int y = 0; y < GroupAmount; y++)
             {
                 for (int x = 0; x < CellsPerGroup; x++)
-                {   
+                {
                     int absoluteRow = (i * 3) + y + 1;
                     int absoluteCol = (i * 3) + x + 1;
 
@@ -45,12 +45,6 @@ public class SamuraiSudokuBuilder : IBoardBuilder
                             absoluteCol -= 9;
                             break;
                     }
-
-                    // Empty cells
-                    // if (absoluteCol is >= 10 and <= 12 && ((absoluteRow is >= 1 and <= 6) || (absoluteRow is >= 16 and <= 21)))
-                    //     continue;
-                    // if (absoluteRow is >= 10 and <= 12 && ((absoluteCol is >= 1 and <= 6) || (absoluteCol is >= 16 and <= 21)))
-                    //     continue;
 
                     Cells.Add(new Cell(Raw[index], absoluteCol, absoluteRow));
 
@@ -144,12 +138,61 @@ public class SamuraiSudokuBuilder : IBoardBuilder
                 int minY = ((y - 1) * 3) + 1;
                 int maxY = ((y - 1) * 3) + 3;
 
-                List<Cell> cells = Cells.Where(cell => cell.X >= minX && cell.X <= maxX && cell.Y >= minY && cell.Y <= maxY).ToList();
-                
+                List<Cell> cells = Cells
+                    .Where(cell => cell.X >= minX && cell.X <= maxX && cell.Y >= minY && cell.Y <= maxY).ToList();
+
                 Group group = new Group(cells);
                 Groups.Add(group);
             }
         }
+
+        // Overlapping groups/cells
+        List<Group> doubleGroups = Groups.Where(g => g.Cells.Count == 18).ToList();
+        List<Cell> cellsToRemove = new();
+        for (var g = 0; g < doubleGroups.Count; g++)
+        {
+            Group group = doubleGroups[g];
+
+            for (int i = 0; i < 9; i++)
+            {
+                Cell outerCell;
+                Cell centerCell;
+
+                if (g <= 1)
+                {
+                    outerCell = group.Cells[i];
+                    centerCell = group.Cells[i + 9];
+                }
+                else
+                {
+                    outerCell = group.Cells[i + 9];
+                    centerCell = group.Cells[i];
+                }
+
+                if (centerCell.Number == 0 && outerCell.Number != 0)
+                {
+                    centerCell.Number = outerCell.Number;
+                }
+                
+                cellsToRemove.Add(outerCell);
+            }
+        }
+
+        cellsToRemove.ForEach(c =>
+        {
+            Cells.Remove(c);
+            Groups.ForEach(g =>
+            {
+                if (g.Cells.Contains(c))
+                {
+                    g.Cells.Remove(c);
+                }
+            });
+        });
+        
+        Rows.ForEach(r => Console.WriteLine(r.Cells.Count));
+        Columns.ForEach(r => Console.WriteLine(r.Cells.Count));
+        Groups.ForEach(r => Console.WriteLine(r.Cells.Count));
 
         return this;
     }
