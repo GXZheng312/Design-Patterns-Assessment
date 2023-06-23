@@ -1,7 +1,8 @@
 ﻿using Logic.Grid;
 using NUnit.Framework;
+using Tests.Validation.Builders;
 
-namespace Tests;
+namespace Tests.Validation;
 
 [TestFixture]
 public class VariantNineValidateTests
@@ -22,7 +23,7 @@ public class VariantNineValidateTests
             { 6, 7, 8, 9, 1, 2, 3, 4, 5 }
         };
 
-        VariantNineBoard? board = NormalTestSudokuBuilder.BuildBoard<VariantNineBoard>(grid, 9, 9, 3, 3);
+        VariantNineBoard? board = TestNormalSudokuBoardBuilder.Build<VariantNineBoard>(grid, 9, 9, 3, 3);
         Assert.True(board?.Validate());
     }
     
@@ -42,7 +43,7 @@ public class VariantNineValidateTests
             { 9, 1, 2, 3, 4, 5, 6, 7, 8 }
         };
 
-        VariantNineBoard? board = NormalTestSudokuBuilder.BuildBoard<VariantNineBoard>(grid, 9, 9, 3, 3);
+        VariantNineBoard? board = TestNormalSudokuBoardBuilder.Build<VariantNineBoard>(grid, 9, 9, 3, 3);
         Assert.False(board?.Validate());
     }
     
@@ -62,7 +63,7 @@ public class VariantNineValidateTests
             { 9, 0, 0, 0, 0, 5, 6, 7, 0 }
         };
 
-        VariantNineBoard? board = NormalTestSudokuBuilder.BuildBoard<VariantNineBoard>(grid, 9, 9, 3, 3);
+        VariantNineBoard? board = TestNormalSudokuBoardBuilder.Build<VariantNineBoard>(grid, 9, 9, 3, 3);
         Assert.False(board?.Validate());
     }
 }

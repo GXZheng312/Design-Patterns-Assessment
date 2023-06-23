@@ -1,7 +1,8 @@
 ﻿using Logic.Grid;
 using NUnit.Framework;
+using Tests.Validation.Builders;
 
-namespace Tests;
+namespace Tests.Validation;
 
 [TestFixture]
 public class VariantSixValidateTests
@@ -19,7 +20,7 @@ public class VariantSixValidateTests
             { 6, 1, 2, 3, 4, 5 }
         };
 
-        VariantSixBoard? board = NormalTestSudokuBuilder.BuildBoard<VariantSixBoard>(grid, 6, 6, 3, 2);
+        VariantSixBoard? board = TestNormalSudokuBoardBuilder.Build<VariantSixBoard>(grid, 6, 6, 3, 2);
         Assert.True(board?.Validate());
     }
     
@@ -36,7 +37,7 @@ public class VariantSixValidateTests
             { 6, 1, 2, 3, 4, 5 }
         };
 
-        VariantSixBoard? board = NormalTestSudokuBuilder.BuildBoard<VariantSixBoard>(grid, 6, 6, 3, 2);
+        VariantSixBoard? board = TestNormalSudokuBoardBuilder.Build<VariantSixBoard>(grid, 6, 6, 3, 2);
         Assert.False(board?.Validate());
     }
     
@@ -53,7 +54,7 @@ public class VariantSixValidateTests
             { 6, 0, 2, 0, 4, 0 }
         };
 
-        VariantSixBoard? board = NormalTestSudokuBuilder.BuildBoard<VariantSixBoard>(grid, 6, 6, 3, 2);
+        VariantSixBoard? board = TestNormalSudokuBoardBuilder.Build<VariantSixBoard>(grid, 6, 6, 3, 2);
         Assert.False(board?.Validate());
     }
 }
