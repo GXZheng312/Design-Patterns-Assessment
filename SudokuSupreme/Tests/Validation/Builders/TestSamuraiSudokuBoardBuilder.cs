@@ -8,11 +8,11 @@ internal static class TestSamuraiSudokuBoardBuilder
     internal static SamuraiBoard Build(List<int[,]> grid)
     {
         List<Cell> cells = BuildCells(grid);
+        List<Group> groups = BuildGroups(cells);
         List<Group> rows = BuildRows(cells);
         List<Group> columns = BuildColumns(cells);
-        List<Group> groups = BuildGroups(cells);
         
-        groups.ForEach(g=>TestContext.Progress.WriteLine(g.Cells.Count));
+        TestSudokuGridBuilder.AssignGroups(rows, columns, groups);
 
         return new SamuraiBoard(cells, groups, rows, columns);
     }
@@ -30,9 +30,7 @@ internal static class TestSamuraiSudokuBoardBuilder
                 for (int x = 0; x < 9; x++)
                 {
                     int number = subGrid[x, y];
-                    
-                    if (number == -1) continue;
-                    
+
                     int absoluteRow = (i * 3) + y + 1;
                     int absoluteCol = (i * 3) + x + 1;
 
@@ -47,6 +45,8 @@ internal static class TestSamuraiSudokuBoardBuilder
                             absoluteCol -= 9;
                             break;
                     }
+                    
+                    TestContext.Progress.Write($"{absoluteCol}:{absoluteRow},");
 
                     Cell cell = new Cell(number, absoluteCol, absoluteRow);
                     cells.Add(cell);
@@ -60,7 +60,7 @@ internal static class TestSamuraiSudokuBoardBuilder
     private static List<Group> BuildRows(List<Cell> cells)
     {
         List<Group> rows = new();
-        
+
         for (int x = 0; x < 2; x++)
         {
             for (int r = 0; r < 2; r++)
@@ -95,7 +95,7 @@ internal static class TestSamuraiSudokuBoardBuilder
     private static List<Group> BuildColumns(List<Cell> cells)
     {
         List<Group> columns = new();
-        
+
         for (int y = 0; y < 2; y++)
         {
             for (int c = 0; c < 2; c++)
@@ -130,7 +130,7 @@ internal static class TestSamuraiSudokuBoardBuilder
     private static List<Group> BuildGroups(List<Cell> cells)
     {
         List<Group> groups = new();
-        
+
         for (int x = 1; x <= 7; x++)
         {
             for (int y = 1; y <= 7; y++)
@@ -180,13 +180,14 @@ internal static class TestSamuraiSudokuBoardBuilder
                 {
                     centerCell.Number = outerCell.Number;
                 }
-                
+
                 cellsToRemove.Add(outerCell);
             }
         }
 
         cellsToRemove.ForEach(c =>
         {
+            cells.Remove(c);
             groups.ForEach(g =>
             {
                 if (g.Cells.Contains(c))

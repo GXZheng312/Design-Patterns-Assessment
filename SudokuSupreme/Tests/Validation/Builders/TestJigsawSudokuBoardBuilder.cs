@@ -24,6 +24,8 @@ internal static class TestJigsawSudokuBoardBuilder
 
         List<Group> rows = TestSudokuGridBuilder.BuildRows(9, cells);
         List<Group> columns = TestSudokuGridBuilder.BuildColumns(9, cells);
+        
+        TestSudokuGridBuilder.AssignGroups(rows, columns, groups);
 
         // Use this to log the board
         TestSudokuLogger.Log(9, 9, cells, rows, columns, groups);

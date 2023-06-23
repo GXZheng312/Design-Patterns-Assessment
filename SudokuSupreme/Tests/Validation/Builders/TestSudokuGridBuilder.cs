@@ -24,4 +24,22 @@ internal static class TestSudokuGridBuilder
             .Select(index => new Group(cells.Where(c => c.X == index + 1).ToList()))
             .ToList();
     }
+
+    internal static void AssignGroups(List<Group> rows, List<Group> columns, List<Group> groups)
+    {
+        foreach (var row in rows)
+        {
+            row.Cells.ForEach(c => c.AddValidations(row));
+        }
+
+        foreach (var column in columns)
+        {
+            column.Cells.ForEach(c => c.AddValidations(column));
+        }
+
+        foreach (var group in groups)
+        {
+            group.Cells.ForEach(c => c.AddValidations(group));
+        }
+    }
 }
