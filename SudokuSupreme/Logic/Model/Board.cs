@@ -12,7 +12,7 @@ public abstract class Board : ISudokuSerializable, IGridValidate, IBoard, IVisit
     public List<Group> Columns { get; set; } = new List<Group>();
     public string Type { get; set; }
 
-    public Cell? SelectedCell { get; set; }
+    public Cell SelectedCell { get; set; }
 
     public Board()
     {

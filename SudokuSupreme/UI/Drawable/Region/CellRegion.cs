@@ -59,14 +59,14 @@ public class CellRegion : IDrawable
     {
         if (this.Definitive is not true || IsEmptyCell()) return;
 
-        Console.ForegroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
         Console.BackgroundColor = ConsoleColor.Yellow;
     }
 
     private void CheckSelected()
     {
         if (!this.Selected) return;
-
+        Console.BackgroundColor = ConsoleColor.White;
         Console.BackgroundColor = ConsoleColor.DarkCyan;
     }
 

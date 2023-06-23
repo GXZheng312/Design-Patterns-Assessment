@@ -5,16 +5,16 @@ public class MoveLeft : IVisitor
 {
     public void Visit(IVisitable visitor)
     {
-        Board board = visitor as Board;
+        if (visitor is not Board board) return;
+        if (board.SelectedCell == null) return;
 
-        if (board == null) return;
+        Group group = board.Rows.FirstOrDefault(row => row.Cells.Contains(board.SelectedCell))!;
+        int newPosition = group.Cells.FindIndex(cell => cell == board.SelectedCell) - 1;
 
-        Cell newLocation = board.Cells.FirstOrDefault(c => c.X == board.SelectedCell.X - 1 && c.Y == board.SelectedCell.Y);
+        if (0 > newPosition) return;
 
-        if (newLocation != null)
-        {
-            board.SelectedCell = newLocation;
-        }
+        Cell newLocation = group.Cells[newPosition];
+        board.SelectedCell = newLocation;
     }
 }
 

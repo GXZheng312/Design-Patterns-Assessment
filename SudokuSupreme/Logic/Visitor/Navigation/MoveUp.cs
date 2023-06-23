@@ -5,16 +5,16 @@ public class MoveUp : IVisitor
 {
     public void Visit(IVisitable visitor)
     {
-        Board board = visitor as Board;
+        if (visitor is not Board board) return;
+        if (board.SelectedCell == null) return;
 
-        if (board == null) return;
+        Group group = board.Columns.FirstOrDefault(column => column.Cells.Contains(board.SelectedCell))!;
+        int newPosition = group.Cells.FindIndex(cell => cell == board.SelectedCell) - 1;
 
-        Cell newLocation = board.Cells.FirstOrDefault(c => c.X == board.SelectedCell.X && c.Y == board.SelectedCell.Y - 1);
+        if (0 > newPosition) return;
 
-        if (newLocation != null)
-        {
-            board.SelectedCell = newLocation;
-        }
+        Cell newLocation = group.Cells[newPosition];
+        board.SelectedCell = newLocation;
     }
 }
 
