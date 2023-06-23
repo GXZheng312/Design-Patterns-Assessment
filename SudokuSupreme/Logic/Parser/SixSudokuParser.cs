@@ -24,6 +24,6 @@ public class SixSudokuParser : ISudokuParser
         }
 
         return new NormalSudokuBuilder(numbers, this.CellsPerGroup, this.RowAmount, this.ColumnAmount)
-            .BuildCells().BuildRows().BuildColumns().BuildGroups().Generate<VariantSixBoard>();
+            .BuildCells().BuildRows().BuildColumns().BuildGroups().AssignGroups().Generate<VariantSixBoard>();
     }
 }
