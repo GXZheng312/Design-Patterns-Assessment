@@ -52,7 +52,7 @@ public class VariantFourBlueprint : IBlueprint
         });
     }
 
-    private RowRegion RowHorizontalWalls()
+    private IDrawable RowHorizontalWalls()
     {
         return new RowRegion(new IDrawable[]
         {

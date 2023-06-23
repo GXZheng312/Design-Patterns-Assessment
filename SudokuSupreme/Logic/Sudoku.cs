@@ -17,7 +17,6 @@ public class Sudoku
     public Sudoku()
     {
         this.State = new DefinitiveState();
-        this.Board = new Board();
     }
 
 }

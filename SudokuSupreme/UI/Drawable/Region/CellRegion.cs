@@ -1,4 +1,5 @@
-﻿using Presentation.Draw;
+﻿using Logic.Grid;
+using Presentation.Draw;
 
 namespace Presentation.Drawable.Region;
 
@@ -14,14 +15,14 @@ public class CellRegion : IDrawable
         this.CellValue = cellValue;
     }
 
-    public CellRegion(Logic.Grid.Cell cell)
+    public CellRegion(Cell cell)
     {
         this.CellValue = cell.Number.ToString();
         this.Definitive = cell.IsDefinitive;
         //this.Wrong = cell.Validate();
     }
 
-    public CellRegion(Logic.Grid.Cell cell, Logic.Grid.Cell selectedCell)
+    public CellRegion(Cell cell, Cell? selectedCell)
     {
         this.CellValue = cell.Number.ToString();
         this.Definitive = cell.IsDefinitive;
@@ -37,7 +38,19 @@ public class CellRegion : IDrawable
     {
         string cellContent = IsEmptyCell() ? ((char)DrawingCharacter.Empty).ToString() : CellValue;
 
+        CheckSelected();
+
         Console.Write(cellContent);
+
+        Console.ResetColor();
+    }
+
+    public void CheckSelected()
+    {
+        if(this.Selected)
+        {
+            Console.BackgroundColor = ConsoleColor.Yellow;
+        }
     }
 
     private bool IsEmptyCell()

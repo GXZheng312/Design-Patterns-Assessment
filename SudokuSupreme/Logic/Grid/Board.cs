@@ -3,7 +3,7 @@ using Logic.Serializer.Serial;
 
 namespace Logic.Grid;
 
-public class Board : ISudokuSerializable, IGridValidate, IBoard
+public abstract class Board : ISudokuSerializable, IGridValidate, IBoard
 {
     public List<Cell> Cells { get; set; } = new List<Cell>();
     public List<Group> Boxes { get; set; } = new List<Group>();
