@@ -5,7 +5,7 @@ namespace Tests.Validation.Builders;
 
 internal static class TestNormalSudokuBoardBuilder
 {
-    internal static T? BuildNormalBoard<T>(int[,] grid, int sizeX, int sizeY, int groupSizeX, int groupSizeY)
+    internal static T? Build<T>(int[,] grid, int sizeX, int sizeY, int groupSizeX, int groupSizeY)
         where T : Board
     {
         List<Cell> cells = TestSudokuGridBuilder.BuildCells(grid, sizeX, sizeY);

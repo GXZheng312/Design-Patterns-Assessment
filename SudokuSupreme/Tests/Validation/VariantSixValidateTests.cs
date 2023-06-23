@@ -20,7 +20,7 @@ public class VariantSixValidateTests
             { 6, 1, 2, 3, 4, 5 }
         };
 
-        VariantSixBoard? board = TestNormalSudokuBoardBuilder.BuildNormalBoard<VariantSixBoard>(grid, 6, 6, 3, 2);
+        VariantSixBoard? board = TestNormalSudokuBoardBuilder.Build<VariantSixBoard>(grid, 6, 6, 3, 2);
         Assert.True(board?.Validate());
     }
     
@@ -37,7 +37,7 @@ public class VariantSixValidateTests
             { 6, 1, 2, 3, 4, 5 }
         };
 
-        VariantSixBoard? board = TestNormalSudokuBoardBuilder.BuildNormalBoard<VariantSixBoard>(grid, 6, 6, 3, 2);
+        VariantSixBoard? board = TestNormalSudokuBoardBuilder.Build<VariantSixBoard>(grid, 6, 6, 3, 2);
         Assert.False(board?.Validate());
     }
     
@@ -54,7 +54,7 @@ public class VariantSixValidateTests
             { 6, 0, 2, 0, 4, 0 }
         };
 
-        VariantSixBoard? board = TestNormalSudokuBoardBuilder.BuildNormalBoard<VariantSixBoard>(grid, 6, 6, 3, 2);
+        VariantSixBoard? board = TestNormalSudokuBoardBuilder.Build<VariantSixBoard>(grid, 6, 6, 3, 2);
         Assert.False(board?.Validate());
     }
 }
