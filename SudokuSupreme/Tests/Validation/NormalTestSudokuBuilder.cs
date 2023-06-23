@@ -1,7 +1,7 @@
 using Logic.Grid;
 using NUnit.Framework;
 
-namespace Tests;
+namespace Tests.Validation;
 
 internal static class NormalTestSudokuBuilder
 {
