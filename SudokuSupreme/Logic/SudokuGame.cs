@@ -61,7 +61,7 @@ public class SudokuGame : IGame
 
     private void UpdateGameState()
     {
-        //this.CommandHandler.HandleInput("CheckWin").Execute(this);
+        this.CommandHandler.HandleInput("CheckWin").Execute(this);
     }
 
     private void ProcessInput()

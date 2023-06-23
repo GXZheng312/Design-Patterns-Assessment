@@ -59,6 +59,7 @@ public class CellRegion : IDrawable
     {
         if (this.Definitive is not true || IsEmptyCell()) return;
 
+        Console.ForegroundColor = ConsoleColor.White;
         Console.BackgroundColor = ConsoleColor.Yellow;
     }
 
@@ -67,7 +68,6 @@ public class CellRegion : IDrawable
         if (!this.Selected) return;
 
         Console.BackgroundColor = ConsoleColor.DarkCyan;
-        Console.ForegroundColor = ConsoleColor.White;
     }
 
     private bool IsEmptyCell()
