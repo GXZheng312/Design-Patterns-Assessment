@@ -37,6 +37,12 @@ public abstract class Board : ISudokuSerializable, IGridValidate, IBoard, IVisit
 
     public bool Validate()
     {
+        foreach (Cell cell in Cells)
+        {
+            if (!cell.Validate())
+                return false;
+        }
+
         return true;
     }
 

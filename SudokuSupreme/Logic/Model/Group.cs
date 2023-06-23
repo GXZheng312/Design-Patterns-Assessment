@@ -19,13 +19,13 @@ public class Group : IGridValidate
             {
                 continue;
             }
-
-            if (cell.IsDefinitive)
+            
+            if (cell.Number >= Cells.Count)
             {
-                continue;
+                return false;
             }
 
-            if (results[cell.Number]) 
+            if (results[cell.Number - 1])
             {
                 return false;
             }
@@ -35,7 +35,4 @@ public class Group : IGridValidate
 
         return true;
     }
-
-
 }
-
