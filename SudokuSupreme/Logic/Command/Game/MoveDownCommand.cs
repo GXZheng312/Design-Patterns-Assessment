@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Logic.Visitor.Navigation;
 
 namespace Logic.Command.Navigation
 {
@@ -12,9 +13,9 @@ namespace Logic.Command.Navigation
         {
             SudokuGame sudokuGame = game as SudokuGame;
 
-            if (sudokuGame != null) 
+            if (sudokuGame != null)
             {
-                sudokuGame.SudokuObject.Board.MoveDown();
+                sudokuGame.SudokuObject.Board.Accept(new MoveDown());
             }
         }
     }

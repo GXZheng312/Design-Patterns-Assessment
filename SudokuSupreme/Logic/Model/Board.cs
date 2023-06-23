@@ -1,9 +1,10 @@
 using Logic.Serializer;
 using Logic.Serializer.Serial;
+using Logic.Visitor;
 
 namespace Logic.Grid;
 
-public abstract class Board : ISudokuSerializable, IGridValidate, IBoard
+public abstract class Board : ISudokuSerializable, IGridValidate, IBoard, IVisitable
 {
     public List<Cell> Cells { get; set; } = new List<Cell>();
     public List<Group> Boxes { get; set; } = new List<Group>();
@@ -39,48 +40,9 @@ public abstract class Board : ISudokuSerializable, IGridValidate, IBoard
         return true;
     }
 
-    public void MoveUp()
+    public void Accept(IVisitor visitor)
     {
-        if (SelectedCell == null) return;
-
-        Cell? newCell = Cells.FirstOrDefault(c => c.X == SelectedCell.X && c.Y == SelectedCell.Y - 1);
-        if (newCell != null)
-        {
-            SelectedCell = newCell;
-        }
-    }
-
-    public void MoveDown()
-    {
-        if (SelectedCell == null) return;
-
-        Cell? newCell = Cells.FirstOrDefault(c => c.X == SelectedCell.X && c.Y == SelectedCell.Y + 1);
-        if (newCell != null)
-        {
-            SelectedCell = newCell;
-        }
-    }
-
-    public void MoveLeft()
-    {
-        if (SelectedCell == null) return;
-
-        Cell? newCell = Cells.FirstOrDefault(c => c.X == SelectedCell.X - 1 && c.Y == SelectedCell.Y);
-        if (newCell != null)
-        {
-            SelectedCell = newCell;
-        }
-    }
-
-    public void MoveRight()
-    {
-        if (SelectedCell == null) return;
-
-        Cell? newCell = Cells.FirstOrDefault(c => c.X == SelectedCell.X + 1 && c.Y == SelectedCell.Y);
-        if (newCell != null)
-        {
-            SelectedCell = newCell;
-        }
+        visitor.Visit(this);
     }
 
     public void SetCurrentCell(int number, bool isDefinitive)
@@ -90,4 +52,6 @@ public abstract class Board : ISudokuSerializable, IGridValidate, IBoard
         SelectedCell.Number = number;
         SelectedCell.IsDefinitive = isDefinitive;
     }
+
+   
 }

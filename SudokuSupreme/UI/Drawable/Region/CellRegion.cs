@@ -6,8 +6,8 @@ namespace Presentation.Drawable.Region;
 public class CellRegion : IDrawable
 {
     private string CellValue { get; set; }
-    private bool Definitive { get; set; }
-    private bool Wrong { get; set; }
+    private bool? Definitive { get; set; } = null;
+    private bool? Wrong { get; set; } = null;
     private bool Selected { get; set; } = false;
 
     public CellRegion(string cellValue)
@@ -38,6 +38,8 @@ public class CellRegion : IDrawable
     {
         string cellContent = IsEmptyCell() ? ((char)DrawingCharacter.Empty).ToString() : CellValue;
 
+        CheckFilled();
+        CheckWrong();
         CheckSelected();
 
         Console.Write(cellContent);
@@ -45,12 +47,27 @@ public class CellRegion : IDrawable
         Console.ResetColor();
     }
 
-    public void CheckSelected()
+    private void CheckWrong()
     {
-        if(this.Selected)
-        {
-            Console.BackgroundColor = ConsoleColor.Yellow;
-        }
+        if (this.Wrong is not true) return;
+
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.BackgroundColor = ConsoleColor.Red;
+    }
+
+    private void CheckFilled()
+    {
+        if (this.Definitive is not true || IsEmptyCell()) return;
+
+        Console.BackgroundColor = ConsoleColor.Yellow;
+    }
+
+    private void CheckSelected()
+    {
+        if (!this.Selected) return;
+
+        Console.BackgroundColor = ConsoleColor.DarkCyan;
+        Console.ForegroundColor = ConsoleColor.White;
     }
 
     private bool IsEmptyCell()

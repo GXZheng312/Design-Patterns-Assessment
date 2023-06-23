@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Logic.Visitor.Navigation;
 
 namespace Logic.Command.Navigation
 {
@@ -14,7 +10,7 @@ namespace Logic.Command.Navigation
 
             if (sudokuGame != null)
             {
-                sudokuGame.SudokuObject.Board.MoveUp();
+                sudokuGame.SudokuObject.Board.Accept(new MoveUp());
             }
         }
     }

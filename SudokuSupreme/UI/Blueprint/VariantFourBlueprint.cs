@@ -16,10 +16,14 @@ public class VariantFourBlueprint : IBlueprint
     private string HorizontalWall = ((char)DrawingCharacter.HorizontalWall).ToString();
     private string SplitWall = ((char)DrawingCharacter.SplitWall).ToString();
 
+    private Cell? SelectedCell { get; set; } 
+
     public IDrawable Generate(string[] rawCells, List<Cell> cells, string? mode, Cell? selectedCell)
     {
         if (rawCells == null || rawCells.Length != Size) throw new ArgumentException($"Sudoku amount is invalid");
         this.CellIndex = 0;
+        this.SelectedCell = selectedCell;
+        
 
         return new VariantFour(new IDrawable[] {
             RowHorizontalWalls(),
@@ -47,8 +51,8 @@ public class VariantFourBlueprint : IBlueprint
     {
         return new GroupRegion(new IDrawable[]
         {
-            new CellRegion(cells[CellIndex++]),
-            new CellRegion(cells[CellIndex++])
+            new CellRegion(cells[CellIndex++], SelectedCell),
+            new CellRegion(cells[CellIndex++], SelectedCell)
         });
     }
 

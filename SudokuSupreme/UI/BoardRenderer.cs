@@ -11,7 +11,7 @@ public class BoardRenderer : IRenderer, ISubscriber
     private string[] RawCells { get; set; }
     private List<Cell> Cells { get; set; }
     private Cell? SelectedCell { get; set; }
-    private string Type { get; set; }
+    private string? Type { get; set; }
 
     public BoardRenderer()
     {
@@ -24,7 +24,7 @@ public class BoardRenderer : IRenderer, ISubscriber
 
         IBlueprint blueprint = this._drawFactory.Create(this.Type);
 
-        IDrawable board = blueprint.Generate(this.RawCells, this.Cells, null, null);
+        IDrawable board = blueprint.Generate(this.RawCells, this.Cells, this.Type, this.SelectedCell);
 
         board.Draw();
     }

@@ -1,6 +1,9 @@
+using Logic.Model;
+using Logic.Visitor;
+
 namespace Logic.Grid;
 
-public class Cell : IGridValidate
+public class Cell : ICell, IGridValidate, IVisitable
 {
     private List<IGridValidate> Validations = new List<IGridValidate>(); // max 3 groups
     public bool IsDefinitive { get; set; } = false;
@@ -38,5 +41,10 @@ public class Cell : IGridValidate
         }
 
         return true;
+    }
+
+    public void Accept(IVisitor visitor)
+    {
+        visitor.Visit(this);
     }
 }

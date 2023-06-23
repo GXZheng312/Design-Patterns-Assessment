@@ -1,5 +1,6 @@
 ﻿using Logic.Observer;
 using Logic.Parser;
+using Logic.Visitor;
 using Utility;
 using Utility.FileReader;
 using Utility.Input;
@@ -7,7 +8,7 @@ using StringReader = Utility.Input.StringReader;
 
 namespace Logic.Grid;
 
-public class Sudoku
+public class Sudoku : IVisitable
 {
     public Board Board { get; set; }
 
@@ -18,4 +19,8 @@ public class Sudoku
         State = new DefinitiveState();
     }
 
+    public void Accept(IVisitor visitor)
+    {
+        throw new NotImplementedException();
+    }
 }
