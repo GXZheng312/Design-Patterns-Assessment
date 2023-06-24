@@ -1,4 +1,5 @@
 using Logic.Grid;
+using Logic.Grid.board;
 using Tests.Validation.Loggers;
 
 namespace Tests.Validation.Builders;

@@ -1,4 +1,4 @@
-using Logic.Grid;
+using Logic.Grid.board;
 using NUnit.Framework;
 using Tests.Validation.Builders;
 
@@ -32,9 +32,9 @@ public class SamuraiValidateTests
                 { 2, 3, 4, 5, 6, 7, 8, 9, 1 },
                 { 5, 6, 7, 8, 9, 1, 2, 3, 4 },
                 { 8, 9, 1, 2, 3, 4, 5, 6, 7 },
-                { -1, -1, -1, 3, 4, 5, 6, 7, 8 },
                 { -1, -1, -1, 6, 7, 8, 9, 1, 2 },
-                { -1, -1, -1, 9, 1, 2, 3, 4, 5 }
+                { -1, -1, -1, 9, 1, 2, 3, 4, 5 },
+                { -1, -1, -1, 3, 4, 5, 6, 7, 8 }
             },
             new[,]
             {

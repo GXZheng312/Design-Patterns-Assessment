@@ -1,21 +1,25 @@
 using Logic.Grid;
-using Logic.Model;
 using Logic.Visitor;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Logic;
 
-public class HelpState : IEditorState
+public class SimpleState : IEditorState
 {
+
     public void EnterNumber(Cell cell, int number)
     {
-        if (cell.IsDefinitive) return;
+        if (cell.Number == number)
+        {
+            number = 0;
+        }
 
-
+        cell.Accept(new EnterNumber(number));
     }
 
     public void EnterDefinitive(Cell cell, bool definitive)
     {
-        throw new NotImplementedException();
+        cell.Accept(new EnterDefinitive(definitive));
     }
 
     public void EnterHelpCell(Cell cell)

@@ -2,15 +2,11 @@
 
 namespace Presentation.Drawable.Region;
 
-public class EmptyGrid : IDrawable
+public class GroupRegion : IDrawable
 {
     private List<IDrawable> Children = new();
 
-    public EmptyGrid()
-    {
-    }
-
-    public EmptyGrid(params IDrawable[] children)
+    public GroupRegion(params IDrawable[] children)
     {
         Add(children);
     }
@@ -29,5 +25,7 @@ public class EmptyGrid : IDrawable
         {
             child.Draw();
         }
+
+        Console.Write((char)DrawingCharacter.VerticalWall);
     }
 }

@@ -1,4 +1,5 @@
 using Logic.Grid;
+using Logic.Grid.board;
 using Logic.Parser.Builder;
 
 namespace Logic.Parser;
@@ -8,8 +9,10 @@ public class SixSudokuParser : ISudokuParser
     private int CellsPerGroup => 6;
     private int RowAmount => 6;
     private int ColumnAmount => 6;
-    private const int Size = 6 * 6;
 
+    private const int Size = 6 * 6;
+    private int GroupColumnAmount => 3;
+    private int GroupRowAmount => 2;
     public SixSudokuParser()
     {
     }
@@ -23,7 +26,7 @@ public class SixSudokuParser : ISudokuParser
             return null;
         }
 
-        return new NormalSudokuBuilder(numbers, this.CellsPerGroup, this.RowAmount, this.ColumnAmount)
+        return new NormalSudokuBuilder(numbers, this.CellsPerGroup, this.RowAmount, this.ColumnAmount, this.GroupRowAmount, this.GroupColumnAmount)
             .BuildCells().BuildRows().BuildColumns().BuildGroups().AssignGroups().Generate<VariantSixBoard>();
     }
 }

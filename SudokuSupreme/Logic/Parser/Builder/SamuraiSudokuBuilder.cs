@@ -158,7 +158,7 @@ public class SamuraiSudokuBuilder : IBoardBuilder
                 Cell outerCell;
                 Cell centerCell;
 
-                if (g <= 1)
+                if (g is 0 or 2)
                 {
                     outerCell = group.Cells[i];
                     centerCell = group.Cells[i + 9];

@@ -8,9 +8,9 @@ namespace Presentation;
 public class BoardRenderer : IRenderer, ISubscriber
 {
     private BlueprintFactory _drawFactory;
-    private string[] Cells { get; set; }
-    private Cell? SelectedCell { get; set; }
-    private string Type { get; set; }
+    private string[] RawCells { get; set; }
+    private IBoard Board { get; set; }
+    private string? Type { get; set; }
 
     public BoardRenderer()
     {
@@ -23,7 +23,7 @@ public class BoardRenderer : IRenderer, ISubscriber
 
         IBlueprint blueprint = this._drawFactory.Create(this.Type);
 
-        IDrawable board = blueprint.Generate(this.Cells);
+        IDrawable board = blueprint.Generate(this.RawCells, this.Board, this.Type);
 
         board.Draw();
     }
@@ -34,9 +34,10 @@ public class BoardRenderer : IRenderer, ISubscriber
         {
             SudokuObserver? boardObserverable = publisher as SudokuObserver;
 
-            this.Cells = boardObserverable.SudokuObject.Board.Serialize();
-            this.SelectedCell = boardObserverable.SudokuObject.Board.SelectedCell;
+            this.RawCells = boardObserverable.SudokuObject.Board.Serialize();
+            this.Board = boardObserverable.SudokuObject.Board;
             this.Type = boardObserverable.SudokuObject.Board.Type;
+            //this.State = boardObserverable.SudokuObject.State;
 
             Render();
         }

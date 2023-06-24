@@ -52,7 +52,7 @@ public class JigsawSudokuBuilder : IBoardBuilder
     {
         for (int column = 1; column <= this.ColumnAmount; column++)
         {
-            this.Rows.Add(new Group(this.Cells.Where(cell => cell.X == column).ToList()));
+            this.Columns.Add(new Group(this.Cells.Where(cell => cell.X == column).ToList()));
         }
 
         return this;

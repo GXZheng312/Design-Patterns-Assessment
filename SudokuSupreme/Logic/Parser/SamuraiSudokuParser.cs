@@ -1,4 +1,5 @@
 using Logic.Grid;
+using Logic.Grid.board;
 using Logic.Parser.Builder;
 
 namespace Logic.Parser;

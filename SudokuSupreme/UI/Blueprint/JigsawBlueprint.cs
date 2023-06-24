@@ -1,4 +1,6 @@
-﻿using Presentation.Draw;
+﻿using Logic.Grid;
+using Logic.Model;
+using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
 using System.Drawing;
@@ -17,13 +19,23 @@ public class JigsawBlueprint : IBlueprint
     private string HorizontalWall = ((char)DrawingCharacter.HorizontalWall).ToString();
     private string SplitWall = ((char)DrawingCharacter.SplitWall).ToString();
 
-    private string[,] Cells2D { get; set; }
+    private string[,] RawCells2D { get; set; }
+    private Cell[,] cells2D { get; set; }
+    public Cell SelectedCell { get; set; }
 
-    public IDrawable Generate(string[] cells)
+    private void loadData(string[] rawCells, IBoard board, string? mode)
     {
-        if (cells == null || cells.Length != CellSize) throw new ArgumentException($"Sudoku amount is invalid");
+        if (rawCells == null || rawCells.Length != CellSize) throw new ArgumentException($"Sudoku amount is invalid");
 
-        Cells2D = Convert2DArray(cells);
+        this.RawCells2D = ConvertRaw2DArray(rawCells);
+        this.cells2D = Convert2DArray(board.Cells.ToArray());
+        this.SelectedCell = board.SelectedCell;
+    }
+
+    public IDrawable Generate(string[] rawCells, IBoard board, string? mode)
+    {
+        loadData(rawCells, board, mode);
+        
         Jigsaw jigsaw = new Jigsaw();
 
         jigsaw.Add(DefaultHorizontalWalls(false));
@@ -43,17 +55,18 @@ public class JigsawBlueprint : IBlueprint
         return jigsaw;
     }
 
+
     private IDrawable JigsawRow(int y)
     {
-        EmptyGrid jigsawGroup = new EmptyGrid();
+        EmptyRegion jigsawGroup = new EmptyRegion();
 
-        jigsawGroup.Add(new Cell(VerticalWall));
+        jigsawGroup.Add(new CellRegion(VerticalWall));
 
         for (int x = 0; x < ColumnSize; x++)
         {
-            string value = Cells2D[y, x][0].ToString();
+            Cell value = cells2D[y, x];
 
-            jigsawGroup.Add(new Cell(value));
+            jigsawGroup.Add(new CellRegion(value, this.SelectedCell));
 
             if (!IsLastIteration(ColumnSize, x + 1))
             {
@@ -61,27 +74,27 @@ public class JigsawBlueprint : IBlueprint
             }
             else
             {
-                jigsawGroup.Add(new Cell(VerticalWall));
+                jigsawGroup.Add(new CellRegion(VerticalWall));
             }
         }
 
-        return new Row(jigsawGroup);
+        return new RowRegion(jigsawGroup);
     }
 
     private IDrawable JigsawHorizontalWalls(int y)
     {
-        EmptyGrid jigsawGroup = new EmptyGrid();
+        EmptyRegion jigsawGroup = new EmptyRegion();
 
-        string topLeftGroupNr = Cells2D[y, 0][2].ToString();
-        string bottomLeftGroupNr = Cells2D[y + 1, 0][2].ToString();
+        string topLeftGroupNr = RawCells2D[y, 0][2].ToString();
+        string bottomLeftGroupNr = RawCells2D[y + 1, 0][2].ToString();
 
         if (topLeftGroupNr == bottomLeftGroupNr)
         {
-            jigsawGroup.Add(new Cell(VerticalWall));
+            jigsawGroup.Add(new CellRegion(VerticalWall));
         }
         else
         {
-            jigsawGroup.Add(new Cell(SplitWall));
+            jigsawGroup.Add(new CellRegion(SplitWall));
         }
         
 
@@ -95,43 +108,43 @@ public class JigsawBlueprint : IBlueprint
             }
             else
             {
-                topLeftGroupNr = Cells2D[y, x][2].ToString();
-                bottomLeftGroupNr = Cells2D[y + 1, x][2].ToString();
+                topLeftGroupNr = RawCells2D[y, x][2].ToString();
+                bottomLeftGroupNr = RawCells2D[y + 1, x][2].ToString();
 
                 if (topLeftGroupNr == bottomLeftGroupNr)
                 {
-                    jigsawGroup.Add(new Cell(VerticalWall));
+                    jigsawGroup.Add(new CellRegion(VerticalWall));
                 }
                 else
                 {
-                    jigsawGroup.Add(new Cell(SplitWall));
+                    jigsawGroup.Add(new CellRegion(SplitWall));
                 }
                 
             }
             
         }
 
-        return new Row(jigsawGroup);
+        return new RowRegion(jigsawGroup);
     }
 
     private IDrawable SplitSeparationDrawing(int y, int x)
     {
         if (x >= ColumnSize) throw new ArgumentException($"Sudoku size is invalid");
 
-        string topLeftGroupNr = Cells2D[y, x][2].ToString();
-        string bottomLeftGroupNr = Cells2D[y + 1, x][2].ToString();
+        string topLeftGroupNr = RawCells2D[y, x][2].ToString();
+        string bottomLeftGroupNr = RawCells2D[y + 1, x][2].ToString();
 
-        string topRightGroupNr = Cells2D[y, x + 1][2].ToString();
-        string bottomRightGroupNr = Cells2D[y + 1, x + 1][2].ToString();
+        string topRightGroupNr = RawCells2D[y, x + 1][2].ToString();
+        string bottomRightGroupNr = RawCells2D[y + 1, x + 1][2].ToString();
 
-        IDrawable drawable = new Cell(SplitWall);
+        IDrawable drawable = new CellRegion(SplitWall);
 
         if (topLeftGroupNr != topRightGroupNr &&
             bottomLeftGroupNr != bottomRightGroupNr && 
             topLeftGroupNr == bottomLeftGroupNr &&
             topRightGroupNr == bottomRightGroupNr)
         {     
-            return new Cell(VerticalWall);        
+            return new CellRegion(VerticalWall);        
         }
 
         if (topLeftGroupNr == topRightGroupNr &&
@@ -139,13 +152,13 @@ public class JigsawBlueprint : IBlueprint
             topLeftGroupNr != bottomLeftGroupNr &&
             topRightGroupNr != bottomRightGroupNr)
         {
-            return new Cell(HorizontalWall);    
+            return new CellRegion(HorizontalWall);    
         }
 
         if (topLeftGroupNr == bottomRightGroupNr &&
             topRightGroupNr == bottomLeftGroupNr)
         {
-            return new Cell(EmptyDrawing);
+            return new CellRegion(EmptyDrawing);
         }
 
         return drawable;
@@ -155,71 +168,71 @@ public class JigsawBlueprint : IBlueprint
     {
         if (x >= ColumnSize) throw new ArgumentException($"Sudoku size is invalid");
 
-        string leftGroupNr = Cells2D[y, x][2].ToString();
-        string rightGroupNr = Cells2D[y, x + 1][2].ToString();
+        string leftGroupNr = RawCells2D[y, x][2].ToString();
+        string rightGroupNr = RawCells2D[y, x + 1][2].ToString();
 
         if (leftGroupNr != rightGroupNr)
         {
-            return new Cell(VerticalWall);
+            return new CellRegion(VerticalWall);
         }
 
-        return new Cell(EmptyDrawing);
+        return new CellRegion(EmptyDrawing);
     }
 
     private IDrawable HorizontalSeparationDrawing(int y, int x)
     {
         if (x >= ColumnSize) throw new ArgumentException($"Sudoku size is invalid");
 
-        string topGroupNr = Cells2D[y, x][2].ToString();
-        string bottomGroupNr = Cells2D[y + 1, x][2].ToString();
+        string topGroupNr = RawCells2D[y, x][2].ToString();
+        string bottomGroupNr = RawCells2D[y + 1, x][2].ToString();
 
         if (topGroupNr != bottomGroupNr)
         {
-            return new Cell(HorizontalWall);
+            return new CellRegion(HorizontalWall);
         }
 
-        return new Cell(EmptyDrawing);
+        return new CellRegion(EmptyDrawing);
     }
 
     private IDrawable DefaultHorizontalWalls(bool isLast)
     {
-        EmptyGrid jigsawGroup = new EmptyGrid();
+        EmptyRegion jigsawGroup = new EmptyRegion();
 
-        jigsawGroup.Add(new Cell(SplitWall));
+        jigsawGroup.Add(new CellRegion(SplitWall));
 
         for (int x = 0; x < ColumnSize; x++)
         {
-            jigsawGroup.Add(new Cell(HorizontalWall));
+            jigsawGroup.Add(new CellRegion(HorizontalWall));
 
             if(x != ColumnSize - 1)
             {
                 int y = isLast ? RowSize - 1 : 0;
 
-                string topLeftGroupNr = Cells2D[y, x][2].ToString();
-                string topRightGroupNr = Cells2D[y, x + 1][2].ToString();
+                string topLeftGroupNr = RawCells2D[y, x][2].ToString();
+                string topRightGroupNr = RawCells2D[y, x + 1][2].ToString();
 
                 if(topLeftGroupNr == topRightGroupNr)
                 {
-                    jigsawGroup.Add(new Cell(HorizontalWall));
+                    jigsawGroup.Add(new CellRegion(HorizontalWall));
                 }
                 else
                 {
-                    jigsawGroup.Add(new Cell(SplitWall));
+                    jigsawGroup.Add(new CellRegion(SplitWall));
                 }
                 
             }
 
         }
 
-        jigsawGroup.Add(new Cell(SplitWall));
+        jigsawGroup.Add(new CellRegion(SplitWall));
 
-        return new Row(jigsawGroup);
+        return new RowRegion(jigsawGroup);
     }
 
 
-    private string[,] Convert2DArray(string[] cells)
+    private string[,] ConvertRaw2DArray(string[] cells)
     {
-        string[,] cells2D = new string[RowSize,ColumnSize];
+        string[,] RawCells2D = new string[RowSize,ColumnSize];
 
         for (int i = 0; i < CellSize; i++)
         {
@@ -227,10 +240,26 @@ public class JigsawBlueprint : IBlueprint
             int row = i / RowSize;
             int col = i % ColumnSize;
 
-            cells2D[row, col] = value;
+            RawCells2D[row, col] = value;
         }
 
-        return cells2D;
+        return RawCells2D;
+    }
+
+    private Cell[,] Convert2DArray(Cell[] cells)
+    {
+        Cell[,] RawCells2D = new Cell[RowSize, ColumnSize];
+
+        for (int i = 0; i < CellSize; i++)
+        {
+            Cell value = cells[i];
+            int row = i / RowSize;
+            int col = i % ColumnSize;
+
+            RawCells2D[row, col] = value;
+        }
+
+        return RawCells2D;
     }
 
     private bool IsLastIteration(int size, int iteration) => size == iteration;

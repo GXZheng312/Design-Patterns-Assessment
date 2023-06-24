@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Grid;
-
-public interface IGridValidate
+namespace Logic.Model;
+public interface ICell
 {
-    bool Validate();
+    bool IsDefinitive { get; set; }
+    int Number { get; set; }
 }
-

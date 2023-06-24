@@ -1,13 +1,14 @@
-﻿using Logic.Grid;
+﻿using Logic.Visitor;
 using Utility.Input;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Logic.Command.Game;
 
-public class SelectCommand : ICommand
+public class DefinitiveSelectCommand : ICommand
 {
     public void Execute(IGame game)
     {
+
         SudokuGame sudokuGame = game as SudokuGame;
 
         if (sudokuGame != null)
@@ -30,8 +31,7 @@ public class SelectCommand : ICommand
 
             if (int.TryParse(input, out int number) && this.IsInBetweenNumbers(number))
             {
-
-                sudokuGame.SudokuObject.Editor.EnterNumber(sudokuGame.SudokuObject.Board.SelectedCell, number);
+                sudokuGame.SudokuObject.Accept(new EnterNumber(number));
             }
             else
             {

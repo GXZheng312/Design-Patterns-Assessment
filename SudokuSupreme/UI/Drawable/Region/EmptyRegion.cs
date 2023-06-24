@@ -2,15 +2,20 @@
 
 namespace Presentation.Drawable.Region;
 
-public class Grid : IDrawable
+public class EmptyRegion : IDrawable
 {
     private List<IDrawable> Children = new();
 
-    public Grid()
+    public EmptyRegion()
     {
     }
 
-    public Grid(params IDrawable[] children)
+    public EmptyRegion(params IDrawable[] children)
+    {
+        Add(children);
+    }
+
+    public void Add(params IDrawable[] children)
     {
         foreach (IDrawable child in children)
         {
@@ -18,17 +23,8 @@ public class Grid : IDrawable
         }
     }
 
-    public void Add(IDrawable child)
-    {
-        if (child == null) return;
-
-        Children.Add(child);
-    }
-
     public void Draw()
     {
-        Console.Write(((char)DrawingCharacter.VerticalWall).ToString());
-
         foreach (IDrawable child in Children)
         {
             child.Draw();
