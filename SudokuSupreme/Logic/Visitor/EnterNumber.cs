@@ -4,11 +4,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Logic.Visitor;
 
-public class InputCell : IVisitor
+public class EnterNumber : IVisitor
 {
     private int NewNumber { get; set; }
 
-    public InputCell(int number)
+    public EnterNumber(int number)
     {
         this.NewNumber = number;
     }

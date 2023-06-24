@@ -87,7 +87,7 @@ public class SudokuGame : IGame
 
     private void CleanUp()
     {
-        this.Messager.AddMessage("bye bye");
+        this.Messager.AddMessage("Game ending");
     }
       
 }

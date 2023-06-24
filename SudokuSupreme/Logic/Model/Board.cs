@@ -64,6 +64,20 @@ public abstract class Board : ISudokuSerializable, IGridValidate, IBoard, IVisit
         return true;
     }
 
+    public bool WinValidate()
+    {
+        foreach (Cell cell in this.Cells)
+        {
+            if (!cell.WinValidate())
+            {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
     public void Accept(IVisitor visitor)
     {
         visitor.Visit(this);

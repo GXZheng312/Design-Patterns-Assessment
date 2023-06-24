@@ -22,7 +22,7 @@ public class CellRegion : IDrawable
     {
         this.CellValue = cell.Number.ToString();
         this.Definitive = cell.IsDefinitive;
-        this.IsCorrect = cell.Validate();
+        this.IsCorrect = cell.IsCorrect;
 
         if(selectedCell != null)
         {
@@ -36,12 +36,21 @@ public class CellRegion : IDrawable
         this.CellContent = IsEmptyCell() ? EmptyDrawing() : CellValue;
 
         CheckFilled();
+        CheckCorrect();
         CheckWrong();
         CheckSelected();
 
         Console.Write(this.CellContent);
 
         Console.ResetColor();
+    }
+
+    private void CheckCorrect()
+    {
+        if (this.Definitive is not false || this.IsCorrect is not true || IsEmptyCell()) return;
+
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.BackgroundColor = ConsoleColor.Green;
     }
 
     private void CheckWrong()
