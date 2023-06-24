@@ -16,15 +16,17 @@ public class VariantSixBlueprint : IBlueprint
     private const int TotalRowCellAmount = GridColumnSize * GroupColumnSize;
     private const int Size = TotalRowCellAmount * GroupRowSize * GridRowSize;
 
-    private int CellIndex { get; set; } = 0;
-
     private string HorizontalWall = ((char)DrawingCharacter.HorizontalWall).ToString();
     private string SplitWall = ((char)DrawingCharacter.SplitWall).ToString();
+
+    private int CellIndex { get; set; } = 0;
+    public Cell SelectedCell { get; set; }
 
     public IDrawable Generate(string[] rawCells, List<Cell> cells, string? mode, Cell? selectedCell)
     {
         if (rawCells == null || rawCells.Length != Size) throw new ArgumentException($"Sudoku amount is invalid");
         this.CellIndex = 0;
+        this.SelectedCell = selectedCell;
 
         return new VariantSix(new IDrawable[] {
             RowHorizontalWalls(),
@@ -39,6 +41,7 @@ public class VariantSixBlueprint : IBlueprint
             RowHorizontalWalls(),
         });
     }
+
 
     private IDrawable CreateRow(List<Cell> cells)
     {
@@ -55,9 +58,9 @@ public class VariantSixBlueprint : IBlueprint
     {
         return new GroupRegion(new IDrawable[]
         {
-            new CellRegion(cells[CellIndex++]),
-            new CellRegion(cells[CellIndex++]),
-            new CellRegion(cells[CellIndex++])
+            new CellRegion(cells[CellIndex++], this.SelectedCell),
+            new CellRegion(cells[CellIndex++], this.SelectedCell),
+            new CellRegion(cells[CellIndex++], this.SelectedCell)
         });
     }
 
