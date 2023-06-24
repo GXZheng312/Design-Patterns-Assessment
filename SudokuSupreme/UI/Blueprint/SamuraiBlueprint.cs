@@ -13,7 +13,14 @@ namespace Presentation.Blueprint
         private const int DefaultSudokuSize = 81;
         private const int CornerGridSize = 9 * 4;
         private const int SamuraiSudokuSize = DefaultSudokuSize * 5 - CornerGridSize;
-     
+
+        private int SudokuSize = 9;
+        private int SamuraiSize = 21;
+        private int OffsetMiddle = 6;
+
+        private int YPos = 1;
+        private int XPos = 1;
+
         private string EmptyDrawing => ((char)DrawingCharacter.Empty).ToString();
         private string HorizontalWall => ((char)DrawingCharacter.HorizontalWall).ToString();
         private string SplitWall => ((char)DrawingCharacter.SplitWall).ToString();
@@ -30,6 +37,8 @@ namespace Presentation.Blueprint
 
             this.Cells = board.Cells;
             this.SelectedCell = board.SelectedCell;
+            this.XPos = 1;
+            this.YPos = 1;
         }
 
         public IDrawable Generate(string[] rawCells, IBoard board, string? mode)
@@ -217,21 +226,10 @@ namespace Presentation.Blueprint
             int x = GetXPos();
             int y = GetYPos();
 
-            if (y == 16 && x == 1)
-            {
-                int test = 3;
-            }
-
             Cell cell = Cells.Find(cell => cell.X == x && cell.Y == y);
 
             return cell;
         }
-
-        private int SudokuSize = 9;
-        private int SamuraiSize = 21;
-        private int OffsetMiddle = 6;
-        private int YPos = 1;
-        private int XPos = 1;
 
         private int GetXPos()
         {
