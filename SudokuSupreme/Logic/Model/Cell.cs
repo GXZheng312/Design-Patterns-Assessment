@@ -3,14 +3,17 @@ using Logic.Visitor;
 
 namespace Logic.Grid;
 
-public class Cell : ICell, IGridValidate, IVisitable
+public class Cell : ICell, IGridValidate, IVisitable, IPrototype
 {
-    private List<IGridValidate> Validations = new List<IGridValidate>(); // max 3 groups
+    private List<IGridValidate> Validations = new List<IGridValidate>();
+
+    public List<Cell> HelpNumbers { get; set; }= new List<Cell>();
     public bool IsDefinitive { get; set; } = false;
     public bool? IsCorrect { get; set; } = null;
     public int Number { get; set; }
     public int X { get; set; }
     public int Y { get; set; }
+
 
     public Cell(int number)
     {
@@ -34,13 +37,13 @@ public class Cell : ICell, IGridValidate, IVisitable
         }
     }
 
-    public void AddValidations(IGridValidate child)
+    public void AddValidations(params IGridValidate[] children)
     {
-        if (child == null) return;
-
-        Validations.Add(child);
+        foreach (IGridValidate child in children)
+        {
+            Validations.Add(child);
+        }
     }
-
 
     public bool Validate()
     {
@@ -60,5 +63,14 @@ public class Cell : ICell, IGridValidate, IVisitable
     public void Accept(IVisitor visitor)
     {
         visitor.Visit(this);
+    }
+
+
+    public IPrototype Clone()
+    {
+        Cell clone = new Cell(this.Number, this.X, this.Y);
+        clone.AddValidations(this.Validations.ToArray());
+
+        return clone;
     }
 }
