@@ -15,13 +15,6 @@ public class CellRegion : IDrawable
         this.CellValue = cellValue;
     }
 
-    public CellRegion(Cell cell)
-    {
-        this.CellValue = cell.Number.ToString();
-        this.Definitive = cell.IsDefinitive;
-        //this.Wrong = cell.Validate();
-    }
-
     public CellRegion(Cell cell, Cell? selectedCell)
     {
         this.CellValue = cell.Number.ToString();
