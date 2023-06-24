@@ -1,4 +1,6 @@
-﻿using Logic.Grid;
+﻿using System.Collections;
+using Logic.Grid;
+using Logic.Model;
 
 namespace Logic.Parser.Builder;
 
@@ -14,14 +16,18 @@ internal class NormalSudokuBuilder : IBoardBuilder
     private int CellsPerGroup { get; set; }
     private int RowAmount { get; set; }
     private int ColumnAmount { get; set; }
+    private int GroupRowAmount { get; set; }
+    private int GroupColumnAmount { get; set; }
 
-    public NormalSudokuBuilder(List<int> cells, int cellsPerGroup, int rowAmount, int columnAmount)
+    public NormalSudokuBuilder(List<int> cells, int cellsPerGroup, int rowAmount, int columnAmount, int groupRowAmount, int groupColumnAmount)
     {
         this.CellsRaw = cells;
 
         this.CellsPerGroup = cellsPerGroup;
         this.RowAmount = rowAmount;
         this.ColumnAmount = columnAmount;
+        this.GroupRowAmount = groupRowAmount;
+        this.GroupColumnAmount = groupColumnAmount;
     }
 
     public IBoardBuilder BuildCells()
@@ -73,32 +79,39 @@ internal class NormalSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildGroups()
     {
-        List<List<Cell>> groupCells = new List<List<Cell>>();
+        Queue<Cell> queue = new Queue<Cell>(this.Cells);
 
-        for (int groupNr = 0; groupNr < this.CellsPerGroup; groupNr++)
+        var collectionList = new List<List<Cell>>();
+
+        for (int groupNr = 0; this.CellsPerGroup > groupNr; groupNr++)
         {
-            groupCells.Add(new List<Cell>());
+            collectionList.Add(new List<Cell>());
         }
 
-        for (int i = 0; i < this.Cells.Count; i++)
+        int index = 0;
+
+        for (int row = 0; row < this.RowAmount; row++)
         {
-            Cell cell = this.Cells[i];
+            if (row % this.GroupRowAmount == 0 && row != 0)
+            {
+                index += this.GroupRowAmount;
+            }
 
-            int row = i / CellsPerGroup;
-            int col = i % CellsPerGroup;
+            for (int groupNr = 0; groupNr < this.CellsPerGroup; groupNr++)
+            {
+                int offset = groupNr / this.GroupColumnAmount;
 
-            int groupRow = row / CellsPerGroup;
-            int groupCol = col / CellsPerGroup;
+                int position = index + offset;
 
-            int groupIndex = groupRow * CellsPerGroup + groupCol;
-
-            groupCells[groupIndex].Add(cell);
+                collectionList[position].Add(queue.Dequeue());
+            }
         }
 
-        for (int groupNr = 0; groupNr < this.CellsPerGroup; groupNr++)
+        for (int groupNr = 0; this.CellsPerGroup > groupNr; groupNr++)
         {
-            Groups.Add(new Group(groupCells[groupNr]));
+            Groups.Add(new Group(collectionList[groupNr]));
         }
+        
 
         return this;
     }

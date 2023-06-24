@@ -14,6 +14,11 @@ public class Cell : ICell, IGridValidate, IVisitable
     public Cell(int number)
     {
         Number = number;
+
+        if (number != 0)
+        {
+            IsDefinitive = true;
+        }
     }
 
     public Cell(int number, int x, int y)
@@ -32,6 +37,8 @@ public class Cell : ICell, IGridValidate, IVisitable
 
     public bool Validate()
     {
+        if(IsDefinitive == true) return true;
+
         foreach (IGridValidate child in Validations)
         {
             if (!child.Validate())

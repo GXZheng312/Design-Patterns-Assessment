@@ -6,9 +6,12 @@ namespace Presentation.Drawable.Region;
 public class CellRegion : IDrawable
 {
     private string CellValue { get; set; }
+    private string CellContent { get; set; }
     private bool? Definitive { get; set; } = null;
-    private bool? Wrong { get; set; } = null;
+    private bool? IsCorrect { get; set; } = null;
     private bool Selected { get; set; } = false;
+
+    private string EmptyDrawing() => ((char)DrawingCharacter.Empty).ToString();
 
     public CellRegion(string cellValue)
     {
@@ -19,7 +22,8 @@ public class CellRegion : IDrawable
     {
         this.CellValue = cell.Number.ToString();
         this.Definitive = cell.IsDefinitive;
-        //this.Wrong = cell.Validate();
+        this.IsCorrect = cell.Validate();
+
         if(selectedCell != null)
         {
             this.Selected = ReferenceEquals(cell, selectedCell);
@@ -29,20 +33,20 @@ public class CellRegion : IDrawable
 
     public void Draw()
     {
-        string cellContent = IsEmptyCell() ? ((char)DrawingCharacter.Empty).ToString() : CellValue;
+        this.CellContent = IsEmptyCell() ? EmptyDrawing() : CellValue;
 
         CheckFilled();
         CheckWrong();
         CheckSelected();
 
-        Console.Write(cellContent);
+        Console.Write(this.CellContent);
 
         Console.ResetColor();
     }
 
     private void CheckWrong()
     {
-        if (this.Wrong is not true) return;
+        if (this.Definitive is not false || IsEmptyCell()) return;
 
         Console.ForegroundColor = ConsoleColor.White;
         Console.BackgroundColor = ConsoleColor.Red;
@@ -50,7 +54,7 @@ public class CellRegion : IDrawable
 
     private void CheckFilled()
     {
-        if (this.Definitive is not true || IsEmptyCell()) return;
+        if (this.Definitive is not false || IsEmptyCell()) return;
 
         Console.ForegroundColor = ConsoleColor.Black;
         Console.BackgroundColor = ConsoleColor.Yellow;

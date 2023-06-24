@@ -14,8 +14,9 @@ public class Group : IGridValidate, IGroup
     public bool Validate()
     {
         List<int> filledCells = Cells.Where(c => c.Number != 0).Select(c => c.Number).ToList();
-        
-        if (Cells.Count != filledCells.Distinct().Count())
+        HashSet<int> uniqueCells = new HashSet<int>(filledCells);
+
+        if (filledCells.Count != uniqueCells.Count)
         {
             return false;
         }
