@@ -13,9 +13,11 @@ public class HelpState : IEditorState
 
     }
 
-    public void EnterDefinitive(Cell cell, bool definitive)
+    public void SwitchDefinitive(Cell cell)
     {
-        throw new NotImplementedException();
+        if (cell.Number == 0) return;
+
+        cell.Accept(new EnterDefinitive(!cell.IsDefinitive));
     }
 
     public void EnterHelpCell(Cell cell)

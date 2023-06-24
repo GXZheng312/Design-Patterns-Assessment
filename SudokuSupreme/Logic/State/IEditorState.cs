@@ -9,7 +9,7 @@ public interface IEditorState
 {
     void EnterNumber(Cell cell, int number);
 
-    void EnterDefinitive(Cell cell, bool definitive);
+    void SwitchDefinitive(Cell cell);
 
     void EnterHelpCell(Cell cell);
 }

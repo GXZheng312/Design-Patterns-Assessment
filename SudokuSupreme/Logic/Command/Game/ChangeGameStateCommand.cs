@@ -10,21 +10,17 @@ public class ChangeGameStateCommand : ICommand
 {
     public void Execute(IGame game)
     {
-        SudokuGame sudokuGame = game as SudokuGame;
-
-        if (sudokuGame != null)
+        if (game is not SudokuGame sudokuGame) return;
+        
+        if (sudokuGame.SudokuObject.CurrentState is HelpState)
         {
-            if (sudokuGame.SudokuObject.CurrentState is HelpState)
-            {
-                sudokuGame.SudokuObject.CurrentState = new SimpleState();
-                sudokuGame.Messager.AddMessage("Current state: Help state");
-            }
-            else
-            {
-                sudokuGame.SudokuObject.CurrentState = new HelpState();
-                sudokuGame.Messager.AddMessage("Current state: Definitive state");
-            }
-
+            sudokuGame.SudokuObject.SetState(new SimpleState());
+            sudokuGame.Messager.AddMessage("Current state: Simple state");
+        }
+        else
+        {
+            sudokuGame.SudokuObject.SetState(new HelpState());
+            sudokuGame.Messager.AddMessage("Current state: Help state");
         }
     }
 }

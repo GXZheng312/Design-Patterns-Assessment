@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Logic;
 
-public class CommandHandler
+public class CommandHandler : ICommandHandler
 {
-    private CommandFactory CommandFactory;
+    private ICommandFactory CommandFactory;
 
     public CommandHandler()
     {
         this.CommandFactory = new DefaultCommandFactory();
     }
 
-    public void SwitchMode(CommandFactory factory)
+    public void SwitchMode(ICommandFactory factory)
     {
         this.CommandFactory = factory; 
     }
@@ -26,4 +26,13 @@ public class CommandHandler
         return this.CommandFactory.Create(input);
     }
 
+    public bool IsType(ICommandFactory factory)
+    {
+        return this.CommandFactory.GetType() == factory.GetType();
+    }
+
+    public string GetControllInfo()
+    {
+        return this.CommandFactory.GetControllInfo();
+    }
 }

@@ -12,7 +12,7 @@ public class Sudoku : IVisitable
 {
     public Board Board { get; set; }
 
-    public IEditorState CurrentState { get; set; }
+    public IEditorState CurrentState { get; private set; }
 
     public Sudoku()
     {
