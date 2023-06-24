@@ -1,4 +1,5 @@
-﻿using Logic.Grid;
+﻿using System.Dynamic;
+using Logic.Grid;
 using Logic.Model;
 using Presentation.Draw;
 using Presentation.Drawable.Board;
@@ -10,12 +11,12 @@ namespace Presentation.Blueprint
     public class SamuraiBlueprint : IBlueprint
     {
         private const int DefaultSudokuSize = 81;
-        private const int SamuraiSudokuSize = DefaultSudokuSize * 5;
-
+        private const int CornerGridSize = 9 * 4;
+        private const int SamuraiSudokuSize = DefaultSudokuSize * 5 - CornerGridSize;
+     
         private string EmptyDrawing => ((char)DrawingCharacter.Empty).ToString();
         private string HorizontalWall => ((char)DrawingCharacter.HorizontalWall).ToString();
         private string SplitWall => ((char)DrawingCharacter.SplitWall).ToString();
-
 
         private List<Cell> Cells { get; set; } = new List<Cell>();
         public Cell SelectedCell { get; set; }
@@ -29,80 +30,73 @@ namespace Presentation.Blueprint
 
             this.Cells = board.Cells;
             this.SelectedCell = board.SelectedCell;
-
         }
 
         public IDrawable Generate(string[] rawCells, IBoard board, string? mode)
         {
             loadData(rawCells, board, mode);
 
-            int firstGroupIndex = DefaultSudokuSize * 0;
-            int secondGroupIndex = DefaultSudokuSize * 1;
-            int thirdGroupIndex = DefaultSudokuSize * 2;
-            int fourthGroupIndex = DefaultSudokuSize * 3;
-            int fifthGroupIndex = DefaultSudokuSize * 4;
-
             return new Samurai(new IDrawable[]
             {
                 HorizontalWallsRow(),
-                NormalSectionRows(ref firstGroupIndex, ref secondGroupIndex),
+                NormalSectionRows(),
                 HorizontalWallsRow(),
-                NormalSectionRows(ref firstGroupIndex, ref secondGroupIndex),
+                NormalSectionRows(),
                 SamuraiWallsRow(),
-                SamuraiSectionRows(ref firstGroupIndex, ref thirdGroupIndex, ref secondGroupIndex),
+                SamuraiSectionRows(),
                 SamuraiWallsRow(),
-                MiddleSectionRows(ref thirdGroupIndex),
+                MiddleSectionRows(),
                 SamuraiWallsRow(),
-                SamuraiSectionRows(ref fourthGroupIndex, ref thirdGroupIndex, ref fifthGroupIndex),
+                SamuraiSectionRows(),
                 SamuraiWallsRow(),
-                NormalSectionRows(ref fourthGroupIndex, ref fifthGroupIndex),
+                NormalSectionRows(),
                 HorizontalWallsRow(),
-                NormalSectionRows(ref fourthGroupIndex, ref fifthGroupIndex),
+                NormalSectionRows(),
                 HorizontalWallsRow()
             });
         }
 
-        private IDrawable SamuraiSectionRows(ref int leftIndex, ref int middleIndex, ref int rightIndex)
+        private IDrawable SamuraiSectionRows()
         {
             return new EmptyRegion(new IDrawable[]
             {
-                SamuraiRow(ref leftIndex, ref middleIndex, ref rightIndex),
-                SamuraiRow(ref leftIndex, ref middleIndex, ref rightIndex),
-                SamuraiRow(ref leftIndex, ref middleIndex, ref rightIndex),
+                SamuraiRow(),
+                SamuraiRow(),
+                SamuraiRow(),
             });
         }
 
-        private IDrawable SamuraiRow(ref int leftIndex, ref int middleIndex, ref int rightIndex)
+        private IDrawable SamuraiRow()
         {
             return new RowRegion(new IDrawable[]
             {
-                SudokuSizeGrid(ref leftIndex),
-                CenterSudokuGroup(ref middleIndex),
-                SudokuSizeGrid(ref rightIndex),
+                SudokuSizeGrid(),
+                CenterSudokuGroup(),
+                SudokuSizeGrid(),
             });
         }
 
-        private IDrawable NormalSectionRows(ref int leftIndex, ref int rightIndex)
+        private IDrawable NormalSectionRows()
         {
             return new EmptyRegion(new IDrawable[]
             {
-                NormalRow(ref leftIndex, ref rightIndex),
-                NormalRow(ref leftIndex, ref rightIndex),
-                NormalRow(ref leftIndex, ref rightIndex),
+                NormalRow(),
+                NormalRow(),
+                NormalRow(),
             });
         }
 
-        private IDrawable NormalRow(ref int leftIndex, ref int rightIndex)
+        private IDrawable NormalRow()
         {
             return new RowRegion(new IDrawable[]
             {
-                SudokuSizeGrid(ref leftIndex),
+                SudokuSizeGrid(),
                 EmptyGroup(),
-                SudokuSizeGrid(ref rightIndex),
+                SudokuSizeGrid(),
             });
         }
 
-        private IDrawable MiddleRow(ref int thirdGroupIndex)
+        private IDrawable MiddleRow()
         {
             return new RowRegion(new IDrawable[]
             {
@@ -110,7 +104,7 @@ namespace Presentation.Blueprint
                 EmptyGroup(),
                 new CellRegion(EmptyDrawing),
                 EmptyGroup(),
-                SudokuSizeGrid(ref thirdGroupIndex),
+                SudokuSizeGrid(),
                 EmptyGroup(),
                 new CellRegion(EmptyDrawing),
                 EmptyGroup(),
@@ -118,13 +112,13 @@ namespace Presentation.Blueprint
             });
         }
 
-        private IDrawable MiddleSectionRows(ref int thirdGroupIndex)
+        private IDrawable MiddleSectionRows()
         {
             return new EmptyRegion(new IDrawable[]
             {
-                MiddleRow(ref thirdGroupIndex),
-                MiddleRow(ref thirdGroupIndex),
-                MiddleRow(ref thirdGroupIndex),
+                MiddleRow(),
+                MiddleRow(),
+                MiddleRow(),
             });
         }
 
@@ -148,28 +142,28 @@ namespace Presentation.Blueprint
             });
         }
 
-        private IDrawable SudokuSizeGrid(ref int index)
+        private IDrawable SudokuSizeGrid()
         {
             return new GridRegion(new IDrawable[]
             {
-                CreateGroup(ref index),
-                CreateGroup(ref index),
-                CreateGroup(ref index),
+                CreateGroup(),
+                CreateGroup(),
+                CreateGroup(),
             });
         }
 
-        private IDrawable CenterSudokuGroup(ref int index)
+        private IDrawable CenterSudokuGroup()
         {
-            index += 3;
+            //index += 3;
 
             IDrawable group = new EmptyRegion(new IDrawable[]
             {
-                new CellRegion(Cells[index++], this.SelectedCell),
-                new CellRegion(Cells[index++], this.SelectedCell),
-                new CellRegion(Cells[index++], this.SelectedCell)
+                new CellRegion(GetCellPosition(), this.SelectedCell),
+                new CellRegion(GetCellPosition(), this.SelectedCell),
+                new CellRegion(GetCellPosition(), this.SelectedCell),
             });
 
-            index += 3;
+           // index += 3;
 
             return group;
         }
@@ -208,14 +202,84 @@ namespace Presentation.Blueprint
             });
         }
 
-        private IDrawable CreateGroup(ref int index)
+        private IDrawable CreateGroup()
         {
             return new GroupRegion(new IDrawable[]
             {
-                new CellRegion(Cells[index++], this.SelectedCell),
-                new CellRegion(Cells[index++], this.SelectedCell),
-                new CellRegion(Cells[index++], this.SelectedCell)
+                new CellRegion(GetCellPosition(), this.SelectedCell),
+                new CellRegion(GetCellPosition(), this.SelectedCell),
+                new CellRegion(GetCellPosition(), this.SelectedCell)
             });
         }
+
+        private Cell GetCellPosition()
+        {
+            int x = GetXPos();
+            int y = GetYPos();
+
+            if (y == 16 && x == 1)
+            {
+                int test = 3;
+            }
+
+            Cell cell = Cells.Find(cell => cell.X == x && cell.Y == y);
+
+            return cell;
+        }
+
+        private int SudokuSize = 9;
+        private int SamuraiSize = 21;
+        private int OffsetMiddle = 6;
+        private int YPos = 1;
+        private int XPos = 1;
+
+        private int GetXPos()
+        {
+
+            if (XPos > SamuraiSize) //end of the X, X > 21
+            {
+                YPos++; // go to new row
+                XPos = 1; // start new X
+            }
+
+            if (YPos > SudokuSize && YPos <= SamuraiSize - SudokuSize) //is in between sudoku size rows 
+            {
+                if (XPos <= OffsetMiddle)
+                {
+                    XPos = OffsetMiddle + 1; //go to the center sudoku positions
+                }
+                else if (XPos > SamuraiSize - OffsetMiddle)
+                {
+                    if (YPos >= SamuraiSize - SudokuSize)
+                    {
+                        YPos++; // next row
+                        XPos = 1;
+                    }
+                    else
+                    {
+                        YPos++; // next row
+                        XPos = OffsetMiddle + 1;
+                    }
+                }
+
+            }
+            
+            
+            if(YPos <= OffsetMiddle || YPos > SamuraiSize - OffsetMiddle) 
+            {
+                if (XPos > SudokuSize && XPos <= SamuraiSize - SudokuSize) //is in empty offset position
+                {
+                    XPos = SamuraiSize - SudokuSize + 1; //go out of the offset
+                }
+            } 
+
+            return XPos++;
+        }
+
+        private int GetYPos()
+        {
+            return YPos;
+        }
+
     }
 }
