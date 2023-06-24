@@ -27,6 +27,11 @@ public class Cell : ICell, IGridValidate, IVisitable
         Number = number;
         X = x;
         Y = y;
+
+        if (number != 0)
+        {
+            IsDefinitive = true;
+        }
     }
 
     public void AddValidations(IGridValidate child)
