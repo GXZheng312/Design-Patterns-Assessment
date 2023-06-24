@@ -9,5 +9,8 @@ namespace Logic.Grid;
 public interface IGridValidate
 {
     bool Validate();
+
+    bool WinValidate();
+
 }
 

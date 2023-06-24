@@ -50,6 +50,19 @@ public class Cell : ICell, IGridValidate, IVisitable
         return true;
     }
 
+    public bool WinValidate()
+    {
+        foreach (IGridValidate child in Validations)
+        {
+            if (!child.Validate())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void Accept(IVisitor visitor)
     {
         visitor.Visit(this);
