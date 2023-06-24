@@ -62,6 +62,7 @@ public class SudokuGame : IGame
     private void UpdateGameState()
     {
         this.CommandHandler.HandleInput("CheckWin").Execute(this);
+        //this.CommandHandler.HandleInput("HelpInput").Execute(this);
     }
 
     private void ProcessInput()
@@ -82,7 +83,7 @@ public class SudokuGame : IGame
     private void Render()
     {
         this.SudokuObserver.Notify();
-        this.Messager.AddMessage("\nControls:\nARROW keys: Move around board\nENTER: Select cell\nSPACE: Swap game state (edit/definitive)\nQ: Quit\n");
+        this.Messager.AddMessage("\nControls:\nARROW keys: Move around board\nENTER: Select cell\nSPACE: Swap game state (edit/definitive)\nC: To validate a Cell\nQ: Quit\n");
     }
 
     private void CleanUp()

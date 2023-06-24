@@ -14,14 +14,14 @@ public class ChangeGameStateCommand : ICommand
 
         if (sudokuGame != null)
         {
-            if (sudokuGame.SudokuObject.CurrentState is SimpleState)
+            if (sudokuGame.SudokuObject.CurrentState is HelpState)
             {
-                sudokuGame.SudokuObject.CurrentState = new HelpState();
+                sudokuGame.SudokuObject.CurrentState = new SimpleState();
                 sudokuGame.Messager.AddMessage("Current state: Help state");
             }
             else
             {
-                sudokuGame.SudokuObject.CurrentState = new SimpleState();
+                sudokuGame.SudokuObject.CurrentState = new HelpState();
                 sudokuGame.Messager.AddMessage("Current state: Definitive state");
             }
 

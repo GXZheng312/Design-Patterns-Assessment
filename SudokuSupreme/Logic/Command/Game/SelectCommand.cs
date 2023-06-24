@@ -31,7 +31,7 @@ public class SelectCommand : ICommand
             if (int.TryParse(input, out int number) && this.IsInBetweenNumbers(number))
             {
 
-                sudokuGame.SudokuObject.CurrentState.EnterNumber(sudokuGame.SudokuObject.Board, number);
+                sudokuGame.SudokuObject.Editor.EnterNumber(sudokuGame.SudokuObject.Board.SelectedCell, number);
             }
             else
             {

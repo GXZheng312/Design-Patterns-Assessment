@@ -36,28 +36,8 @@ public class Cell : ICell, IGridValidate, IVisitable
         Validations.Add(child);
     }
 
+
     public bool Validate()
-    {
-        if (IsDefinitive == true || this.Number == 0)
-        {
-            this.IsCorrect = null;
-            return true;
-        }
-
-        foreach (IGridValidate child in Validations)
-        {
-            if (!child.Validate())
-            {
-                this.IsCorrect = false;
-                return false;
-            }
-        }
-
-        this.IsCorrect = true;
-        return true;
-    }
-
-    public bool WinValidate()
     {
         if (Number == 0) return false;
 

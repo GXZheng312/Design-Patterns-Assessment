@@ -24,8 +24,11 @@ public class Sudoku : IVisitable
         this.CurrentState = state;
     }
 
+    public IEditorState Editor => this.CurrentState;
+
     public void Accept(IVisitor visitor)
     {
         throw new NotImplementedException();
     }
+
 }

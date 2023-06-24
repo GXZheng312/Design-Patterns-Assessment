@@ -21,19 +21,6 @@ public class Group : IGridValidate, IGroup, IVisitable
         {
             return false;
         }
-        
-        return true;
-    }
-
-    public bool WinValidate()
-    {
-        List<int> filledCells = Cells.Where(c => c.Number != 0).Select(c => c.Number).ToList();
-        HashSet<int> uniqueCells = new HashSet<int>(filledCells);
-
-        if (Cells.Count != uniqueCells.Count)
-        {
-            return false;
-        }
 
         return true;
     }

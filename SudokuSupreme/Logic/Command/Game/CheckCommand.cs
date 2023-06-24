@@ -15,7 +15,7 @@ public class CheckCommand : ICommand
     {
         if (game is not SudokuGame sudokuGame) return;
 
-        sudokuGame.SudokuObject.Board.SelectedCell.Validate();
+        sudokuGame.SudokuObject.Board.SelectedCell.Accept(new CheckCell());
     }
 }
 

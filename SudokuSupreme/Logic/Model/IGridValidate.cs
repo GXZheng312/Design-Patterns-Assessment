@@ -10,7 +10,5 @@ public interface IGridValidate
 {
     bool Validate();
 
-    bool WinValidate();
-
 }
 

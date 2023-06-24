@@ -20,7 +20,7 @@ namespace Logic.Command.Game
 
         private void WinConditionProcess(SudokuGame sudokuGame)
         {
-            bool won = sudokuGame.SudokuObject.Board.WinValidate();
+            bool won = sudokuGame.SudokuObject.Board.Validate();
 
             if (won)
             {

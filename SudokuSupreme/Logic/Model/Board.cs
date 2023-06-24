@@ -37,45 +37,15 @@ public abstract class Board : ISudokuSerializable, IGridValidate, IBoard, IVisit
 
     public bool Validate()
     {
-        foreach (Group row in this.Rows)
-        {
-            if (!row.Validate())
-            {
-                return false;
-            }
-        }
-
-        foreach (Group box in this.Boxes)
-        {
-            if (!box.Validate())
-            {
-                return false;
-            }
-        }
-
-        foreach (Group column in this.Columns)
-        {
-            if (!column.Validate())
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public bool WinValidate()
-    {
         foreach (Cell cell in this.Cells)
         {
-            if (!cell.WinValidate())
+            if (!cell.Validate())
             {
                 return false;
             }
         }
 
         return true;
-
     }
 
     public void Accept(IVisitor visitor)
