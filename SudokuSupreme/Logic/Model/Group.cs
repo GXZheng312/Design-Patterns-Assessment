@@ -1,6 +1,8 @@
+using Logic.Model;
+
 namespace Logic.Grid;
 
-public class Group : IGridValidate
+public class Group : IGridValidate, IGroup
 {
     public List<Cell> Cells { get; set; }
 

@@ -1,7 +1,9 @@
 ﻿using Logic.Grid;
+using Logic.Model;
 using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
+using System.Runtime.CompilerServices;
 
 namespace Presentation.Blueprint
 {
@@ -10,22 +12,29 @@ namespace Presentation.Blueprint
         private const int DefaultSudokuSize = 81;
         private const int SamuraiSudokuSize = DefaultSudokuSize * 5;
 
-        private List<Cell> Cells { get; set; } = new List<Cell> ();
-
         private string EmptyDrawing => ((char)DrawingCharacter.Empty).ToString();
         private string HorizontalWall => ((char)DrawingCharacter.HorizontalWall).ToString();
         private string SplitWall => ((char)DrawingCharacter.SplitWall).ToString();
-        private Cell SelectedCell { get; set; } = null;
 
-        public IDrawable Generate(string[] rawCells, List<Cell> cells, string? mode, Cell? selectedCell)
+
+        private List<Cell> Cells { get; set; } = new List<Cell>();
+        public Cell SelectedCell { get; set; }
+
+        private void loadData(string[] rawCells, IBoard board, string? mode)
         {
             if (rawCells == null || rawCells.Length != SamuraiSudokuSize)
             {
                 throw new ArgumentException("Invalid Sudoku amount");
             }
 
-            Cells = cells;
-            SelectedCell = selectedCell;
+            this.Cells = board.Cells;
+            this.SelectedCell = board.SelectedCell;
+
+        }
+
+        public IDrawable Generate(string[] rawCells, IBoard board, string? mode)
+        {
+            loadData(rawCells, board, mode);
 
             int firstGroupIndex = DefaultSudokuSize * 0;
             int secondGroupIndex = DefaultSudokuSize * 1;

@@ -1,4 +1,5 @@
 ﻿using Logic.Grid;
+using Logic.Model;
 using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
@@ -22,14 +23,19 @@ public class JigsawBlueprint : IBlueprint
     private Cell[,] cells2D { get; set; }
     public Cell SelectedCell { get; set; }
 
-    public IDrawable Generate(string[] rawCells, List<Cell> cells, string? mode, Cell? selectedCell)
+    private void loadData(string[] rawCells, IBoard board, string? mode)
     {
         if (rawCells == null || rawCells.Length != CellSize) throw new ArgumentException($"Sudoku amount is invalid");
 
-        RawCells2D = ConvertRaw2DArray(rawCells);
-        cells2D = Convert2DArray(cells.ToArray());
-        SelectedCell = selectedCell;
+        this.RawCells2D = ConvertRaw2DArray(rawCells);
+        this.cells2D = Convert2DArray(board.Cells.ToArray());
+        this.SelectedCell = board.SelectedCell;
+    }
 
+    public IDrawable Generate(string[] rawCells, IBoard board, string? mode)
+    {
+        loadData(rawCells, board, mode);
+        
         Jigsaw jigsaw = new Jigsaw();
 
         jigsaw.Add(DefaultHorizontalWalls(false));

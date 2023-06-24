@@ -5,5 +5,5 @@ namespace Presentation.Blueprint;
 
 public interface IBlueprint
 {
-    IDrawable Generate(string[] rawCells, List<Cell> cells, string? mode, Cell? selectedCell);
+    IDrawable Generate(string[] rawCells, IBoard board, string? mode);
 }
