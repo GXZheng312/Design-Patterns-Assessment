@@ -12,11 +12,16 @@ public class Sudoku : IVisitable
 {
     public Board Board { get; set; }
 
-    public ISudokuState State { get; set; }
+    public IEditorState CurrentState { get; set; }
 
     public Sudoku()
     {
-        State = new DefinitiveState();
+        CurrentState = new SimpleState();
+    }
+
+    public void SetState(IEditorState state)
+    {
+        this.CurrentState = state;
     }
 
     public void Accept(IVisitor visitor)

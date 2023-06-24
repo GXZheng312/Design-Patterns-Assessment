@@ -1,4 +1,5 @@
-﻿using Utility.Input;
+﻿using Logic.Visitor;
+using Utility.Input;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Logic.Command.Game;
@@ -30,7 +31,7 @@ public class DefinitiveSelectCommand : ICommand
 
             if (int.TryParse(input, out int number) && this.IsInBetweenNumbers(number))
             {
-                sudokuGame.SudokuObject.Board.SetCurrentCell(number, sudokuGame.SudokuObject.State is DefinitiveState);
+                sudokuGame.SudokuObject.Accept(new EnterNumber(number));
             }
             else
             {

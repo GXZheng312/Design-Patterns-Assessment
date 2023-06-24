@@ -1,3 +1,4 @@
+using Logic.Model;
 using Logic.Serializer;
 using Logic.Serializer.Serial;
 using Logic.Visitor;
@@ -36,9 +37,25 @@ public abstract class Board : ISudokuSerializable, IGridValidate, IBoard, IVisit
 
     public bool Validate()
     {
-        foreach (Cell cell in Cells)
+        foreach (Group row in this.Rows)
         {
-            if (!cell.Validate())
+            if (!row.Validate())
+            {
+                return false;
+            }
+        }
+
+        foreach (Group box in this.Boxes)
+        {
+            if (!box.Validate())
+            {
+                return false;
+            }
+        }
+
+        foreach (Group column in this.Columns)
+        {
+            if (!column.Validate())
             {
                 return false;
             }
@@ -51,14 +68,4 @@ public abstract class Board : ISudokuSerializable, IGridValidate, IBoard, IVisit
     {
         visitor.Visit(this);
     }
-
-    public void SetCurrentCell(int number, bool isDefinitive)
-    {
-        if (SelectedCell == null) return;
-
-        SelectedCell.Number = number;
-        SelectedCell.IsDefinitive = isDefinitive;
-    }
-
-   
 }

@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices.JavaScript;
+﻿using Logic.Grid;
+using System.Runtime.InteropServices.JavaScript;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Logic.Visitor;
 
@@ -13,7 +15,9 @@ public class InputCell : IVisitor
 
     public void Visit(IVisitable visitor)
     {
-        throw new NotImplementedException();
+        if (visitor is not Cell cell) return;
+
+        cell.Number = NewNumber;
     }
 }
 

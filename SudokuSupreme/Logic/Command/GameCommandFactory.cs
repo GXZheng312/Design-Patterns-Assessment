@@ -16,6 +16,7 @@ public class GameCommandFactory : CommandFactory
         {
             case "CheckWin": return new CheckWinCommand();
             case "Enter": return new SelectCommand();
+            case "C": return new CheckCommand();
             case "Spacebar": return new ChangeGameStateCommand();
             case "UpArrow": return new MoveUpCommand();
             case "DownArrow": return new MoveDownCommand();

@@ -46,7 +46,7 @@ public class CellRegion : IDrawable
 
     private void CheckWrong()
     {
-        if (this.Definitive is not false || IsEmptyCell()) return;
+        if (this.Definitive is not false || this.IsCorrect is not false || IsEmptyCell()) return;
 
         Console.ForegroundColor = ConsoleColor.White;
         Console.BackgroundColor = ConsoleColor.Red;

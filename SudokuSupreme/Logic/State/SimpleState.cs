@@ -3,12 +3,10 @@ using Logic.Visitor;
 
 namespace Logic;
 
-public class HelpState : IEditorState
+public class SimpleState : IEditorState
 {
-
     public void EnterNumber(IBoard board, int number)
     {
-
         board.SelectedCell.Accept(new EnterNumber(number));
     }
 }
