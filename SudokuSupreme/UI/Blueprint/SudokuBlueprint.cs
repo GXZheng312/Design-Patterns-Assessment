@@ -37,7 +37,7 @@ public class SudokuBlueprint : IBlueprint
     {
         loadData(rawCells, board, mode);
 
-        return new VariantSix(new IDrawable[]
+        return new VariantNine(new IDrawable[]
         {
             RowHorizontalWalls(),
             CreateRow(),

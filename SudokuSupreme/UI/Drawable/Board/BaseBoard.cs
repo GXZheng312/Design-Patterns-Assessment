@@ -26,7 +26,7 @@ public abstract class BaseBoard : IDrawable
 
     public void Draw()
     {
-        Console.Write($"\n{Introduction}");
+        Console.Write($"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n{Introduction}");
 
         foreach (IDrawable child in _children)
         {
