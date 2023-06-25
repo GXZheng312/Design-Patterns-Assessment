@@ -18,6 +18,7 @@ public abstract class CommandFactory : ICommandFactory
             case "Q": return new ExitCommand();
             case "Tab": return new SwitchEditorCommand();
             case "SetupBoard": return new SetupBoardCommand();
+            case "UpdateSudoku": return new UpdateSudokuCommand();
             default: throw new ArgumentException($"Command {input} not supported");
         }
     }

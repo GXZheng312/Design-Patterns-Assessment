@@ -30,7 +30,7 @@ public class HelpNumber : IVisitor
 
             if (helpCell.Validate())
             {
-                helpNumbers.Add(helpCell);
+                helpNumbers.Add(helpCell); //todo deepcloning
             }
         }
 

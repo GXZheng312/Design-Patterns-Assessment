@@ -12,7 +12,7 @@ public class GameCommandFactory : CommandFactory
 {
     public GameCommandFactory() : base()
     {
-        this.ControlInformation += "\nARROW keys: Move around board\nENTER: Select cell\nSPACE: Swap game state (edit/definitive)\nC: To validate a Cell";
+        this.ControlInformation += "\nARROW keys: Move around board\nENTER: Select cell\nSPACE: Swap game state (simple/helping)\nC: To validate a Cell";
     }
 
     public override ICommand Create(string input)

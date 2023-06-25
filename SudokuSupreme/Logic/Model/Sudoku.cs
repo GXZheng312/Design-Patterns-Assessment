@@ -1,5 +1,6 @@
 ﻿using Logic.Observer;
 using Logic.Parser;
+using Logic.State;
 using Logic.Visitor;
 using Utility;
 using Utility.FileReader;

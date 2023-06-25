@@ -1,10 +1,4 @@
-﻿using Logic.Command.Game;
-using Logic.Command.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Logic.Command.Editor;
 
 namespace Logic.Command;
 

@@ -1,7 +1,7 @@
 using Logic.Grid;
 using Logic.Visitor;
 
-namespace Logic;
+namespace Logic.State;
 
 public class SimpleState : IEditorState
 {
@@ -22,8 +22,9 @@ public class SimpleState : IEditorState
         cell.Accept(new EnterDefinitive(!cell.IsDefinitive));
     }
 
-    public void EnterHelpCell(Cell cell)
+    public void EnterHelpCell(Cell cell, int size)
     {
         throw new NotImplementedException();
     }
+
 }

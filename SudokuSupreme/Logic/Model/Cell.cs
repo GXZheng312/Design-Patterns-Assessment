@@ -5,7 +5,7 @@ namespace Logic.Grid;
 
 public class Cell : ICell, IGridValidate, IVisitable, IPrototype
 {
-    private List<IGridValidate> Validations = new List<IGridValidate>();
+    public List<IGridValidate> Validations = new List<IGridValidate>();
 
     public List<Cell> HelpNumbers { get; set; }= new List<Cell>();
     public bool IsDefinitive { get; set; } = false;
