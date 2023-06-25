@@ -9,6 +9,9 @@ public class DefinitiveSelectCommand : ICommand
         if (game is not SudokuGame sudokuGame) return;
 
         Cell cell = sudokuGame.SudokuObject.Board.SelectedCell;
+
+        if (cell.Number == 0) return;
+
         sudokuGame.SudokuObject.Editor.SwitchDefinitive(cell);
     }
 }
