@@ -1,5 +1,3 @@
-using Logic.Model;
-
 namespace Logic.State;
 
 public interface IEditorState

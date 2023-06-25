@@ -1,4 +1,4 @@
-﻿namespace Logic.Model;
+﻿namespace Logic;
 
 public interface ICell
 {

@@ -2,7 +2,7 @@ using Logic.Serializer;
 using Logic.Serializer.Serialize;
 using Logic.Visitor;
 
-namespace Logic.Model;
+namespace Logic;
 
 public abstract class Board : ISudokuSerializable, IGridValidate, IBoard, IVisitable
 {
@@ -36,7 +36,7 @@ public abstract class Board : ISudokuSerializable, IGridValidate, IBoard, IVisit
 
     public bool Validate()
     {
-        foreach (Cell cell in this.Cells)
+        foreach (Cell cell in Cells)
         {
             if (!cell.Validate())
             {

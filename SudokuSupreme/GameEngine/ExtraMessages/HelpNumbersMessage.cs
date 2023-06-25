@@ -1,5 +1,4 @@
 ﻿using Logic;
-using Logic.Model;
 
 namespace GameEngine.ExtraMessages
 {

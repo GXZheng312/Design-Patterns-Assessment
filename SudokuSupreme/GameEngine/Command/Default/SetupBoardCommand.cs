@@ -1,6 +1,5 @@
 ﻿using GameEngine.Parser;
 using Logic;
-using Logic.Model;
 using Utility;
 using Utility.FileReader;
 

@@ -1,5 +1,5 @@
 ﻿using GameEngine.Observer;
-using Logic.Model;
+using Logic;
 using Presentation.Blueprint;
 using Presentation.Draw;
 

@@ -1,6 +1,4 @@
-﻿using Logic.Model;
-
-namespace Logic.Visitor;
+﻿namespace Logic.Visitor;
 
 public class EnterDefinitive : IVisitor
 {

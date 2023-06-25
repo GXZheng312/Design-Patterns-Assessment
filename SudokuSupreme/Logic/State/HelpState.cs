@@ -1,4 +1,3 @@
-using Logic.Model;
 using Logic.Visitor;
 
 namespace Logic.State;

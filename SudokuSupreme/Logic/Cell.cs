@@ -1,6 +1,6 @@
 using Logic.Visitor;
 
-namespace Logic.Model;
+namespace Logic;
 
 public class Cell : ICell, IGridValidate, IVisitable, IPrototype
 {
@@ -62,11 +62,11 @@ public class Cell : ICell, IGridValidate, IVisitable, IPrototype
     {
         visitor.Visit(this);
     }
-    
+
     public IPrototype Clone()
     {
-        Cell clone = new Cell(this.Number, this.X, this.Y);
-        clone.AddValidations(this.Validations.ToArray());
+        Cell clone = new Cell(Number, X, Y);
+        clone.AddValidations(Validations.ToArray());
 
         return clone;
     }

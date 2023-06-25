@@ -1,6 +1,4 @@
-﻿using Logic.Model;
-
-namespace Logic.Visitor.Navigation;
+﻿namespace Logic.Visitor.Navigation;
 
 public class MoveUp : IVisitor
 {

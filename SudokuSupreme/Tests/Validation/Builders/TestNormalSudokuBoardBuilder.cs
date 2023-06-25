@@ -1,4 +1,4 @@
-using Logic.Model;
+using Logic;
 using Tests.Validation.Loggers;
 
 namespace Tests.Validation.Builders;
