@@ -1,6 +1,4 @@
-﻿using Logic.Grid;
-
-namespace Logic.Serializer.Serialize;
+﻿namespace Logic.Serializer.Serialize;
 
 public class SudokuSerialize : ISerialize
 {
@@ -9,4 +7,3 @@ public class SudokuSerialize : ISerialize
         return sudoku.Cells.Select(c => c.Number.ToString()).ToArray();
     }
 }
-

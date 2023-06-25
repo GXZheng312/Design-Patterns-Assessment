@@ -1,8 +1,4 @@
-﻿using Logic.Grid;
-using System.Runtime.InteropServices.JavaScript;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Logic.Visitor;
+﻿namespace Logic.Visitor;
 
 public class EnterNumber : IVisitor
 {
@@ -18,6 +14,6 @@ public class EnterNumber : IVisitor
         if (visitor is not Cell cell) return;
 
         cell.Number = NewNumber;
+        cell.IsCorrect = null;
     }
 }
-

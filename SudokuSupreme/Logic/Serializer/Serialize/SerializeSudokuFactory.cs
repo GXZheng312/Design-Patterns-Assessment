@@ -1,7 +1,6 @@
-﻿using Logic.Serializer.Serialize;
-using Utility;
+﻿using Utility;
 
-namespace Logic.Serializer.Serial;
+namespace Logic.Serializer.Serialize;
 
 public class SerializeSudokuFactory
 {

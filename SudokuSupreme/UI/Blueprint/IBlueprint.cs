@@ -1,4 +1,4 @@
-﻿using Logic.Grid;
+﻿using Logic;
 using Presentation.Draw;
 
 namespace Presentation.Blueprint;

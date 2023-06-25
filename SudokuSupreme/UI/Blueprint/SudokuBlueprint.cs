@@ -1,9 +1,7 @@
-﻿using Logic.Grid;
-using Logic.Model;
+﻿using Logic;
 using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
-using System.Runtime.CompilerServices;
 
 namespace Presentation.Blueprint;
 
@@ -39,9 +37,10 @@ public class SudokuBlueprint : IBlueprint
     {
         loadData(rawCells, board, mode);
 
-        return new VariantSix(new IDrawable[] {
+        return new VariantSix(new IDrawable[]
+        {
             RowHorizontalWalls(),
-            CreateRow(), 
+            CreateRow(),
             CreateRow(),
             CreateRow(),
             RowHorizontalWalls(),

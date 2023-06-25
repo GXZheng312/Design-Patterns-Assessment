@@ -1,6 +1,5 @@
-﻿using Logic.Grid;
+﻿namespace Logic.Visitor.Navigation;
 
-namespace Logic.Visitor.Navigation;
 public class MoveUp : IVisitor
 {
     public void Visit(IVisitable visitor)
@@ -35,4 +34,3 @@ public class MoveUp : IVisitor
         return true;
     }
 }
-

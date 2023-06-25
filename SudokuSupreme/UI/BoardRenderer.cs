@@ -1,5 +1,5 @@
-﻿using Logic.Grid;
-using Logic.Observer;
+﻿using GameEngine.Observer;
+using Logic;
 using Presentation.Blueprint;
 using Presentation.Draw;
 

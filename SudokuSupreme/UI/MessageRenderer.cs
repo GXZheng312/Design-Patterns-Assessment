@@ -1,17 +1,11 @@
-﻿using Logic;
-using Logic.Observer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameEngine;
+using GameEngine.Observer;
 
 namespace Presentation;
 
 public class MessageRenderer : IRenderer, ISubscriber
 {
-    private string Message { get; set; }
-
+    private string? Message { get; set; }
 
     public void Render()
     {
@@ -21,13 +15,10 @@ public class MessageRenderer : IRenderer, ISubscriber
 
     public void Update(IPublisher publisher)
     {
-        if (publisher != null)
-        {
-            Messager? sudoku = publisher as Messager;
+        if (publisher is not Messenger messenger) return;
 
-            Message = sudoku.Message;
+        Message = messenger.Message;
 
-            Render();
-        }
+        Render();
     }
 }

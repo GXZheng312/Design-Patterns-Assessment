@@ -1,4 +1,4 @@
-using Logic.Grid;
+using Logic;
 
 namespace Tests.Validation.Builders;
 

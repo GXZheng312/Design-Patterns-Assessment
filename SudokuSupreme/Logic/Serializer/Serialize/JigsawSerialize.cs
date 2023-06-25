@@ -1,6 +1,4 @@
-﻿using Logic.Grid;
-
-namespace Logic.Serializer.Serialize;
+﻿namespace Logic.Serializer.Serialize;
 
 public class JigsawSerialize : ISerialize
 {
@@ -11,7 +9,7 @@ public class JigsawSerialize : ISerialize
         for (int i = 0; i < sudoku.Cells.Count; i++)
         {
             Cell cell = sudoku.Cells[i];
-            
+
             for (int j = 0; j < sudoku.Boxes.Count; j++)
             {
                 Group box = sudoku.Boxes[j];

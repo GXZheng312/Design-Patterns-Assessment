@@ -1,4 +1,4 @@
-using Logic.Grid.board;
+using Logic.Boards;
 using NUnit.Framework;
 using Tests.Validation.Builders;
 

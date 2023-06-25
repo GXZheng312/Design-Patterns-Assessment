@@ -1,12 +1,9 @@
-using Logic.Grid;
 using Logic.Visitor;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Logic;
+namespace Logic.State;
 
 public class SimpleState : IEditorState
 {
-
     public void EnterNumber(Cell cell, int number)
     {
         if (cell.Number == number)
@@ -17,12 +14,14 @@ public class SimpleState : IEditorState
         cell.Accept(new EnterNumber(number));
     }
 
-    public void EnterDefinitive(Cell cell, bool definitive)
+    public void SwitchDefinitive(Cell cell)
     {
-        cell.Accept(new EnterDefinitive(definitive));
+        if (cell.Number == 0) return;
+
+        cell.Accept(new EnterDefinitive(!cell.IsDefinitive));
     }
 
-    public void EnterHelpCell(Cell cell)
+    public void EnterHelpCell(Cell cell, int size)
     {
         throw new NotImplementedException();
     }

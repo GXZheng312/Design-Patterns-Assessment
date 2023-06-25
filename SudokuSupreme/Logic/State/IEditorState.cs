@@ -1,15 +1,10 @@
-
-using Logic.Grid;
-using Logic.Model;
-using Logic.Visitor;
-
-namespace Logic;
+namespace Logic.State;
 
 public interface IEditorState
 {
     void EnterNumber(Cell cell, int number);
 
-    void EnterDefinitive(Cell cell, bool definitive);
+    void SwitchDefinitive(Cell cell);
 
-    void EnterHelpCell(Cell cell);
+    void EnterHelpCell(Cell cell, int size);
 }
