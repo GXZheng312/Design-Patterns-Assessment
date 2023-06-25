@@ -15,7 +15,7 @@ public class MessageRenderer : IRenderer, ISubscriber
 
     public void Update(IPublisher publisher)
     {
-        if (publisher is not Messager messenger) return;
+        if (publisher is not Messenger messenger) return;
 
         Message = messenger.Message;
 

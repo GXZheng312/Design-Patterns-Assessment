@@ -19,7 +19,7 @@ public class SudokuGame : IGame
     public SudokuGame()
     {
         this.SudokuObject = new Sudoku();
-        this.Messager = new Messager();
+        this.Messager = new Messenger();
         this.SudokuObserver = new SudokuObserver(this.SudokuObject);
         this.Reader = new InputReader(new StringInputReader());
         this.CommandHandler = new CommandHandler();

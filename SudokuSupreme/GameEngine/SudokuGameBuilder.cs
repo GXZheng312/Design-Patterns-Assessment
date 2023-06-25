@@ -21,7 +21,7 @@ public class SudokuGameBuilder : IBuilder<IGame>
 
     public IBuilder<IGame> AddTextRenderer(ISubscriber observer)
     {
-        ((Messager)Game.Messager).Subscribe(observer);
+        ((Messenger)Game.Messager).Subscribe(observer);
 
         return this;
     }
