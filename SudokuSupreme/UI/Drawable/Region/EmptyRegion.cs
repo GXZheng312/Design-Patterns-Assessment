@@ -4,7 +4,7 @@ namespace Presentation.Drawable.Region;
 
 public class EmptyRegion : IDrawable
 {
-    private List<IDrawable> Children = new();
+    private readonly List<IDrawable> _children = new();
 
     public EmptyRegion()
     {
@@ -19,13 +19,13 @@ public class EmptyRegion : IDrawable
     {
         foreach (IDrawable child in children)
         {
-            Children.Add(child);
+            _children.Add(child);
         }
     }
 
     public void Draw()
     {
-        foreach (IDrawable child in Children)
+        foreach (IDrawable child in _children)
         {
             child.Draw();
         }

@@ -17,7 +17,7 @@ public class FileReader
         }
         catch (IOException e)
         {
-            throw new ArgumentException("File does not exist.");
+            throw new ArgumentException("File does not exist. :" + e.Message);
         }
     }
 }

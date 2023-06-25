@@ -4,7 +4,7 @@ namespace Presentation.Drawable.Board;
 
 public abstract class BaseBoard : IDrawable
 {
-    private readonly IList<IDrawable> Children = new List<IDrawable>();
+    private readonly IList<IDrawable> _children = new List<IDrawable>();
     protected string Introduction { get; set; } = "<Name> Board: \n";
 
     public BaseBoard()
@@ -15,22 +15,20 @@ public abstract class BaseBoard : IDrawable
     {
         foreach (IDrawable child in children)
         {
-            Children.Add(child);
+            _children.Add(child);
         }
     }
 
     public void Add(IDrawable child)
     {
-        if (child == null) return;
-
-        Children.Add(child);
+        _children.Add(child);
     }
 
     public void Draw()
     {
         Console.Write($"\n{Introduction}");
 
-        foreach (IDrawable child in Children)
+        foreach (IDrawable child in _children)
         {
             child.Draw();
         }

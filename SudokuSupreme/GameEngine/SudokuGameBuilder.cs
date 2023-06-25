@@ -19,11 +19,6 @@ public class SudokuGameBuilder : IBuilder<IGame>
         return this;
     }
 
-    public IBuilder<IGame> AddInputReader(ISubscriber observer)
-    {
-        return this;
-    }
-
     public IBuilder<IGame> AddTextRenderer(ISubscriber observer)
     {
         ((Messager)Game.Messager).Subscribe(observer);

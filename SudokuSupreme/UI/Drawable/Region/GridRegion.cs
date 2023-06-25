@@ -4,7 +4,7 @@ namespace Presentation.Drawable.Region;
 
 public class GridRegion : IDrawable
 {
-    private List<IDrawable> Children = new();
+    private readonly List<IDrawable> _children = new();
 
     public GridRegion()
     {
@@ -14,22 +14,20 @@ public class GridRegion : IDrawable
     {
         foreach (IDrawable child in children)
         {
-            Children.Add(child);
+            _children.Add(child);
         }
     }
 
     public void Add(IDrawable child)
     {
-        if (child == null) return;
-
-        Children.Add(child);
+        _children.Add(child);
     }
 
     public void Draw()
     {
         Console.Write(((char)DrawingCharacter.VerticalWall).ToString());
 
-        foreach (IDrawable child in Children)
+        foreach (IDrawable child in _children)
         {
             child.Draw();
         }

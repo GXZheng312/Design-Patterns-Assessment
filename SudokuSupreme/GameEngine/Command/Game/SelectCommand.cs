@@ -1,6 +1,4 @@
-﻿using Logic;
-using Utility.Input;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using GameEngine.Input;
 
 namespace GameEngine.Command.Game;
 
@@ -8,25 +6,21 @@ public class SelectCommand : ICommand
 {
     public void Execute(IGame game)
     {
-        SudokuGame sudokuGame = game as SudokuGame;
+        if (game is not SudokuGame sudokuGame) return;
 
-        if (sudokuGame != null)
-        {
-            sudokuGame.Messager.AddMessage("Enter a number between 1 and 9.");
-
-            PerformInputAction(sudokuGame);
-        }
+        sudokuGame.Messager.AddMessage("Enter a number between 1 and 9.");
+        PerformInputAction(sudokuGame);
     }
 
     private void PerformInputAction(SudokuGame sudokuGame)
     {
-        sudokuGame.InputReader = new Utility.Input.StringReader();
+        sudokuGame.Reader.SetStrategy(new StringInputReader());
 
         bool pressedEnter = false;
 
         while (!pressedEnter)
         {
-            string input = sudokuGame.InputReader.ReadInput();
+            string input = sudokuGame.Reader.ReadInput();
 
             if (int.TryParse(input, out int number) && this.IsInBetweenNumbers(number))
             {
@@ -40,7 +34,7 @@ public class SelectCommand : ICommand
             pressedEnter = true;
         }
 
-        sudokuGame.InputReader = new KeyPressReader();
+        sudokuGame.Reader.SetStrategy(new KeyInputReader());
     }
 
     private void EnterNumber(SudokuGame sudokuGame, int number)

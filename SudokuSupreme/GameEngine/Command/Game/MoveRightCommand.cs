@@ -7,11 +7,8 @@ public class MoveRightCommand : ICommand
 {
     public void Execute(IGame game)
     {
-        SudokuGame sudokuGame = game as SudokuGame;
+        if (game is not SudokuGame sudokuGame) return;
 
-        if (sudokuGame != null)
-        {
-            sudokuGame.SudokuObject.Board.Accept(new MoveRight());
-        }
+        sudokuGame.SudokuObject.Board.Accept(new MoveRight());
     }
 }

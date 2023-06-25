@@ -4,7 +4,7 @@ namespace Presentation.Drawable.Region;
 
 public class GroupRegion : IDrawable
 {
-    private List<IDrawable> Children = new();
+    private readonly List<IDrawable> _children = new();
 
     public GroupRegion(params IDrawable[] children)
     {
@@ -15,13 +15,13 @@ public class GroupRegion : IDrawable
     {
         foreach (IDrawable child in children)
         {
-            Children.Add(child);
+            _children.Add(child);
         }
     }
 
     public void Draw()
     {
-        foreach (IDrawable child in Children)
+        foreach (IDrawable child in _children)
         {
             child.Draw();
         }

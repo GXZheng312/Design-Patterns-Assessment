@@ -1,6 +1,5 @@
-namespace Utility.Input;
-
-public class KeyPressReader : IInputReader
+namespace GameEngine.Input;
+public class KeyInputReader : IInputReader
 {
     public string ReadInput()
     {

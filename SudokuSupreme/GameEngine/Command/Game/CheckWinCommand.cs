@@ -6,12 +6,9 @@ public class CheckWinCommand : ICommand
 {
     public void Execute(IGame game)
     {
-        SudokuGame sudokuGame = game as SudokuGame;
+        if (game is not SudokuGame sudokuGame) return;
 
-        if (sudokuGame != null)
-        {
-            WinConditionProcess(sudokuGame);
-        }
+        WinConditionProcess(sudokuGame);
     }
 
     private void WinConditionProcess(SudokuGame sudokuGame)

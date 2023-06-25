@@ -4,7 +4,7 @@ namespace Presentation.Drawable.Region;
 
 public class RowRegion : IDrawable
 {
-    private List<IDrawable> Children = new();
+    private readonly List<IDrawable> _children = new();
 
     public RowRegion()
     {
@@ -14,28 +14,26 @@ public class RowRegion : IDrawable
     {
         foreach (IDrawable child in children)
         {
-            Children.Add(child);
+            _children.Add(child);
         }
     }
 
     public void Add(IDrawable child)
     {
-        if (child == null) return;
-
-        Children.Add(child);
+        _children.Add(child);
     }
 
     public void Add(params IDrawable[] children)
     {
         foreach (IDrawable child in children)
         {
-            Children.Add(child);
+            _children.Add(child);
         }
     }
 
     public void Draw()
     {
-        foreach (IDrawable child in Children)
+        foreach (IDrawable child in _children)
         {
             child.Draw();
         }
