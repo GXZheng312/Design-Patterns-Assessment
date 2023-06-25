@@ -1,10 +1,4 @@
-﻿using Logic.Grid;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Logic.Model;
+﻿using Logic.Model;
 
 namespace Logic.Visitor;
 
@@ -37,4 +31,3 @@ public class HelpNumber : IVisitor
         cell.HelpNumbers = helpNumbers;
     }
 }
-

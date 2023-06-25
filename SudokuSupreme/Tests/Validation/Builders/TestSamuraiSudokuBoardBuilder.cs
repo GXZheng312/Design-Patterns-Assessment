@@ -1,6 +1,5 @@
-using Logic.Grid;
-using Logic.Grid.board;
-using NUnit.Framework;
+using Logic.Model;
+using Logic.Model.Boards;
 
 namespace Tests.Validation.Builders;
 
@@ -12,7 +11,7 @@ internal static class TestSamuraiSudokuBoardBuilder
         List<Group> groups = BuildGroups(cells);
         List<Group> rows = BuildRows(cells);
         List<Group> columns = BuildColumns(cells);
-        
+
         TestSudokuGridBuilder.AssignGroups(rows, columns, groups);
 
         return new SamuraiBoard(cells, groups, rows, columns);
@@ -44,7 +43,7 @@ internal static class TestSamuraiSudokuBoardBuilder
                             absoluteCol -= 9;
                             break;
                     }
-                    
+
                     int number = subGrid[y, x];
 
                     Cell cell = new Cell(number, absoluteCol, absoluteRow);
@@ -195,7 +194,7 @@ internal static class TestSamuraiSudokuBoardBuilder
                 }
             });
         });
-        
+
         return groups;
     }
 }

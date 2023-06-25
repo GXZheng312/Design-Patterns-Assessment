@@ -1,4 +1,4 @@
-﻿using Logic.Grid;
+﻿using Logic.Model;
 using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
@@ -13,7 +13,7 @@ public class VariantFourBlueprint : IBlueprint
 
     private string HorizontalWall = ((char)DrawingCharacter.HorizontalWall).ToString();
     private string SplitWall = ((char)DrawingCharacter.SplitWall).ToString();
-    
+
     private int CellIndex { get; set; }
     public List<Cell> Cells { get; set; }
     public Cell SelectedCell { get; set; }
@@ -31,7 +31,8 @@ public class VariantFourBlueprint : IBlueprint
     {
         loadData(rawCells, board, mode);
 
-        return new VariantFour(new IDrawable[] {
+        return new VariantFour(new IDrawable[]
+        {
             RowHorizontalWalls(),
             CreateRow(),
             CreateRow(),

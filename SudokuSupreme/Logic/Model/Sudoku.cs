@@ -1,14 +1,7 @@
-﻿using Logic.Model;
-using Logic.Observer;
-using Logic.Parser;
-using Logic.State;
+﻿using Logic.State;
 using Logic.Visitor;
-using Utility;
-using Utility.FileReader;
-using Utility.Input;
-using StringReader = Utility.Input.StringReader;
 
-namespace Logic.Grid;
+namespace Logic.Model;
 
 public class Sudoku : ISudoku, IVisitable
 {
@@ -32,5 +25,4 @@ public class Sudoku : ISudoku, IVisitable
     {
         throw new NotImplementedException();
     }
-
 }

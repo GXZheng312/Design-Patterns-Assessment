@@ -1,4 +1,4 @@
-using Logic.Grid;
+using Logic.Model;
 using Tests.Validation.Loggers;
 
 namespace Tests.Validation.Builders;
@@ -12,7 +12,7 @@ internal static class TestNormalSudokuBoardBuilder
         List<Group> rows = TestSudokuGridBuilder.BuildRows(sizeY, cells);
         List<Group> columns = TestSudokuGridBuilder.BuildColumns(sizeX, cells);
         List<Group> groups = BuildNormalGroups(sizeX, sizeY, groupSizeX, groupSizeY, cells);
-        
+
         TestSudokuGridBuilder.AssignGroups(rows, columns, groups);
 
         // Use this to log the board

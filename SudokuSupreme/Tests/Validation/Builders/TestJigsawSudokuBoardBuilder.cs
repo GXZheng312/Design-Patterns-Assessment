@@ -1,5 +1,5 @@
-using Logic.Grid;
-using Logic.Grid.board;
+using Logic.Model;
+using Logic.Model.Boards;
 using Tests.Validation.Loggers;
 
 namespace Tests.Validation.Builders;
@@ -17,7 +17,7 @@ internal static class TestJigsawSudokuBoardBuilder
             int groupNumber = groupNumbers[i];
             int x = i % 9;
             int y = i / 9;
-            
+
             Cell cell = new Cell(value, x, y);
             cells.Add(cell);
             groups[groupNumber].Cells.Add(cell);
@@ -25,7 +25,7 @@ internal static class TestJigsawSudokuBoardBuilder
 
         List<Group> rows = TestSudokuGridBuilder.BuildRows(9, cells);
         List<Group> columns = TestSudokuGridBuilder.BuildColumns(9, cells);
-        
+
         TestSudokuGridBuilder.AssignGroups(rows, columns, groups);
 
         // Use this to log the board

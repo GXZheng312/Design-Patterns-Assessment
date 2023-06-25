@@ -1,7 +1,6 @@
-using Logic.Model;
 using Logic.Visitor;
 
-namespace Logic.Grid;
+namespace Logic.Model;
 
 public class Group : IGridValidate, IGroup, IVisitable
 {

@@ -1,4 +1,4 @@
-﻿using Logic.Grid;
+﻿using Logic.Model;
 using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
@@ -36,7 +36,8 @@ public class VariantSixBlueprint : IBlueprint
     {
         loadData(rawCells, board, mode);
 
-        return new VariantSix(new IDrawable[] {
+        return new VariantSix(new IDrawable[]
+        {
             RowHorizontalWalls(),
             CreateRow(),
             CreateRow(),
@@ -87,6 +88,4 @@ public class VariantSixBlueprint : IBlueprint
             new CellRegion(SplitWall),
         });
     }
-
-
 }

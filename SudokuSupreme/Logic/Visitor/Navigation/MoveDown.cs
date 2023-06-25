@@ -1,7 +1,7 @@
-﻿using System.Drawing;
-using Logic.Grid;
+﻿using Logic.Model;
 
 namespace Logic.Visitor.Navigation;
+
 public class MoveDown : IVisitor
 {
     public void Visit(IVisitable visitor)
@@ -18,10 +18,10 @@ public class MoveDown : IVisitor
         Cell newLocation = group.Cells[newPosition];
         board.SelectedCell = newLocation;
     }
-    
+
     private bool SamuraiMove(IBoard board)
     {
-        if (board.Type != "samurai")  return false;
+        if (board.Type != "samurai") return false;
 
         int x = board.SelectedCell.X;
         int y = board.SelectedCell.Y + 1;
@@ -35,6 +35,4 @@ public class MoveDown : IVisitor
 
         return true;
     }
-
 }
-

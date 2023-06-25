@@ -1,6 +1,4 @@
-﻿using Logic.Grid;
-
-namespace Logic.Model;
+﻿namespace Logic.Model;
 
 public interface IGroup
 {
