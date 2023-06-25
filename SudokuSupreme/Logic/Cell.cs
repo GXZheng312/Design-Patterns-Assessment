@@ -1,11 +1,10 @@
 using Logic.Visitor;
 
-namespace Logic.Model;
+namespace Logic;
 
 public class Cell : ICell, IGridValidate, IVisitable, IPrototype
 {
-    public List<IGridValidate> Validations = new List<IGridValidate>();
-
+    public List<IGridValidate> Validations { get; set; } = new List<IGridValidate>();
     public List<Cell> HelpNumbers { get; set; } = new List<Cell>();
     public bool IsDefinitive { get; set; } = false;
     public bool? IsCorrect { get; set; } = null;
@@ -62,11 +61,10 @@ public class Cell : ICell, IGridValidate, IVisitable, IPrototype
     {
         visitor.Visit(this);
     }
-    
+
     public IPrototype Clone()
     {
-        Cell clone = new Cell(this.Number, this.X, this.Y);
-        clone.AddValidations(this.Validations.ToArray());
+        Cell clone = new Cell(Number, X, Y);
 
         return clone;
     }

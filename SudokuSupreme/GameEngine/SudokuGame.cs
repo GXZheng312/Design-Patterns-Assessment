@@ -1,7 +1,7 @@
 ﻿using GameEngine.Command;
 using GameEngine.ExtraMessages;
 using GameEngine.Observer;
-using Logic.Model;
+using Logic;
 using Logic.State;
 using Utility.Input;
 

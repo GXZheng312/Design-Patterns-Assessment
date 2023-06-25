@@ -1,6 +1,4 @@
-﻿using Logic.Model;
-
-namespace Logic.Visitor;
+﻿namespace Logic.Visitor;
 
 public class HelpNumber : IVisitor
 {
@@ -21,13 +19,36 @@ public class HelpNumber : IVisitor
         {
             Cell helpCell = (Cell)cell.Clone();
             helpCell.Number = i;
+            SetHelpValidations(cell, helpCell);
 
             if (helpCell.Validate())
             {
-                helpNumbers.Add(helpCell); //todo deepcloning
+                helpNumbers.Add(helpCell);
             }
         }
 
         cell.HelpNumbers = helpNumbers;
+    }
+
+    private void SetHelpValidations(Cell cell, Cell helpCell)
+    {
+        foreach (IGridValidate valdation in cell.Validations)
+        {
+            if (valdation is Group group)
+            {
+                Group clonedGroup = (Group)group.Clone();
+                clonedGroup.AddCells(helpCell);
+
+                foreach (Cell otherCell in group.Cells)
+                {
+                    if (otherCell != cell)
+                    {
+                        clonedGroup.AddCells(otherCell);
+                    }
+                }
+
+                helpCell.AddValidations(clonedGroup);
+            }
+        }
     }
 }

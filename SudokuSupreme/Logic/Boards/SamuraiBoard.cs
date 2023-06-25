@@ -1,4 +1,4 @@
-namespace Logic.Model.Boards;
+namespace Logic.Boards;
 
 public class SamuraiBoard : Board
 {

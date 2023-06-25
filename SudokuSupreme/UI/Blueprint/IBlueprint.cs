@@ -1,4 +1,4 @@
-﻿using Logic.Model;
+﻿using Logic;
 using Presentation.Draw;
 
 namespace Presentation.Blueprint;

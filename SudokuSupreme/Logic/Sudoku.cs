@@ -1,7 +1,7 @@
 ﻿using Logic.State;
 using Logic.Visitor;
 
-namespace Logic.Model;
+namespace Logic;
 
 public class Sudoku : ISudoku, IVisitable
 {
@@ -16,10 +16,10 @@ public class Sudoku : ISudoku, IVisitable
 
     public void SetState(IEditorState state)
     {
-        this.CurrentState = state;
+        CurrentState = state;
     }
 
-    public IEditorState Editor => this.CurrentState;
+    public IEditorState Editor => CurrentState;
 
     public void Accept(IVisitor visitor)
     {

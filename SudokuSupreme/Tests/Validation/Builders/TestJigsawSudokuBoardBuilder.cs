@@ -1,5 +1,5 @@
-using Logic.Model;
-using Logic.Model.Boards;
+using Logic;
+using Logic.Boards;
 using Tests.Validation.Loggers;
 
 namespace Tests.Validation.Builders;

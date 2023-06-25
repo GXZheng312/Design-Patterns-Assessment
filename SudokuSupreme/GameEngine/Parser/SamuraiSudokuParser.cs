@@ -1,6 +1,6 @@
 using GameEngine.Parser.Builder;
-using Logic.Model;
-using Logic.Model.Boards;
+using Logic;
+using Logic.Boards;
 
 namespace GameEngine.Parser;
 

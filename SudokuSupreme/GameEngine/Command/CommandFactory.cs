@@ -8,7 +8,7 @@ public abstract class CommandFactory : ICommandFactory
 
     public CommandFactory()
     {
-        this.ControlInformation = "\nControls:\nQ: Quit\nTAB: Swap Editor mode (default/creative)";
+        this.ControlInformation = "\nControls:\nQ: Quit\nTAB: Swap game state (default/creative)";
     }
 
     public virtual ICommand Create(string input)

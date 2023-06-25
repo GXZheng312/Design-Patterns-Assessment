@@ -1,5 +1,6 @@
 ﻿using Logic;
 using Utility.Input;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GameEngine.Command.Game;
 
@@ -29,7 +30,7 @@ public class SelectCommand : ICommand
 
             if (int.TryParse(input, out int number) && this.IsInBetweenNumbers(number))
             {
-                sudokuGame.SudokuObject.Editor.EnterNumber(sudokuGame.SudokuObject.Board.SelectedCell, number);
+                EnterNumber(sudokuGame, number);
             }
             else
             {
@@ -40,6 +41,19 @@ public class SelectCommand : ICommand
         }
 
         sudokuGame.InputReader = new KeyPressReader();
+    }
+
+    private void EnterNumber(SudokuGame sudokuGame, int number)
+    {
+        if (sudokuGame.CommandHandler.IsType(new GameCommandFactory()))
+        {
+            if (sudokuGame.SudokuObject.Board.SelectedCell.IsDefinitive)
+            {
+                return;
+            }
+        }
+
+        sudokuGame.SudokuObject.Editor.EnterNumber(sudokuGame.SudokuObject.Board.SelectedCell, number);
     }
 
     private bool IsInBetweenNumbers(int number)

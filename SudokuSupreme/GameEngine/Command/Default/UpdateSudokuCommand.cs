@@ -1,5 +1,4 @@
 ﻿using Logic;
-using Logic.Model;
 using Logic.State;
 
 namespace GameEngine.Command.Default;

@@ -1,4 +1,3 @@
-using Logic.Model;
 using Logic.Visitor;
 
 namespace Logic.State;
@@ -10,6 +9,14 @@ public class HelpState : IEditorState
         if (cell.Number == number)
         {
             number = 0;
+        }
+
+        foreach (ICell helpCell in cell.HelpNumbers)
+        {
+            if (helpCell.Number != number)
+            {
+                return;
+            }
         }
 
         cell.Accept(new EnterNumber(number));

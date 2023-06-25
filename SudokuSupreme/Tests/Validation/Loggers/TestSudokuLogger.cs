@@ -1,4 +1,4 @@
-using Logic.Model;
+using Logic;
 using NUnit.Framework;
 
 namespace Tests.Validation.Loggers;

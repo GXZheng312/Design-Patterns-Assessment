@@ -1,4 +1,4 @@
-﻿using Logic.Model;
+﻿using Logic;
 using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
