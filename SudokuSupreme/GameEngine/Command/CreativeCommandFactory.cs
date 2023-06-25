@@ -6,7 +6,7 @@ public class CreativeCommandFactory : GameCommandFactory
 {
     public CreativeCommandFactory() : base()
     {
-        this.ControlInformation += "\nD: Switch Definitive of Cell";
+        this.ControlInformation += "\nD: Swap cell state";
     }
 
     public override ICommand Create(string input)
