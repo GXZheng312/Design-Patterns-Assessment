@@ -13,13 +13,11 @@ public class HelpState : IEditorState
 
         foreach (ICell helpCell in cell.HelpNumbers)
         {
-            if (helpCell.Number != number)
+            if (helpCell.Number == number)
             {
-                return;
+                cell.Accept(new EnterNumber(number));
             }
         }
-
-        cell.Accept(new EnterNumber(number));
     }
 
     public void SwitchDefinitive(Cell cell)
