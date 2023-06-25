@@ -1,4 +1,4 @@
-﻿using Logic.Grid;
+﻿using Logic.Model;
 using Presentation.Draw;
 
 namespace Presentation.Drawable.Region;
@@ -24,11 +24,10 @@ public class CellRegion : IDrawable
         this.Definitive = cell.IsDefinitive;
         this.IsCorrect = cell.IsCorrect;
 
-        if(selectedCell != null)
+        if (selectedCell != null)
         {
             this.Selected = ReferenceEquals(cell, selectedCell);
         }
-
     }
 
     public void Draw()

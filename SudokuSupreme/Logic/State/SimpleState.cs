@@ -1,4 +1,4 @@
-using Logic.Grid;
+using Logic.Model;
 using Logic.Visitor;
 
 namespace Logic.State;
@@ -26,5 +26,4 @@ public class SimpleState : IEditorState
     {
         throw new NotImplementedException();
     }
-
 }

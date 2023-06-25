@@ -1,7 +1,6 @@
-using Logic.Model;
 using Logic.Visitor;
 
-namespace Logic.Grid;
+namespace Logic.Model;
 
 public class Cell : ICell, IGridValidate, IVisitable, IPrototype
 {
@@ -13,7 +12,6 @@ public class Cell : ICell, IGridValidate, IVisitable, IPrototype
     public int Number { get; set; }
     public int X { get; set; }
     public int Y { get; set; }
-
 
     public Cell(int number)
     {
@@ -64,8 +62,7 @@ public class Cell : ICell, IGridValidate, IVisitable, IPrototype
     {
         visitor.Visit(this);
     }
-
-
+    
     public IPrototype Clone()
     {
         Cell clone = new Cell(this.Number, this.X, this.Y);

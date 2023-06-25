@@ -1,4 +1,4 @@
-using Logic.Grid;
+using Logic.Model;
 using Logic.Visitor;
 
 namespace Logic.State;
@@ -23,7 +23,7 @@ public class HelpState : IEditorState
     }
 
     public void EnterHelpCell(Cell cell, int size)
-    {  
+    {
         cell.Accept(new HelpNumber(size));
     }
 }

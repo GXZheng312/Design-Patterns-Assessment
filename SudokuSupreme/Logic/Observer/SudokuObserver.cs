@@ -1,11 +1,11 @@
-﻿using Logic.Grid;
+﻿using Logic.Model;
 
 namespace Logic.Observer
 {
     public class SudokuObserver : IPublisher
     {
         private List<ISubscriber> Subscribers { get; set; }
-        public Sudoku SudokuObject { get; set; } = new();
+        public Sudoku SudokuObject { get; set; }
 
         public SudokuObserver(Sudoku sudokuObject)
         {

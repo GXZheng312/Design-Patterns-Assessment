@@ -1,10 +1,7 @@
-﻿using Logic.Grid;
-using Logic.Model;
+﻿using Logic.Model;
 using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
-using System.Drawing;
-using System.Runtime.CompilerServices;
 
 namespace Presentation.Blueprint;
 
@@ -35,7 +32,7 @@ public class JigsawBlueprint : IBlueprint
     public IDrawable Generate(string[] rawCells, IBoard board, string? mode)
     {
         loadData(rawCells, board, mode);
-        
+
         Jigsaw jigsaw = new Jigsaw();
 
         jigsaw.Add(DefaultHorizontalWalls(false));
@@ -96,7 +93,7 @@ public class JigsawBlueprint : IBlueprint
         {
             jigsawGroup.Add(new CellRegion(SplitWall));
         }
-        
+
 
         for (int x = 0; x < ColumnSize; x++)
         {
@@ -119,9 +116,7 @@ public class JigsawBlueprint : IBlueprint
                 {
                     jigsawGroup.Add(new CellRegion(SplitWall));
                 }
-                
             }
-            
         }
 
         return new RowRegion(jigsawGroup);
@@ -140,11 +135,11 @@ public class JigsawBlueprint : IBlueprint
         IDrawable drawable = new CellRegion(SplitWall);
 
         if (topLeftGroupNr != topRightGroupNr &&
-            bottomLeftGroupNr != bottomRightGroupNr && 
+            bottomLeftGroupNr != bottomRightGroupNr &&
             topLeftGroupNr == bottomLeftGroupNr &&
             topRightGroupNr == bottomRightGroupNr)
-        {     
-            return new CellRegion(VerticalWall);        
+        {
+            return new CellRegion(VerticalWall);
         }
 
         if (topLeftGroupNr == topRightGroupNr &&
@@ -152,7 +147,7 @@ public class JigsawBlueprint : IBlueprint
             topLeftGroupNr != bottomLeftGroupNr &&
             topRightGroupNr != bottomRightGroupNr)
         {
-            return new CellRegion(HorizontalWall);    
+            return new CellRegion(HorizontalWall);
         }
 
         if (topLeftGroupNr == bottomRightGroupNr &&
@@ -204,14 +199,14 @@ public class JigsawBlueprint : IBlueprint
         {
             jigsawGroup.Add(new CellRegion(HorizontalWall));
 
-            if(x != ColumnSize - 1)
+            if (x != ColumnSize - 1)
             {
                 int y = isLast ? RowSize - 1 : 0;
 
                 string topLeftGroupNr = RawCells2D[y, x][2].ToString();
                 string topRightGroupNr = RawCells2D[y, x + 1][2].ToString();
 
-                if(topLeftGroupNr == topRightGroupNr)
+                if (topLeftGroupNr == topRightGroupNr)
                 {
                     jigsawGroup.Add(new CellRegion(HorizontalWall));
                 }
@@ -219,9 +214,7 @@ public class JigsawBlueprint : IBlueprint
                 {
                     jigsawGroup.Add(new CellRegion(SplitWall));
                 }
-                
             }
-
         }
 
         jigsawGroup.Add(new CellRegion(SplitWall));
@@ -232,7 +225,7 @@ public class JigsawBlueprint : IBlueprint
 
     private string[,] ConvertRaw2DArray(string[] cells)
     {
-        string[,] RawCells2D = new string[RowSize,ColumnSize];
+        string[,] RawCells2D = new string[RowSize, ColumnSize];
 
         for (int i = 0; i < CellSize; i++)
         {
@@ -263,6 +256,4 @@ public class JigsawBlueprint : IBlueprint
     }
 
     private bool IsLastIteration(int size, int iteration) => size == iteration;
-
-
 }

@@ -1,32 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Logic.Grid;
-using Logic.Model;
-using Logic.State;
+﻿using Logic.Model;
 
 namespace Logic.ExtraMessages
 {
     public class HelpNumbersMessage : IExtraMessage
     {
-        private ISudoku Sudoku;
+        private ISudoku _sudoku;
 
         public HelpNumbersMessage(ISudoku sudoku)
         {
-            this.Sudoku = sudoku;
+            this._sudoku = sudoku;
         }
 
         public string Message()
         {
             string message = "";
 
-            foreach(ICell cell in Sudoku.Board.SelectedCell.HelpNumbers)
+            foreach (ICell cell in _sudoku.Board.SelectedCell.HelpNumbers)
             {
                 message += $"[{cell.Number}] ";
             }
-            
+
             return message;
         }
     }

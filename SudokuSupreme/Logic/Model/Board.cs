@@ -1,9 +1,8 @@
-using Logic.Model;
 using Logic.Serializer;
-using Logic.Serializer.Serial;
+using Logic.Serializer.Serialize;
 using Logic.Visitor;
 
-namespace Logic.Grid;
+namespace Logic.Model;
 
 public abstract class Board : ISudokuSerializable, IGridValidate, IBoard, IVisitable
 {

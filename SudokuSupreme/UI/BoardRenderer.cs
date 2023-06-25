@@ -1,4 +1,4 @@
-﻿using Logic.Grid;
+﻿using Logic.Model;
 using Logic.Observer;
 using Presentation.Blueprint;
 using Presentation.Draw;

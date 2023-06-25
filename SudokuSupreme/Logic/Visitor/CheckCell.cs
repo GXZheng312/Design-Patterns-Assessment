@@ -1,11 +1,7 @@
-﻿using Logic.Grid;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Logic.Model;
 
 namespace Logic.Visitor;
+
 public class CheckCell : IVisitor
 {
     public void Visit(IVisitable visitor)
@@ -21,4 +17,3 @@ public class CheckCell : IVisitor
         cell.IsCorrect = cell.Validate();
     }
 }
-

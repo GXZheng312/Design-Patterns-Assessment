@@ -1,4 +1,4 @@
-using Logic.Grid;
+using Logic.Model;
 using NUnit.Framework;
 
 namespace Tests.Validation.Loggers;

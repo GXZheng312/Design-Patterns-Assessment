@@ -1,8 +1,7 @@
-﻿using Logic.Grid;
-using Logic.Observer;
+﻿using Logic.Observer;
 using Utility.Input;
-using Logic.Command;
 using Logic.ExtraMessages;
+using Logic.Model;
 using Logic.State;
 
 namespace Logic;

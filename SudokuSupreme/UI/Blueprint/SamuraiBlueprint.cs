@@ -1,10 +1,7 @@
-﻿using System.Dynamic;
-using Logic.Grid;
-using Logic.Model;
+﻿using Logic.Model;
 using Presentation.Draw;
 using Presentation.Drawable.Board;
 using Presentation.Drawable.Region;
-using System.Runtime.CompilerServices;
 
 namespace Presentation.Blueprint
 {
@@ -172,7 +169,7 @@ namespace Presentation.Blueprint
                 new CellRegion(GetCellPosition(), this.SelectedCell),
             });
 
-           // index += 3;
+            // index += 3;
 
             return group;
         }
@@ -233,7 +230,6 @@ namespace Presentation.Blueprint
 
         private int GetXPos()
         {
-
             if (XPos > SamuraiSize) //end of the X, X > 21
             {
                 YPos++; // go to new row
@@ -259,17 +255,16 @@ namespace Presentation.Blueprint
                         XPos = OffsetMiddle + 1;
                     }
                 }
-
             }
-            
-            
-            if(YPos <= OffsetMiddle || YPos > SamuraiSize - OffsetMiddle) 
+
+
+            if (YPos <= OffsetMiddle || YPos > SamuraiSize - OffsetMiddle)
             {
                 if (XPos > SudokuSize && XPos <= SamuraiSize - SudokuSize) //is in empty offset position
                 {
                     XPos = SamuraiSize - SudokuSize + 1; //go out of the offset
                 }
-            } 
+            }
 
             return XPos++;
         }
@@ -278,6 +273,5 @@ namespace Presentation.Blueprint
         {
             return YPos;
         }
-
     }
 }
