@@ -1,25 +1,29 @@
 using Logic.Grid;
-using Logic.Model;
 using Logic.Visitor;
 
-namespace Logic;
+namespace Logic.State;
 
 public class HelpState : IEditorState
 {
     public void EnterNumber(Cell cell, int number)
     {
-        if (cell.IsDefinitive) return;
+        if (cell.Number == number)
+        {
+            number = 0;
+        }
 
-
+        cell.Accept(new EnterNumber(number));
     }
 
-    public void EnterDefinitive(Cell cell, bool definitive)
+    public void SwitchDefinitive(Cell cell)
     {
-        throw new NotImplementedException();
+        if (cell.Number == 0) return;
+
+        cell.Accept(new EnterDefinitive(!cell.IsDefinitive));
     }
 
-    public void EnterHelpCell(Cell cell)
-    {
-        throw new NotImplementedException();
+    public void EnterHelpCell(Cell cell, int size)
+    {  
+        cell.Accept(new HelpNumber(size));
     }
 }

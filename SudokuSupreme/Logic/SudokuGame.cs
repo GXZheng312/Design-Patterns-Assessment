@@ -1,21 +1,19 @@
 ﻿using Logic.Grid;
 using Logic.Observer;
-using Utility.FileReader;
 using Utility.Input;
-using Utility;
 using Logic.Command;
-using Logic.Parser;
+using Logic.ExtraMessages;
+using Logic.State;
 
 namespace Logic;
 
 public class SudokuGame : IGame
 {
-
     public Sudoku SudokuObject { get; set; }
     public IMessager Messager { get; set; }
     public IPublisher SudokuObserver { get; set; }
     public IInputReader InputReader { get; set; }
-    public CommandHandler CommandHandler { get; set; }
+    public ICommandHandler CommandHandler { get; set; }
     public bool IsRunning { get; set; }
 
     public SudokuGame()
@@ -62,7 +60,6 @@ public class SudokuGame : IGame
     private void UpdateGameState()
     {
         this.CommandHandler.HandleInput("CheckWin").Execute(this);
-        //this.CommandHandler.HandleInput("HelpInput").Execute(this);
     }
 
     private void ProcessInput()
@@ -82,8 +79,15 @@ public class SudokuGame : IGame
 
     private void Render()
     {
+        this.CommandHandler.HandleInput("UpdateSudoku").Execute(this);
         this.SudokuObserver.Notify();
-        this.Messager.AddMessage("\nControls:\nARROW keys: Move around board\nENTER: Select cell\nSPACE: Swap game state (edit/definitive)\nC: To validate a Cell\nQ: Quit\n");
+
+        if (this.SudokuObject.CurrentState is HelpState)
+        {
+            this.Messager.AddMessage(new HelpNumbersMessage(this.SudokuObject).Message());
+        }
+
+        this.Messager.AddMessage(this.CommandHandler.GetControllInfo());
     }
 
     private void CleanUp()

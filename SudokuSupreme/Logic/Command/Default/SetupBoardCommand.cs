@@ -13,7 +13,7 @@ public class SetupBoardCommand : ICommand
 
     public void Execute(IGame game)
     {
-        if (!(game is SudokuGame sudokuGame)) return;
+        if (game is not SudokuGame sudokuGame) return;
 
         bool setup = false;
 
