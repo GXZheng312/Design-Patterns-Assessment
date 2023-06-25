@@ -1,4 +1,4 @@
-﻿namespace Logic;
+﻿namespace GameEngine;
 
 public interface IMessager
 {

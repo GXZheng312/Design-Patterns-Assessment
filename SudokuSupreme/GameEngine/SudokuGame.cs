@@ -1,10 +1,11 @@
-﻿using Logic.Observer;
-using Utility.Input;
-using Logic.ExtraMessages;
+﻿using GameEngine.Command;
+using GameEngine.ExtraMessages;
+using GameEngine.Observer;
 using Logic.Model;
 using Logic.State;
+using Utility.Input;
 
-namespace Logic;
+namespace GameEngine;
 
 public class SudokuGame : IGame
 {
@@ -86,7 +87,7 @@ public class SudokuGame : IGame
             this.Messager.AddMessage(new HelpNumbersMessage(this.SudokuObject).Message());
         }
 
-        this.Messager.AddMessage(this.CommandHandler.GetControllInfo());
+        this.Messager.AddMessage(this.CommandHandler.GetControlInfo());
     }
 
     private void CleanUp()

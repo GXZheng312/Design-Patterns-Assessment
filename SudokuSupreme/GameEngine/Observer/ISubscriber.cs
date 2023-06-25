@@ -1,4 +1,4 @@
-﻿namespace Logic.Observer;
+﻿namespace GameEngine.Observer;
 
 public interface ISubscriber
 {

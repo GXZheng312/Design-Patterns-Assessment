@@ -1,4 +1,4 @@
-﻿using Logic;
+﻿using GameEngine;
 using Presentation;
 
 namespace SudokuSupreme;

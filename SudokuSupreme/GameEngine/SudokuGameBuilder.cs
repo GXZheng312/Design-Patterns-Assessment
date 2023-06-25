@@ -1,6 +1,7 @@
-﻿using Logic.Observer;
+﻿using GameEngine.Observer;
+using Logic;
 
-namespace Logic;
+namespace GameEngine;
 
 public class SudokuGameBuilder : IBuilder<IGame>
 {

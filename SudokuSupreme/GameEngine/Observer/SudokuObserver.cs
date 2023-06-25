@@ -1,6 +1,6 @@
 ﻿using Logic.Model;
 
-namespace Logic.Observer
+namespace GameEngine.Observer
 {
     public class SudokuObserver : IPublisher
     {

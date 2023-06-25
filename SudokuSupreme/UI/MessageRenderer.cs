@@ -1,10 +1,5 @@
-﻿using Logic;
-using Logic.Observer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameEngine;
+using GameEngine.Observer;
 
 namespace Presentation;
 

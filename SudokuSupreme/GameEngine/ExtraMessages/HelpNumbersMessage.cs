@@ -1,6 +1,7 @@
-﻿using Logic.Model;
+﻿using Logic;
+using Logic.Model;
 
-namespace Logic.ExtraMessages
+namespace GameEngine.ExtraMessages
 {
     public class HelpNumbersMessage : IExtraMessage
     {

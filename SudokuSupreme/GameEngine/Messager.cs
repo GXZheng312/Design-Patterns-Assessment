@@ -1,6 +1,6 @@
-﻿using Logic.Observer;
+﻿using GameEngine.Observer;
 
-namespace Logic;
+namespace GameEngine;
 
 public class Messager : IPublisher, IMessager
 {
