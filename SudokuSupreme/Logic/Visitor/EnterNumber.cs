@@ -14,5 +14,6 @@ public class EnterNumber : IVisitor
         if (visitor is not Cell cell) return;
 
         cell.Number = NewNumber;
+        cell.IsCorrect = null;
     }
 }

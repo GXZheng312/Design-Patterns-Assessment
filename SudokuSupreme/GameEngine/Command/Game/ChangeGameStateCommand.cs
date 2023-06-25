@@ -12,12 +12,12 @@ public class ChangeGameStateCommand : ICommand
         if (sudokuGame.SudokuObject.CurrentState is HelpState)
         {
             sudokuGame.SudokuObject.SetState(new SimpleState());
-            sudokuGame.Messager.AddMessage("Current state: Simple state");
+            sudokuGame.Messager.AddMessage("\nCurrent view: Simple");
         }
         else
         {
             sudokuGame.SudokuObject.SetState(new HelpState());
-            sudokuGame.Messager.AddMessage("Current state: Help state");
+            sudokuGame.Messager.AddMessage("\nCurrent view: Helping");
         }
     }
 }

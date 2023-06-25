@@ -11,6 +11,14 @@ public class HelpState : IEditorState
             number = 0;
         }
 
+        foreach (ICell helpCell in cell.HelpNumbers)
+        {
+            if (helpCell.Number != number)
+            {
+                return;
+            }
+        }
+
         cell.Accept(new EnterNumber(number));
     }
 
