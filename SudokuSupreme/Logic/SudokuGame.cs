@@ -2,12 +2,13 @@
 using Logic.Observer;
 using Utility.Input;
 using Logic.Command;
+using Logic.ExtraMessages;
+using Logic.State;
 
 namespace Logic;
 
 public class SudokuGame : IGame
 {
-
     public Sudoku SudokuObject { get; set; }
     public IMessager Messager { get; set; }
     public IPublisher SudokuObserver { get; set; }
@@ -59,7 +60,6 @@ public class SudokuGame : IGame
     private void UpdateGameState()
     {
         this.CommandHandler.HandleInput("CheckWin").Execute(this);
-        this.CommandHandler.HandleInput("UpdateSudoku").Execute(this);
     }
 
     private void ProcessInput()
@@ -79,11 +79,15 @@ public class SudokuGame : IGame
 
     private void Render()
     {
+        this.CommandHandler.HandleInput("UpdateSudoku").Execute(this);
         this.SudokuObserver.Notify();
 
-        string controllInfo = this.CommandHandler.GetControllInfo();
+        if (this.SudokuObject.CurrentState is HelpState)
+        {
+            this.Messager.AddMessage(new HelpNumbersMessage(this.SudokuObject).Message());
+        }
 
-        this.Messager.AddMessage(controllInfo);
+        this.Messager.AddMessage(this.CommandHandler.GetControllInfo());
     }
 
     private void CleanUp()

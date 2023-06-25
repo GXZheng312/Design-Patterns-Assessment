@@ -7,7 +7,7 @@ public class Cell : ICell, IGridValidate, IVisitable, IPrototype
 {
     public List<IGridValidate> Validations = new List<IGridValidate>();
 
-    public List<Cell> HelpNumbers { get; set; }= new List<Cell>();
+    public List<Cell> HelpNumbers { get; set; } = new List<Cell>();
     public bool IsDefinitive { get; set; } = false;
     public bool? IsCorrect { get; set; } = null;
     public int Number { get; set; }

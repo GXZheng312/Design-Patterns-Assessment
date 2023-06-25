@@ -1,4 +1,5 @@
-﻿using Logic.Observer;
+﻿using Logic.Model;
+using Logic.Observer;
 using Logic.Parser;
 using Logic.State;
 using Logic.Visitor;
@@ -9,7 +10,7 @@ using StringReader = Utility.Input.StringReader;
 
 namespace Logic.Grid;
 
-public class Sudoku : IVisitable
+public class Sudoku : ISudoku, IVisitable
 {
     public Board Board { get; set; }
 
