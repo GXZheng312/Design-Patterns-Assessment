@@ -1,6 +1,5 @@
-namespace Utility.Input;
-
-public class StringReader : IInputReader
+namespace GameEngine.Input;
+public class StringInputReader : IInputReader
 {
     public string ReadInput()
     {

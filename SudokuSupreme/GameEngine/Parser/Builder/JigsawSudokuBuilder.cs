@@ -12,10 +12,8 @@ public class JigsawSudokuBuilder : IBoardBuilder
     private Dictionary<int, int[]> Raw { get; set; }
     private Dictionary<int, Cell> _cellsRaw = new();
 
-    private int CellsPerGroup = 9;
-    private int RowAmount = 9;
-    private int ColumnAmount = 9;
-    private int GroupAmount = 9;
+    private const int RowAmount = 9;
+    private const int ColumnAmount = 9;
 
     public JigsawSudokuBuilder(Dictionary<int, int[]> raw)
     {
@@ -40,7 +38,7 @@ public class JigsawSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildRows()
     {
-        for (int row = 1; row <= this.RowAmount; row++)
+        for (int row = 1; row <= RowAmount; row++)
         {
             this.Rows.Add(new Group(this.Cells.Where(cell => cell.Y == row).ToList()));
         }
@@ -50,7 +48,7 @@ public class JigsawSudokuBuilder : IBoardBuilder
 
     public IBoardBuilder BuildColumns()
     {
-        for (int column = 1; column <= this.ColumnAmount; column++)
+        for (int column = 1; column <= ColumnAmount; column++)
         {
             this.Columns.Add(new Group(this.Cells.Where(cell => cell.X == column).ToList()));
         }

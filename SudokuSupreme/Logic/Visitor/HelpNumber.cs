@@ -2,11 +2,11 @@
 
 public class HelpNumber : IVisitor
 {
-    private int GroupSize = 0;
+    private readonly int _groupSize = 0;
 
     public HelpNumber(int groupSize)
     {
-        this.GroupSize = groupSize;
+        this._groupSize = groupSize;
     }
 
     public void Visit(IVisitable visitor)
@@ -15,7 +15,7 @@ public class HelpNumber : IVisitor
 
         List<Cell> helpNumbers = new List<Cell>();
 
-        for (int i = 1; i <= GroupSize; i++)
+        for (int i = 1; i <= _groupSize; i++)
         {
             Cell helpCell = (Cell)cell.Clone();
             helpCell.Number = i;
@@ -32,9 +32,9 @@ public class HelpNumber : IVisitor
 
     private void SetHelpValidations(Cell cell, Cell helpCell)
     {
-        foreach (IGridValidate valdation in cell.Validations)
+        foreach (IGridValidate validation in cell.Validations)
         {
-            if (valdation is Group group)
+            if (validation is Group group)
             {
                 Group clonedGroup = (Group)group.Clone();
                 clonedGroup.AddCells(helpCell);

@@ -5,8 +5,7 @@ namespace Presentation;
 
 public class MessageRenderer : IRenderer, ISubscriber
 {
-    private string Message { get; set; }
-
+    private string? Message { get; set; }
 
     public void Render()
     {
@@ -16,13 +15,10 @@ public class MessageRenderer : IRenderer, ISubscriber
 
     public void Update(IPublisher publisher)
     {
-        if (publisher != null)
-        {
-            Messager? sudoku = publisher as Messager;
+        if (publisher is not Messenger messenger) return;
 
-            Message = sudoku.Message;
+        Message = messenger.Message;
 
-            Render();
-        }
+        Render();
     }
 }

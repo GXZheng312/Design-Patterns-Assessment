@@ -5,12 +5,11 @@ namespace SudokuSupreme;
 
 public static class EntryPoint
 {
-    public static void Main(string[] args)
+    public static void Main()
     {
         new SudokuGameBuilder()
             .AddBoardRenderer(new BoardRenderer())
             .AddTextRenderer(new MessageRenderer())
-            //.AddInputReader()
             .Build()
             .Start();
     }

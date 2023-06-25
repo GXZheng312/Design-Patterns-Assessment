@@ -8,7 +8,5 @@ public interface IBuilder<T>
 
     IBuilder<T> AddTextRenderer(ISubscriber observer);
 
-    IBuilder<T> AddInputReader(ISubscriber observer);
-
     T Build();
 }

@@ -1,9 +1,9 @@
 ﻿using GameEngine.Command;
 using GameEngine.ExtraMessages;
+using GameEngine.Input;
 using GameEngine.Observer;
 using Logic;
 using Logic.State;
-using Utility.Input;
 
 namespace GameEngine;
 
@@ -12,16 +12,16 @@ public class SudokuGame : IGame
     public Sudoku SudokuObject { get; set; }
     public IMessager Messager { get; set; }
     public IPublisher SudokuObserver { get; set; }
-    public IInputReader InputReader { get; set; }
+    public InputReader Reader { get; set; }
     public ICommandHandler CommandHandler { get; set; }
     public bool IsRunning { get; set; }
 
     public SudokuGame()
     {
         this.SudokuObject = new Sudoku();
-        this.Messager = new Messager();
+        this.Messager = new Messenger();
         this.SudokuObserver = new SudokuObserver(this.SudokuObject);
-        this.InputReader = new Utility.Input.StringReader();
+        this.Reader = new InputReader(new StringInputReader());
         this.CommandHandler = new CommandHandler();
     }
 
@@ -52,7 +52,7 @@ public class SudokuGame : IGame
         this.CommandHandler.HandleInput("SetupBoard").Execute(this);
         this.CommandHandler.SwitchMode(new GameCommandFactory());
 
-        this.InputReader = new KeyPressReader();
+        this.Reader.SetStrategy(new KeyInputReader());
         this.IsRunning = true;
         this.Render();
     }
@@ -64,11 +64,11 @@ public class SudokuGame : IGame
 
     private void ProcessInput()
     {
-        string input = InputReader.ReadInput();
+        var input = this.Reader.ReadInput();
 
         try 
         {
-            ICommand command = this.CommandHandler.HandleInput(input);
+            var command = this.CommandHandler.HandleInput(input);
             command.Execute(this);
         }
         catch (ArgumentException e)

@@ -37,7 +37,7 @@ public class SetupBoardCommand : ICommand
         {
             messager.AddMessage("\nEnter file name: (e.g. puzzle.4x4)");
 
-            fileName = sudokuGame.InputReader.ReadInput();
+            fileName = sudokuGame.Reader.ReadInput();
 
             if (FileUtilities.IsValidFilename(fileName)) break;
 
@@ -68,9 +68,8 @@ public class SetupBoardCommand : ICommand
         try
         {
             string fileContents = FileReader.LoadFile(fileName);
-            Board board = sudokuParser.LoadSudoku(fileContents) as Board;
 
-            if (board != null)
+            if (sudokuParser.LoadSudoku(fileContents) is Board board)
             {
                 sudokuGame.SudokuObject.Board = board;
                 return true;

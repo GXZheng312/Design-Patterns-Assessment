@@ -9,11 +9,7 @@ public class UpdateSudokuCommand : ICommand
     {
         if (game is not SudokuGame sudokuGame) return;
 
-        if (sudokuGame.SudokuObject.CurrentState is SimpleState)
-        {
-            //TODO
-        }
-        else if (sudokuGame.SudokuObject.CurrentState is HelpState)
+        if (sudokuGame.SudokuObject.CurrentState is HelpState)
         {
             Sudoku sudoku = sudokuGame.SudokuObject;
             int size = sudoku.Board.Boxes[0].Cells.Count;

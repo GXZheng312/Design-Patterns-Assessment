@@ -1,4 +1,4 @@
-namespace Utility.Input;
+namespace GameEngine.Input;
 
 public interface IInputReader
 {
